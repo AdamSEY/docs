@@ -22,6 +22,8 @@ Run the following command at the root of your documentation (where docs.json is)
 mint dev
 ```
 
+If you have an OpenAPI file (we ship one at `api-reference/openapi.json`), it will automatically generate API endpoint pages when `docs.json` includes the `openapi` field. This repo is already configured.
+
 ### Publishing Changes
 
 Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
