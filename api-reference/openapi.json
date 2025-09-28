@@ -8,7 +8,7 @@
   },
   "servers": [
     { "url": "https://api.migma.ai", "description": "Production" },
-    { "url": "http://localhost:3002", "description": "Development" }
+    { "url": "https://api-test.migma.ai", "description": "Development" }
   ],
   "security": [ { "bearerAuth": [] } ],
   "paths": {
@@ -346,6 +346,12 @@
             "in": "query",
             "description": "Validate Klaviyo output",
             "schema": { "type": "boolean", "default": true }
+          },
+          {
+            "name": "klaviyoType",
+            "in": "query",
+            "description": "Type of Klaviyo export: 'html' for static HTML or 'hybrid' for dynamic hybrid with editable regions",
+            "schema": { "type": "string", "enum": ["html", "hybrid"], "default": "hybrid" }
           }
         ],
         "responses": {
@@ -891,11 +897,13 @@
         "type": "object",
         "properties": {
           "filename": { "type": "string", "description": "Name of the exported file" },
-          "content": { "type": "string", "description": "Content of the exported file" },
+          "url": { "type": "string", "format": "uri", "description": "S3 URL where the file is stored" },
           "format": { "type": "string", "enum": ["html", "hubl", "json", "text"], "description": "Format of the exported file" },
-          "description": { "type": "string", "description": "Description of the exported file" }
+          "description": { "type": "string", "description": "Description of the exported file" },
+          "fileSize": { "type": "number", "description": "File size in bytes" }
         },
-        "required": ["filename", "content", "format", "description"]
+        "required": ["filename", "url", "format", "description", "fileSize"],
+        "additionalProperties": false
       },
 
       "ExportData": {
