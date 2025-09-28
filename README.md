@@ -1,34 +1,28 @@
-# Mintlify Starter Kit
+# MigmaAI Docs
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
-
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
+This repository contains the MigmaAI documentation site.
 
 ### Development
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview the documentation changes locally. To install, use the following command
+Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview the documentation changes locally:
 
 ```
 npm i -g mint
 ```
 
-Run the following command at the root of your documentation (where docs.json is)
+Run the dev server at the root (where docs.json is):
 
 ```
 mint dev
 ```
 
-If you have an OpenAPI file (we ship one at `api-reference/openapi.json`), it will automatically generate API endpoint pages when `docs.json` includes the `openapi` field. This repo is already configured.
+API endpoint pages are auto-generated from `api-reference/openapi.json` via the `openapi` field in `docs.json`.
 
 ### Publishing Changes
 
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
+Push to the default branch to deploy. If you use the Mintlify GitHub App, changes will auto-deploy from this repo.
 
 #### Troubleshooting
 
-- It the dev environment isn't running - Run `mint install` it'll re-install dependencies.
-- Page loads as a 404 - Make sure you are running in a folder with `docs.json`
+- If the dev environment isn't running, try `mint install` to re-install dependencies.
+- If a page loads as 404, ensure you're in the folder with `docs.json`.

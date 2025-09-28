@@ -15,6 +15,7 @@
     "/v1/projects": {
       "get": {
         "tags": ["Projects"],
+        "summary": "List Projects",
         "description": "List projects for the authenticated user.",
         "parameters": [
           {
@@ -53,6 +54,7 @@
     "/v1/projects/{projectId}": {
       "get": {
         "tags": ["Projects"],
+        "summary": "Get Project",
         "description": "Get a project by ID.",
         "parameters": [
           { "$ref": "#/components/parameters/ProjectIdParam" }
@@ -75,6 +77,7 @@
     "/v1/projects/import": {
       "post": {
         "tags": ["Import"],
+        "summary": "Import Project",
         "description": "Import a brand project from one or more website URLs. Optionally include logo URLs to skip AI logo extraction.",
         "requestBody": {
           "required": true,
@@ -102,6 +105,7 @@
     "/v1/projects/import/{projectId}/status": {
       "get": {
         "tags": ["Import"],
+        "summary": "Get Import Status",
         "description": "Check the status of a project import.",
         "parameters": [ { "$ref": "#/components/parameters/ProjectIdParam" } ],
         "responses": {
@@ -122,6 +126,7 @@
     "/v1/projects/import/{projectId}/retry": {
       "post": {
         "tags": ["Import"],
+        "summary": "Retry Import",
         "description": "Retry a failed or stuck import for the given project.",
         "parameters": [ { "$ref": "#/components/parameters/ProjectIdParam" } ],
         "responses": {
@@ -142,6 +147,7 @@
     "/v1/projects/emails/generate": {
       "post": {
         "tags": ["Email"],
+        "summary": "Generate Email",
         "description": "Generate an email for a project using its brand context and optional images.",
         "requestBody": {
           "required": true,
@@ -170,6 +176,7 @@
     "/v1/subscribers": {
       "get": {
         "tags": ["Audience"],
+        "summary": "List Subscribers",
         "description": "List subscribers for a project. Requires API key with AUDIENCE_READ.",
         "parameters": [
           { "name": "projectId", "in": "query", "required": true, "schema": { "type": "string" } },
@@ -194,6 +201,7 @@
       },
       "post": {
         "tags": ["Audience"],
+        "summary": "Add Subscriber",
         "description": "Add a single subscriber. Requires API key with AUDIENCE_WRITE.",
         "requestBody": {
           "required": true,
@@ -222,6 +230,7 @@
     "/v1/subscribers/bulk": {
       "post": {
         "tags": ["Audience"],
+        "summary": "Bulk Import Subscribers",
         "description": "Bulk import subscribers. Requires API key with AUDIENCE_WRITE.",
         "requestBody": {
           "required": true,
@@ -250,6 +259,7 @@
     "/v1/subscribers/unsubscribe": {
       "post": {
         "tags": ["Audience"],
+        "summary": "Unsubscribe Subscriber",
         "description": "Unsubscribe a subscriber by email. Requires API key with AUDIENCE_WRITE.",
         "requestBody": {
           "required": true,
@@ -272,6 +282,210 @@
           "401": { "$ref": "#/components/responses/Unauthorized" },
           "403": { "$ref": "#/components/responses/Unauthorized" },
           "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+
+    "/v1/export/html/{conversationId}": {
+      "get": {
+        "tags": ["Export"],
+        "summary": "Export HTML",
+        "description": "Export conversation as standard HTML",
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "description": "The conversation ID to export",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML export successful",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+
+    "/v1/export/klaviyo/{conversationId}": {
+      "get": {
+        "tags": ["Export"],
+        "summary": "Export Klaviyo",
+        "description": "Export conversation as Klaviyo-compatible HTML with editable regions",
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "description": "The conversation ID to export",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "templateWidth",
+            "in": "query",
+            "description": "Template width in pixels",
+            "schema": { "type": "integer", "default": 600 }
+          },
+          {
+            "name": "enableDarkMode",
+            "in": "query",
+            "description": "Enable dark mode support",
+            "schema": { "type": "boolean", "default": true }
+          },
+          {
+            "name": "validateOutput",
+            "in": "query",
+            "description": "Validate Klaviyo output",
+            "schema": { "type": "boolean", "default": true }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Klaviyo export successful",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+
+    "/v1/export/mailchimp/{conversationId}": {
+      "get": {
+        "tags": ["Export"],
+        "summary": "Export Mailchimp",
+        "description": "Export conversation as Mailchimp-compatible HTML",
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "description": "The conversation ID to export",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mailchimp export successful",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+
+    "/v1/export/hubspot": {
+      "post": {
+        "tags": ["Export"],
+        "summary": "Export HubSpot",
+        "description": "Export conversation as HubSpot-compatible HTML and HubL files",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conversationId": {
+                    "type": "string",
+                    "description": "The conversation ID to export"
+                  },
+                  "customOptions": {
+                    "type": "object",
+                    "description": "Custom options for HubSpot export",
+                    "properties": {
+                      "customInstructions": {
+                        "type": "string",
+                        "description": "Custom instructions for the export"
+                      }
+                    }
+                  }
+                },
+                "required": ["conversationId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "HubSpot export successful",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+
+    "/v1/export/status/{conversationId}": {
+      "get": {
+        "tags": ["Export"],
+        "summary": "Get Export Status",
+        "description": "Check export availability for a conversation",
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "description": "The conversation ID to check",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Export status retrieved",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseExportStatus" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+
+    "/v1/export/formats": {
+      "get": {
+        "tags": ["Export"],
+        "summary": "List Export Formats",
+        "description": "Get available export formats",
+        "responses": {
+          "200": {
+            "description": "Available export formats retrieved",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseExportFormats" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }
     }
@@ -670,6 +884,110 @@
         "allOf": [
           { "$ref": "#/components/schemas/ApiResponse" },
           { "type": "object", "properties": { "data": { "type": "object", "properties": { "success": { "type": "boolean" } } } } }
+        ]
+      },
+
+      "ExportFile": {
+        "type": "object",
+        "properties": {
+          "filename": { "type": "string", "description": "Name of the exported file" },
+          "content": { "type": "string", "description": "Content of the exported file" },
+          "format": { "type": "string", "enum": ["html", "hubl", "json", "text"], "description": "Format of the exported file" },
+          "description": { "type": "string", "description": "Description of the exported file" }
+        },
+        "required": ["filename", "content", "format", "description"]
+      },
+
+      "ExportData": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ExportFile" },
+            "description": "Array of exported files"
+          },
+          "executionTime": { "type": "number", "description": "Export execution time in milliseconds" },
+          "exportType": { "type": "string", "enum": ["html", "klaviyo", "mailchimp", "hubspot"], "description": "Type of export performed" }
+        },
+        "required": ["files", "executionTime", "exportType"]
+      },
+
+      "ApiResponseExport": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "data": { "$ref": "#/components/schemas/ExportData" }
+            }
+          }
+        ]
+      },
+
+      "ExportStatusData": {
+        "type": "object",
+        "properties": {
+          "conversationId": { "type": "string", "description": "The conversation ID" },
+          "canExport": { "type": "boolean", "description": "Whether the conversation can be exported" },
+          "availableFormats": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Available export formats for this conversation"
+          },
+          "reason": { "type": "string", "description": "Reason if export is not available" }
+        },
+        "required": ["conversationId", "canExport", "availableFormats"]
+      },
+
+      "ApiResponseExportStatus": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "data": { "$ref": "#/components/schemas/ExportStatusData" }
+            }
+          }
+        ]
+      },
+
+      "ExportFormat": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Format name" },
+          "description": { "type": "string", "description": "Format description" },
+          "supportedFormats": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Supported file formats"
+          },
+          "type": { "type": "string", "enum": ["simple", "complex"], "description": "Export complexity type" }
+        },
+        "required": ["name", "description", "supportedFormats", "type"]
+      },
+
+      "ExportFormatsData": {
+        "type": "object",
+        "properties": {
+          "formats": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ExportFormat" },
+            "description": "Available export formats"
+          },
+          "total": { "type": "integer", "description": "Total number of available formats" }
+        },
+        "required": ["formats", "total"]
+      },
+
+      "ApiResponseExportFormats": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "data": { "$ref": "#/components/schemas/ExportFormatsData" }
+            }
+          }
         ]
       }
     },
