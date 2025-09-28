@@ -10,7 +10,7 @@
     { "url": "https://api.migma.ai", "description": "Production" },
     { "url": "http://localhost:3002", "description": "Development" }
   ],
-  "security": [ { "apiKeyAuth": [] } ],
+  "security": [ { "bearerAuth": [] } ],
   "paths": {
     "/v1/projects": {
       "get": {
@@ -675,11 +675,11 @@
     },
 
     "securitySchemes": {
-      "apiKeyAuth": {
+      "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "API-Key",
-        "description": "API Key authentication using Authorization header. Use 'Authorization: Bearer sk_live_your_key_here' or 'Authorization: ApiKey sk_live_your_key_here'. Also supports 'X-API-Key: sk_live_your_key_here' as fallback."
+        "bearerFormat": "JWT",
+        "description": "JWT Bearer token authentication. Use 'Authorization: Bearer <your-jwt-token>' where the JWT token is obtained from the login endpoint."
       }
     }
   }
