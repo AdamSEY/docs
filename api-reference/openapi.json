@@ -1,462 +1,216 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Migma.ai API - Project Import & Email Generation (v1)",
-    "description": "API endpoints for importing brand projects from websites and generating emails based on project data.",
-    "license": { "name": "MIT" },
+    "title": "OpenAPI Plant Store",
+    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "license": {
+      "name": "MIT"
+    },
     "version": "1.0.0"
   },
   "servers": [
-    { "url": "https://api.migma.ai", "description": "Production" }
+    {
+      "url": "http://sandbox.mintlify.com"
+    }
   ],
-  "security": [ { "bearerAuth": [] } ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
   "paths": {
-    "/api/v1/projects": {
+    "/plants": {
       "get": {
-        "tags": ["Projects"],
-        "description": "List projects for the authenticated user.",
+        "description": "Returns all plants from the system that the user has access to",
         "parameters": [
           {
             "name": "limit",
             "in": "query",
-            "description": "The maximum number of results to return (max 100)",
-            "schema": { "type": "integer", "format": "int32", "default": 20 }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "The number of items to skip before starting to collect the result set",
-            "schema": { "type": "integer", "format": "int32", "default": 0 }
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "Filter by project status (pending|processing|active|error)",
-            "schema": { "type": "string" }
+            "description": "The maximum number of results to return",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Projects list response",
+            "description": "Plant response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseProjectsList" }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Plant"
+                  }
+                }
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates a new plant in the store",
+        "requestBody": {
+          "description": "Plant to add to the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPlant"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "plant response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plant"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
         }
       }
     },
-
-    "/api/v1/projects/{projectId}": {
-      "get": {
-        "tags": ["Projects"],
-        "description": "Get a project by ID.",
+    "/plants/{id}": {
+      "delete": {
+        "description": "Deletes a single plant based on the ID supplied",
         "parameters": [
-          { "$ref": "#/components/parameters/ProjectIdParam" }
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of plant to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
         ],
         "responses": {
-          "200": {
-            "description": "Project response",
+          "204": {
+            "description": "Plant deleted",
+            "content": {}
+          },
+          "400": {
+            "description": "unexpected error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseProject" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
-            }
-          },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
-        }
-      }
-    },
-
-    "/api/v1/projects/import": {
-      "post": {
-        "tags": ["Import"],
-        "description": "Import a brand project from one or more website URLs. Optionally include logo URLs to skip AI logo extraction.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/ImportProjectRequest" }
             }
           }
-        },
-        "responses": {
-          "200": {
-            "description": "Import started",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseImportStarted" }
-              }
-            }
-          },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
-        }
-      }
-    },
-
-    "/api/v1/projects/import/{projectId}/status": {
-      "get": {
-        "tags": ["Import"],
-        "description": "Check the status of a project import.",
-        "parameters": [ { "$ref": "#/components/parameters/ProjectIdParam" } ],
-        "responses": {
-          "200": {
-            "description": "Import status response",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseImportStatus" }
-              }
-            }
-          },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
-        }
-      }
-    },
-
-    "/api/v1/projects/import/{projectId}/retry": {
-      "post": {
-        "tags": ["Import"],
-        "description": "Retry a failed or stuck import for the given project.",
-        "parameters": [ { "$ref": "#/components/parameters/ProjectIdParam" } ],
-        "responses": {
-          "200": {
-            "description": "Retry initiated",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseImportRetry" }
-              }
-            }
-          },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
-        }
-      }
-    },
-
-    "/api/v1/projects/emails/generate": {
-      "post": {
-        "tags": ["Email"],
-        "description": "Generate an email for a project using its brand context and optional images.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/GenerateEmailRequest" }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Email generation result",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseGenerateEmail" }
-              }
-            }
-          },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
     }
   },
-
-  "components": {
-    "parameters": {
-      "ProjectIdParam": {
-        "name": "projectId",
-        "in": "path",
-        "required": true,
-        "description": "Project ID (MongoDB ObjectId)",
-        "schema": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" }
-      }
-    },
-
-    "responses": {
-      "Unauthorized": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": { "schema": { "$ref": "#/components/schemas/ApiError" } }
-        }
-      },
-      "NotFound": {
-        "description": "Resource not found",
-        "content": {
-          "application/json": { "schema": { "$ref": "#/components/schemas/ApiError" } }
-        }
-      },
-      "BadRequest": {
-        "description": "Bad request",
-        "content": {
-          "application/json": { "schema": { "$ref": "#/components/schemas/ApiError" } }
-        }
-      }
-    },
-
-    "schemas": {
-      "ApiResponse": {
-        "type": "object",
-        "properties": {
-          "success": { "type": "boolean" },
-          "data": { "nullable": true },
-          "error": { "type": "string", "nullable": true }
-        },
-        "required": ["success"]
-      },
-
-      "ApiError": {
-        "type": "object",
-        "properties": {
-          "success": { "type": "boolean", "default": false },
-          "error": { "type": "string" }
-        },
-        "required": ["success", "error"]
-      },
-
-      "LogoUrls": {
-        "type": "object",
-        "properties": {
-          "primary": { "type": "string", "format": "uri" },
-          "secondary": { "type": "string", "format": "uri" },
-          "favicon": { "type": "string", "format": "uri" }
-        },
-        "additionalProperties": false
-      },
-
-      "ImportProjectRequest": {
-        "type": "object",
-        "properties": {
-          "urls": {
-            "type": "array",
-            "items": { "type": "string", "format": "uri" },
-            "minItems": 1,
-            "maxItems": 10
-          },
-          "logoUrls": { "$ref": "#/components/schemas/LogoUrls" }
-        },
-        "required": ["urls"]
-      },
-
-      "ImportStartedData": {
-        "type": "object",
-        "properties": {
-          "projectId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "status": { "type": "string", "enum": ["pending"] },
-          "domain": { "type": "string" },
-          "urls": { "type": "array", "items": { "type": "string", "format": "uri" } },
-          "message": { "type": "string" }
-        },
-        "required": ["projectId", "status", "domain", "urls"]
-      },
-
-      "ImportStatusProgress": {
-        "type": "object",
-        "properties": {
-          "stage": { "type": "string", "enum": ["initializing", "analyzing", "completed", "failed", "pending", "processing", "unknown"] },
-          "percentage": { "type": "integer", "format": "int32", "minimum": 0, "maximum": 100 }
-        },
-        "required": ["stage", "percentage"]
-      },
-
-      "ImportStatusData": {
-        "type": "object",
-        "properties": {
-          "projectId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "status": { "type": "string", "enum": ["pending", "processing", "active", "error"] },
-          "name": { "type": "string" },
-          "description": { "type": "string" },
-          "domain": { "type": "string" },
-          "error": { "type": "string", "nullable": true },
-          "progress": { "$ref": "#/components/schemas/ImportStatusProgress" }
-        },
-        "required": ["status", "name", "description", "progress"]
-      },
-
-      "ImportRetryData": {
-        "type": "object",
-        "properties": {
-          "projectId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "status": { "type": "string", "enum": ["pending"] },
-          "message": { "type": "string" }
-        },
-        "required": ["status"]
-      },
-
-      "EmailImageSource": {
-        "type": "object",
-        "properties": {
-          "type": { "type": "string", "enum": ["url"], "default": "url" },
-          "url": { "type": "string", "format": "uri" }
-        },
-        "required": ["type", "url"]
-      },
-
-      "EmailImage": {
-        "type": "object",
-        "properties": {
-          "source": { "$ref": "#/components/schemas/EmailImageSource" }
-        },
-        "required": ["source"]
-      },
-
-      "GenerateEmailRequest": {
-        "type": "object",
-        "properties": {
-          "projectId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "prompt": { "type": "string" },
-          "images": {
-            "type": "array",
-            "items": { "$ref": "#/components/schemas/EmailImage" },
-            "maxItems": 5
-          },
-          "model": { "type": "string", "default": "migmaAI-model-v0.1" },
-          "webMode": { "type": "boolean", "default": true },
-          "languages": {
-            "type": "array",
-            "items": { "type": "string" },
-            "maxItems": 5
+  "webhooks": {
+    "/plant/webhook": {
+      "post": {
+        "description": "Information about a new plant added to the store",
+        "requestBody": {
+          "description": "Plant added to the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPlant"
+              }
+            }
           }
         },
-        "required": ["projectId", "prompt"]
-      },
-
-      "GenerateEmailData": {
+        "responses": {
+          "200": {
+            "description": "Return a 200 status to indicate that the data was received successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Plant": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
-          "content": { "type": "string" },
-          "reactEmail": { "type": "string" },
-          "html": { "type": "string" },
-          "plainText": { "type": "string" },
-          "klaviyoHtml": { "type": "string" },
-          "metadata": {
+          "name": {
+            "description": "The name of the plant",
+            "type": "string"
+          },
+          "tag": {
+            "description": "Tag to specify the type",
+            "type": "string"
+          }
+        }
+      },
+      "NewPlant": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Plant"
+          },
+          {
+            "required": [
+              "id"
+            ],
             "type": "object",
             "properties": {
-              "model": { "type": "string" },
-              "generationTime": { "type": "number" },
-              "inputTokens": { "type": "number" },
-              "outputTokens": { "type": "number" }
-            },
-            "additionalProperties": true
+              "id": {
+                "description": "Identification number of the plant",
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
+        ]
+      },
+      "Error": {
+        "required": [
+          "error",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "integer",
+            "format": "int32"
           },
-          "conversationId": { "type": "string" },
-          "languages": { "type": "array", "items": { "type": "string" } },
-          "enhancedPrompt": { "type": "string" },
-          "message": { "type": "string" }
-        },
-        "required": ["html", "content"]
-      },
-
-      "Project": {
-        "type": "object",
-        "properties": {
-          "_id": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "name": { "type": "string" },
-          "description": { "type": "string" },
-          "status": { "type": "string", "enum": ["pending", "processing", "active", "error"] },
-          "companyDetails": { "type": "object", "additionalProperties": true },
-          "logoUrls": { "$ref": "#/components/schemas/LogoUrls" },
-          "imageUrls": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
-          "typography": { "type": "object", "additionalProperties": true },
-          "colors": { "type": "object", "additionalProperties": true },
-          "screenshotUrl": { "type": "string", "format": "uri" },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
-        },
-        "additionalProperties": true
-      },
-
-      "Pagination": {
-        "type": "object",
-        "properties": {
-          "total": { "type": "integer", "format": "int32" },
-          "limit": { "type": "integer", "format": "int32" },
-          "offset": { "type": "integer", "format": "int32" },
-          "hasMore": { "type": "boolean" }
-        },
-        "required": ["total", "limit", "offset", "hasMore"]
-      },
-
-      "ProjectsListData": {
-        "type": "object",
-        "properties": {
-          "projects": { "type": "array", "items": { "$ref": "#/components/schemas/Project" } },
-          "pagination": { "$ref": "#/components/schemas/Pagination" }
-        },
-        "required": ["projects", "pagination"]
-      },
-
-      "ApiResponseImportStarted": {
-        "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
-          {
-            "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/ImportStartedData" } }
+          "message": {
+            "type": "string"
           }
-        ]
-      },
-
-      "ApiResponseImportStatus": {
-        "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
-          {
-            "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/ImportStatusData" } }
-          }
-        ]
-      },
-
-      "ApiResponseImportRetry": {
-        "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
-          {
-            "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/ImportRetryData" } }
-          }
-        ]
-      },
-
-      "ApiResponseGenerateEmail": {
-        "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
-          {
-            "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/GenerateEmailData" } }
-          }
-        ]
-      },
-
-      "ApiResponseProject": {
-        "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
-          {
-            "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/Project" } }
-          }
-        ]
-      },
-
-      "ApiResponseProjectsList": {
-        "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
-          {
-            "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/ProjectsListData" } }
-          }
-        ]
+        }
       }
     },
-
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+        "scheme": "bearer"
       }
     }
   }
