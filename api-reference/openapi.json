@@ -7,11 +7,12 @@
     "version": "1.0.0"
   },
   "servers": [
-    { "url": "https://api.migma.ai", "description": "Production" }
+    { "url": "https://api.migma.ai", "description": "Production" },
+    { "url": "http://localhost:3002", "description": "Development" }
   ],
-  "security": [ { "bearerAuth": [] } ],
+  "security": [ { "apiKeyAuth": [] } ],
   "paths": {
-    "/api/v1/projects": {
+    "/v1/projects": {
       "get": {
         "tags": ["Projects"],
         "description": "List projects for the authenticated user.",
@@ -49,7 +50,7 @@
       }
     },
 
-    "/api/v1/projects/{projectId}": {
+    "/v1/projects/{projectId}": {
       "get": {
         "tags": ["Projects"],
         "description": "Get a project by ID.",
@@ -71,7 +72,7 @@
       }
     },
 
-    "/api/v1/projects/import": {
+    "/v1/projects/import": {
       "post": {
         "tags": ["Import"],
         "description": "Import a brand project from one or more website URLs. Optionally include logo URLs to skip AI logo extraction.",
@@ -98,7 +99,7 @@
       }
     },
 
-    "/api/v1/projects/import/{projectId}/status": {
+    "/v1/projects/import/{projectId}/status": {
       "get": {
         "tags": ["Import"],
         "description": "Check the status of a project import.",
@@ -118,7 +119,7 @@
       }
     },
 
-    "/api/v1/projects/import/{projectId}/retry": {
+    "/v1/projects/import/{projectId}/retry": {
       "post": {
         "tags": ["Import"],
         "description": "Retry a failed or stuck import for the given project.",
@@ -138,7 +139,7 @@
       }
     },
 
-    "/api/v1/projects/emails/generate": {
+    "/v1/projects/emails/generate": {
       "post": {
         "tags": ["Email"],
         "description": "Generate an email for a project using its brand context and optional images.",
@@ -161,6 +162,115 @@
           },
           "400": { "$ref": "#/components/responses/BadRequest" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+
+    "/v1/subscribers": {
+      "get": {
+        "tags": ["Audience"],
+        "description": "List subscribers for a project. Requires API key with AUDIENCE_READ.",
+        "parameters": [
+          { "name": "projectId", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 20, "maximum": 100 } },
+          { "name": "tags", "in": "query", "schema": { "type": "string" }, "description": "Comma-separated tag names" },
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["active", "unsubscribed", "bounced", "complained"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscribers list",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseSubscribersList" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "post": {
+        "tags": ["Audience"],
+        "description": "Add a single subscriber. Requires API key with AUDIENCE_WRITE.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddSubscriberRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Subscriber created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseSubscriber" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+
+    "/v1/subscribers/bulk": {
+      "post": {
+        "tags": ["Audience"],
+        "description": "Bulk import subscribers. Requires API key with AUDIENCE_WRITE.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BulkImportSubscribersRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bulk import result",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseBulkImportResult" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+
+    "/v1/subscribers/unsubscribe": {
+      "post": {
+        "tags": ["Audience"],
+        "description": "Unsubscribe a subscriber by email. Requires API key with AUDIENCE_WRITE.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UnsubscribeRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Unsubscribe success",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseSuccess" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Unauthorized" },
           "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
@@ -321,6 +431,12 @@
             "type": "array",
             "items": { "type": "string" },
             "maxItems": 5
+          },
+          "visibility": {
+            "type": "string",
+            "enum": ["private", "unlisted", "public"],
+            "default": "private",
+            "description": "Set the visibility of the generated conversation. Private conversations are only visible to the user, unlisted conversations are accessible via direct link but not listed publicly, and public conversations are visible in the public gallery."
           }
         },
         "required": ["projectId", "prompt"]
@@ -449,14 +565,121 @@
             "properties": { "data": { "$ref": "#/components/schemas/ProjectsListData" } }
           }
         ]
+      },
+
+      "Subscriber": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "country": { "type": "string" },
+          "language": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "customFields": { "type": "object", "additionalProperties": true },
+          "status": { "type": "string", "enum": ["active", "unsubscribed", "bounced", "complained"] },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+
+      "AddSubscriberRequest": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "country": { "type": "string" },
+          "language": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "customFields": { "type": "object", "additionalProperties": true },
+          "projectId": { "type": "string" }
+        },
+        "required": ["email", "projectId"]
+      },
+
+      "BulkImportSubscribersRequest": {
+        "type": "object",
+        "properties": {
+          "subscribers": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AddSubscriberRequest" },
+            "minItems": 1
+          },
+          "projectId": { "type": "string" }
+        },
+        "required": ["subscribers", "projectId"]
+      },
+
+      "UnsubscribeRequest": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "allLists": { "type": "boolean", "default": true },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "projectId": { "type": "string" }
+        },
+        "required": ["email", "projectId"]
+      },
+
+      "ApiResponseSubscriber": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ApiResponse" },
+          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/Subscriber" } } }
+        ]
+      },
+
+      "ApiResponseSubscribersList": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/Subscriber" }
+              },
+              "count": { "type": "integer" }
+            }
+          }
+        ]
+      },
+
+      "ApiResponseBulkImportResult": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "success": { "type": "integer" },
+                  "failed": { "type": "integer" },
+                  "updated": { "type": "integer" },
+                  "errors": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
+          }
+        ]
+      },
+
+      "ApiResponseSuccess": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ApiResponse" },
+          { "type": "object", "properties": { "data": { "type": "object", "properties": { "success": { "type": "boolean" } } } } }
+        ]
       }
     },
 
     "securitySchemes": {
-      "bearerAuth": {
+      "apiKeyAuth": {
         "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "JWT"
+        "bearerFormat": "API-Key",
+        "description": "API Key authentication using Authorization header. Use 'Authorization: Bearer sk_live_your_key_here' or 'Authorization: ApiKey sk_live_your_key_here'. Also supports 'X-API-Key: sk_live_your_key_here' as fallback."
       }
     }
   }
