@@ -290,7 +290,7 @@
       "get": {
         "tags": ["Export"],
         "summary": "Export HTML",
-        "description": "Export conversation as standard HTML",
+        "description": "Export conversation as standard HTML.",
         "parameters": [
           {
             "name": "conversationId",
@@ -320,7 +320,7 @@
       "get": {
         "tags": ["Export"],
         "summary": "Export Klaviyo",
-        "description": "Export conversation as Klaviyo-compatible HTML with editable regions",
+        "description": "Export conversation as Klaviyo-compatible HTML with editable regions.",
         "parameters": [
           {
             "name": "conversationId",
@@ -356,7 +356,7 @@
       "get": {
         "tags": ["Export"],
         "summary": "Export Mailchimp",
-        "description": "Export conversation as Mailchimp-compatible HTML",
+        "description": "Export conversation as Mailchimp-compatible HTML. Returns URLs for file downloads.",
         "parameters": [
           {
             "name": "conversationId",
@@ -386,7 +386,7 @@
       "post": {
         "tags": ["Export"],
         "summary": "Export HubSpot",
-        "description": "Export conversation as HubSpot-compatible HTML and HubL files",
+        "description": "Export conversation as HubSpot-compatible HTML and HubL files.",
         "requestBody": {
           "required": true,
           "content": {
@@ -880,12 +880,39 @@
         "type": "object",
         "properties": {
           "filename": { "type": "string", "description": "Name of the exported file" },
-          "url": { "type": "string", "format": "uri", "description": "S3 URL where the file is stored" },
+          "url": { "type": "string", "format": "uri", "description": "Download URL for the exported file" },
+          "content": { "type": "string", "description": "File content" },
           "format": { "type": "string", "enum": ["html", "hubl", "json", "text"], "description": "Format of the exported file" },
           "description": { "type": "string", "description": "Description of the exported file" },
           "fileSize": { "type": "number", "description": "File size in bytes" }
         },
-        "required": ["filename", "url", "format", "description", "fileSize"],
+        "required": ["filename", "content", "format", "description"],
+        "additionalProperties": false
+      },
+
+      "V1ExportFile": {
+        "type": "object",
+        "properties": {
+          "filename": { "type": "string", "description": "Name of the exported file" },
+          "url": { "type": "string", "format": "uri", "description": "Download URL for the exported file" },
+          "content": { "type": "string", "description": "File content" },
+          "format": { "type": "string", "enum": ["html", "hubl", "json", "text"], "description": "Format of the exported file" },
+          "description": { "type": "string", "description": "Description of the exported file" },
+          "fileSize": { "type": "number", "description": "File size in bytes" }
+        },
+        "required": ["filename", "url", "content", "format", "description", "fileSize"],
+        "additionalProperties": false
+      },
+
+      "StandardExportFile": {
+        "type": "object",
+        "properties": {
+          "filename": { "type": "string", "description": "Name of the exported file" },
+          "content": { "type": "string", "description": "File content" },
+          "format": { "type": "string", "enum": ["html", "hubl", "json", "text"], "description": "Format of the exported file" },
+          "description": { "type": "string", "description": "Description of the exported file" }
+        },
+        "required": ["filename", "content", "format", "description"],
         "additionalProperties": false
       },
 
@@ -894,8 +921,22 @@
         "properties": {
           "files": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ExportFile" },
-            "description": "Array of exported files"
+            "items": { "$ref": "#/components/schemas/V1ExportFile" },
+            "description": "Array of exported files with download URLs and content"
+          },
+          "executionTime": { "type": "number", "description": "Export execution time in milliseconds" },
+          "exportType": { "type": "string", "enum": ["html", "klaviyo", "mailchimp", "hubspot"], "description": "Type of export performed" }
+        },
+        "required": ["files", "executionTime", "exportType"]
+      },
+
+      "StandardExportData": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/StandardExportFile" },
+            "description": "Array of exported files with content"
           },
           "executionTime": { "type": "number", "description": "Export execution time in milliseconds" },
           "exportType": { "type": "string", "enum": ["html", "klaviyo", "mailchimp", "hubspot"], "description": "Type of export performed" }
