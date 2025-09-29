@@ -330,24 +330,6 @@
             "schema": { "type": "string" }
           },
           {
-            "name": "templateWidth",
-            "in": "query",
-            "description": "Template width in pixels",
-            "schema": { "type": "integer", "default": 600 }
-          },
-          {
-            "name": "enableDarkMode",
-            "in": "query",
-            "description": "Enable dark mode support",
-            "schema": { "type": "boolean", "default": true }
-          },
-          {
-            "name": "validateOutput",
-            "in": "query",
-            "description": "Validate Klaviyo output",
-            "schema": { "type": "boolean", "default": true }
-          },
-          {
             "name": "klaviyoType",
             "in": "query",
             "description": "Type of Klaviyo export: 'html' for static HTML or 'hybrid' for dynamic hybrid with editable regions",
