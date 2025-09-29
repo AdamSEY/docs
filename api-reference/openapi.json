@@ -628,11 +628,13 @@
             "maxItems": 5
           },
           "model": { "type": "string", "default": "migmaAI-model-v0.1" },
-          "webMode": { "type": "boolean", "default": true },
+          "webMode": { "type": "boolean", "default": true,
+            "description": "Allow MigmaAI to do research, use connectors, mcp and more. It may take longer to generate the email. Use only if the prompt is unclear or requires additional information."},
           "languages": {
             "type": "array",
             "items": { "type": "string" },
-            "maxItems": 5
+            "maxItems": 5,
+            "description": "The languages to generate the email in. If not provided, the email will be generated as instructed by the prompt."
           },
           "visibility": {
             "type": "string",
@@ -651,7 +653,6 @@
           "reactEmail": { "type": "string" },
           "html": { "type": "string" },
           "plainText": { "type": "string" },
-          "klaviyoHtml": { "type": "string" },
           "metadata": {
             "type": "object",
             "properties": {
