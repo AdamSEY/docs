@@ -16,7 +16,7 @@
       "get": {
         "tags": ["Projects"],
         "summary": "List Projects",
-        "description": "List projects for the authenticated user.",
+        "description": "List projects for the authenticated user with basic information only. Use GET /v1/projects/{projectId} to get full project details.",
         "parameters": [
           {
             "name": "limit",
@@ -54,8 +54,8 @@
     "/v1/projects/{projectId}": {
       "get": {
         "tags": ["Projects"],
-        "summary": "Get Project",
-        "description": "Get a project by ID.",
+        "summary": "Get Project Details",
+        "description": "Get complete project details by ID, including branding information, colors, typography, and all project data.",
         "parameters": [
           { "$ref": "#/components/parameters/ProjectIdParam" }
         ],
@@ -690,6 +690,22 @@
         "additionalProperties": true
       },
 
+      "ProjectBasic": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { "type": "string", "enum": ["pending", "processing", "active", "error"] },
+          "domain": { "type": "string" },
+          "logoUrls": { "$ref": "#/components/schemas/LogoUrls" },
+          "screenshotUrl": { "type": "string", "format": "uri" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["_id", "name", "description", "status", "createdAt", "updatedAt"]
+      },
+
       "Pagination": {
         "type": "object",
         "properties": {
@@ -704,7 +720,7 @@
       "ProjectsListData": {
         "type": "object",
         "properties": {
-          "projects": { "type": "array", "items": { "$ref": "#/components/schemas/Project" } },
+          "projects": { "type": "array", "items": { "$ref": "#/components/schemas/ProjectBasic" } },
           "pagination": { "$ref": "#/components/schemas/Pagination" }
         },
         "required": ["projects", "pagination"]
