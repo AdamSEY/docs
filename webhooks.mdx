@@ -1,11 +1,12 @@
 ---
 title: "Webhooks"
-description: "Receive real-time notifications for events in your Migma account"
+description: "Receive real-time notifications when events occur in your Migma account"
 ---
 
 ## Overview
 
-Webhooks allow you to receive real-time HTTP notifications when events occur in your Migma account. Instead of polling for updates, your application receives instant POST requests to your specified endpoint.
+Webhooks allow you to receive real-time HTTP notifications when events occur in your Migma account. Instead of constantly checking for updates, Migma will automatically send instant POST requests to your specified endpoint whenever something important happens.
+
 
 <Warning>
   **Important**: Webhooks are triggered only for events that occur through the **API v1 endpoints** (when using API keys). Events from the Migma web dashboard do not trigger webhooks. This design ensures webhooks are used for API integrations and automations.
@@ -13,17 +14,22 @@ Webhooks allow you to receive real-time HTTP notifications when events occur in 
 
 ## Getting Started
 
-### 1. Create a Webhook Endpoint
+### 1. Create Your Webhook Endpoint
 
-First, set up an HTTPS endpoint on your server to receive webhook events:
+Set up an HTTPS endpoint on your server to receive webhook events:
 
-```javascript
+```javascript Node.js
 const express = require('express');
 const crypto = require('crypto');
 
 app.post('/webhooks/migma', express.json(), (req, res) => {
-  // Verify signature (see security section)
+  // Verify signature (see security section below)
   const signature = req.headers['x-migma-signature'];
+  const isValid = verifySignature(req.body, signature, process.env.MIGMA_WEBHOOK_SECRET);
+
+  if (!isValid) {
+    return res.status(401).send('Invalid signature');
+  }
 
   // Process the event
   const event = req.body;
@@ -34,67 +40,96 @@ app.post('/webhooks/migma', express.json(), (req, res) => {
 });
 ```
 
-### 2. Register Your Webhook
+```python Python
+from flask import Flask, request
+import hmac
+import hashlib
+import json
 
-Register your endpoint through the Migma dashboard or API:
+@app.route('/webhooks/migma', methods=['POST'])
+def webhook():
+    # Verify signature
+    signature = request.headers.get('X-Migma-Signature')
+    payload = request.get_json()
 
-- Navigate to **Settings → API Integration → Webhooks tab**
-- Click **Create Webhook**
-- Enter your endpoint URL
-- Select the events you want to receive
-- Save and copy your webhook secret
+    if not verify_signature(payload, signature, os.getenv('MIGMA_WEBHOOK_SECRET')):
+        return 'Invalid signature', 401
+
+    # Process the event
+    event_type = payload['type']
+    print(f"Received {event_type}: {payload['data']}")
+
+    # Return 200 to acknowledge receipt
+    return '', 200
+```
+
+### 2. Register Your Webhook in Migma Dashboard
+
+1. Log in to your Migma dashboard
+2. Navigate to **Settings → API Integration → Webhooks tab**
+3. Click **Create Webhook**
+4. Enter your endpoint URL (must be HTTPS)
+5. Select the events you want to receive
+6. Click **Save**
+7. **Copy your webhook secret** (shown only once!)
+
+### 3. Verify It Works
+
+Use the test button in your dashboard to send a test event to your endpoint. Check that your server receives the request and responds with `200 OK`.
 
 ## Available Events
 
+Migma sends webhooks for the following events:
+
 ### Email Generation
 
-| Event | Description |
-|-------|-------------|
-| `email.generation.started` | Email generation has begun |
-| `email.generation.completed` | Email was successfully generated |
+| Event | When It Fires |
+|-------|---------------|
+| `email.generation.started` | Email generation begins via API |
+| `email.generation.completed` | Email successfully generated |
 | `email.generation.failed` | Email generation encountered an error |
 
 ### Project Import
 
-| Event | Description |
-|-------|-------------|
-| `project.import.started` | Project import has begun |
-| `project.import.processing` | Project is being processed |
-| `project.import.completed` | Project import finished successfully |
-| `project.import.failed` | Project import encountered an error |
+| Event | When It Fires |
+|-------|---------------|
+| `project.import.started` | Brand import begins via API |
+| `project.import.processing` | Brand is being processed |
+| `project.import.completed` | Brand import finished successfully |
+| `project.import.failed` | Brand import encountered an error |
 
 ### Exports
 
-| Event | Description |
-|-------|-------------|
-| `export.completed` | Email export completed successfully (Mailchimp, HubSpot, Klaviyo, etc.) |
+| Event | When It Fires |
+|-------|---------------|
+| `export.completed` | Email export to Mailchimp/HubSpot/Klaviyo completed |
 | `export.failed` | Email export encountered an error |
 
 ### Subscribers
 
-| Event | Description |
-|-------|-------------|
-| `subscriber.added` | New subscriber was added |
-| `subscriber.updated` | Subscriber information was updated |
+| Event | When It Fires |
+|-------|---------------|
+| `subscriber.added` | New subscriber added via API |
+| `subscriber.updated` | Subscriber information updated via API |
 | `subscriber.unsubscribed` | Subscriber unsubscribed |
 | `subscriber.bulk_imported` | Bulk import of subscribers completed |
 
 ### API Keys
 
-| Event | Description |
-|-------|-------------|
-| `api_key.created` | New API key was created |
-| `api_key.revoked` | API key was revoked |
+| Event | When It Fires |
+|-------|---------------|
+| `api_key.created` | New API key created via dashboard |
+| `api_key.revoked` | API key revoked via dashboard |
 
 ## Webhook Payload Structure
 
-All webhook events follow this structure:
+All webhook events follow this consistent structure:
 
 ```json
 {
   "id": "evt_1234567890abcdef",
   "type": "email.generation.completed",
-  "timestamp": "2024-09-30T12:34:56.789Z",
+  "timestamp": "2025-01-30T12:34:56.789Z",
   "data": {
     // Event-specific data
   },
@@ -105,13 +140,23 @@ All webhook events follow this structure:
 }
 ```
 
-### Example: Email Generation Completed
+### Field Descriptions
+
+- **id**: Unique event identifier (use for idempotency)
+- **type**: Event type from the list above
+- **timestamp**: ISO 8601 timestamp when the event occurred
+- **data**: Event-specific payload (see examples below)
+- **metadata**: Additional context (project ID, conversation ID, etc.)
+
+## Example Payloads
+
+### Email Generation Completed
 
 ```json
 {
   "id": "evt_a1b2c3d4e5f6",
   "type": "email.generation.completed",
-  "timestamp": "2024-09-30T12:34:56.789Z",
+  "timestamp": "2025-01-30T12:34:56.789Z",
   "data": {
     "conversationId": "conv_xyz789",
     "projectId": "proj_abc123",
@@ -126,13 +171,69 @@ All webhook events follow this structure:
 }
 ```
 
+### Project Import Completed
+
+```json
+{
+  "id": "evt_b2c3d4e5f6g7",
+  "type": "project.import.completed",
+  "timestamp": "2025-01-30T12:35:00.123Z",
+  "data": {
+    "projectId": "proj_abc123",
+    "name": "My Brand",
+    "url": "https://mybrand.com",
+    "importTime": 45230
+  },
+  "metadata": {
+    "projectId": "proj_abc123"
+  }
+}
+```
+
+### Export Completed
+
+```json
+{
+  "id": "evt_c3d4e5f6g7h8",
+  "type": "export.completed",
+  "timestamp": "2025-01-30T12:36:15.456Z",
+  "data": {
+    "conversationId": "conv_xyz789",
+    "provider": "mailchimp",
+    "campaignId": "mc_campaign_123",
+    "exportTime": 2340
+  },
+  "metadata": {
+    "conversationId": "conv_xyz789"
+  }
+}
+```
+
+### Subscriber Added
+
+```json
+{
+  "id": "evt_d4e5f6g7h8i9",
+  "type": "subscriber.added",
+  "timestamp": "2025-01-30T12:37:00.789Z",
+  "data": {
+    "email": "user@example.com",
+    "projectId": "proj_abc123",
+    "tags": ["newsletter", "customer"]
+  },
+  "metadata": {
+    "projectId": "proj_abc123"
+  }
+}
+```
+
 ## Security
 
 ### Verifying Webhook Signatures
 
-Every webhook includes an `X-Migma-Signature` header with an HMAC SHA-256 signature. **Always verify this signature** to ensure the request came from Migma.
+**Always verify the `X-Migma-Signature` header** to ensure requests came from Migma and haven't been tampered with.
 
-#### Node.js Example
+#### Node.js Implementation
 
 ```javascript
 const crypto = require('crypto');
@@ -151,7 +252,11 @@ function verifyWebhookSignature(payload, signature, secret) {
 
 app.post('/webhooks/migma', express.json(), (req, res) => {
   const signature = req.headers['x-migma-signature'];
-  const isValid = verifyWebhookSignature(req.body, signature, process.env.MIGMA_WEBHOOK_SECRET);
+  const isValid = verifyWebhookSignature(
+    req.body,
+    signature,
+    process.env.MIGMA_WEBHOOK_SECRET
+  );
 
   if (!isValid) {
     return res.status(401).send('Invalid signature');
@@ -162,7 +267,7 @@ app.post('/webhooks/migma', express.json(), (req, res) => {
 });
 ```
 
-#### Python Example
+#### Python Implementation
 
 ```python
 import hmac
@@ -172,7 +277,7 @@ import json
 def verify_webhook_signature(payload, signature, secret):
     computed_signature = hmac.new(
         secret.encode(),
-        json.dumps(payload).encode(),
+        json.dumps(payload, separators=(',', ':')).encode(),
         hashlib.sha256
     ).hexdigest()
 
@@ -190,70 +295,49 @@ def webhook():
     return '', 200
 ```
 
-## Performance & Reliability
+### Security Best Practices
+
+1. **Always verify signatures** - Never process webhooks without verification
+2. **Use HTTPS only** - Migma only sends webhooks to HTTPS endpoints
+3. **Store secrets securely** - Use environment variables, never hardcode
+4. **Implement timeouts** - Don't process webhooks older than 5 minutes
+5. **Rate limit** - Protect against potential abuse
+
+## Delivery & Reliability
 
 ### Non-Blocking Delivery
 
-Webhook triggers are **completely non-blocking** and designed for optimal performance:
+Webhook triggers are **completely non-blocking**:
 
-- ✅ Webhook events are triggered asynchronously using `setImmediate()`
-- ✅ Your API responses are never delayed by webhook delivery
-- ✅ Webhook failures do not affect your API request success
+- ✅ API responses return instantly, regardless of webhook configuration
+- ✅ Webhook delivery happens in the background after your API call succeeds
+- ✅ Webhook failures never affect your API request success
 - ✅ Multiple webhooks are delivered in parallel
 
-**What this means for you:**
-- API calls return immediately, regardless of webhook configuration
-- Webhook delivery happens in the background after the response is sent
-- Network issues or slow webhook endpoints won't slow down your API
+**What this means**: Your API calls are never delayed by webhook delivery, even if your webhook endpoint is slow or down.
+
+### Automatic Retries
+
+Migma automatically retries failed webhook deliveries with exponential backoff:
+
+- **1st retry**: After 1 minute
+- **2nd retry**: After 5 minutes
+- **3rd retry**: After 15 minutes
+
+Return `200-299` status codes to indicate success. Any other status code (or timeout) triggers a retry.
 
 ### Delivery Guarantees
 
-Migma ensures reliable webhook delivery with:
-
-- **At-least-once delivery**: Events are delivered at least once, possibly more during retries
-- **Automatic retries**: Failed deliveries are retried 3 times with exponential backoff
-- **Persistent queue**: Delivery attempts are stored in the database for reliability
-- **Status tracking**: View delivery history and success rates in your dashboard
-
-### When Webhooks Trigger
-
-<Info>
-  Webhooks trigger **only for API v1 operations**:
-  - Brand imports via API
-  - Email generation via API
-  - Subscriber management via API
-  - Exports via API
-
-  Web dashboard actions (manual email generation, UI imports, etc.) **do not** trigger webhooks.
-</Info>
+- **At-least-once delivery**: Events are delivered at least once (possibly more during retries)
+- **Idempotency**: Use the event `id` to prevent duplicate processing
+- **Persistent queue**: Delivery attempts are stored for reliability
+- **10-second timeout**: Each delivery attempt times out after 10 seconds
 
 ## Best Practices
 
-### Idempotency
+### Respond Quickly
 
-Use the event `id` to ensure you don't process the same event twice:
-
-```javascript
-const processedEvents = new Set();
-
-app.post('/webhooks/migma', async (req, res) => {
-  const eventId = req.body.id;
-
-  if (processedEvents.has(eventId)) {
-    return res.sendStatus(200); // Already processed
-  }
-
-  // Process event
-  await handleEvent(req.body);
-
-  processedEvents.add(eventId);
-  res.sendStatus(200);
-});
-```
-
-### Response Quickly
-
-Respond with `200 OK` immediately, then process the webhook asynchronously:
+Acknowledge receipt immediately, then process asynchronously:
 
 ```javascript
 app.post('/webhooks/migma', (req, res) => {
@@ -267,16 +351,29 @@ app.post('/webhooks/migma', (req, res) => {
 });
 ```
 
-### Retry Logic
+### Implement Idempotency
 
-Migma automatically retries failed webhook deliveries:
-- **1st retry**: After 1 minute
-- **2nd retry**: After 5 minutes
-- **3rd retry**: After 15 minutes
+Use the event `id` to prevent duplicate processing:
 
-Return `200-299` status codes to indicate success. Any other status code (or timeout) triggers a retry.
+```javascript
+const processedEvents = new Set();
 
-### Error Handling
+app.post('/webhooks/migma', async (req, res) => {
+  const eventId = req.body.id;
+
+  if (processedEvents.has(eventId)) {
+    return res.sendStatus(200); // Already processed
+  }
+
+  // Process event
+  await handleEvent(req.body);
+  processedEvents.add(eventId);
+
+  res.sendStatus(200);
+});
+```
+
+### Handle Retries Gracefully
 
 ```javascript
 app.post('/webhooks/migma', async (req, res) => {
@@ -286,7 +383,7 @@ app.post('/webhooks/migma', async (req, res) => {
       return res.status(401).send('Invalid signature');
     }
 
-    // Process event
+    // Process event (idempotent)
     await handleEvent(req.body);
 
     res.sendStatus(200);
@@ -299,50 +396,64 @@ app.post('/webhooks/migma', async (req, res) => {
 });
 ```
 
+### Route by Event Type
+
+```javascript
+app.post('/webhooks/migma', async (req, res) => {
+  const { type, data } = req.body;
+
+  switch (type) {
+    case 'email.generation.completed':
+      await handleEmailCompleted(data);
+      break;
+
+    case 'email.generation.failed':
+      await handleEmailFailed(data);
+      break;
+
+    case 'export.completed':
+      await handleExportCompleted(data);
+      break;
+
+    default:
+      console.log(`Unknown event type: ${type}`);
+  }
+
+  res.sendStatus(200);
+});
+```
+
 ## Testing
-
-### Test Your Webhook
-
-You can test your webhook endpoint from the Migma dashboard:
-
-1. Go to **Settings → API Integration → Webhooks**
-2. Find your webhook in the list
-3. Click the test icon (🔄)
-4. Check your endpoint receives the test payload
 
 ### Local Development
 
-Use tools like [ngrok](https://ngrok.com) to expose your local server:
+Use [ngrok](https://ngrok.com) to expose your local server:
 
 ```bash
 ngrok http 3000
 ```
 
-Then register the ngrok URL as your webhook endpoint.
+Then register the ngrok URL (e.g., `https://abc123.ngrok.io/webhooks/migma`) in your Migma dashboard.
 
-## Monitoring
+### Test Events
 
-### View Delivery History
+Click the test button (🔄) next to your webhook in the dashboard to send a test payload:
 
-Monitor webhook deliveries in the dashboard:
-- Click the clock icon next to any webhook
-- View delivery attempts, response codes, and timing
-- Debug failed deliveries
-
-### Success Rates
-
-Track webhook health with success rate metrics shown for each webhook in the dashboard.
-
-## Troubleshooting
-
-### Common Issues
-
-| Issue | Solution |
-|-------|----------|
-| Signature verification fails | Ensure you're using the correct secret and computing the signature over the raw request body |
-| Timeouts | Respond with 200 immediately, process asynchronously |
-| Duplicate events | Implement idempotency using event IDs |
-| Missing events | Check your endpoint returns 200-299 status codes |
+```json
+{
+  "id": "evt_test_123",
+  "type": "email.generation.completed",
+  "timestamp": "2025-01-30T12:00:00.000Z",
+  "data": {
+    "conversationId": "test_conv",
+    "projectId": "test_proj",
+    "subject": "Test Email"
+  },
+  "metadata": {
+    "test": true
+  }
+}
+```
 
 ### Debug Mode
 
@@ -351,24 +462,134 @@ Enable verbose logging to troubleshoot:
 ```javascript
 app.post('/webhooks/migma', (req, res) => {
   console.log('Headers:', req.headers);
-  console.log('Body:', req.body);
+  console.log('Body:', JSON.stringify(req.body, null, 2));
   console.log('Signature:', req.headers['x-migma-signature']);
 
   // ... rest of your code
 });
 ```
 
-## Rate Limits
+## Monitoring
 
-Webhook endpoints should handle:
+### Dashboard Monitoring
+
+Monitor webhook health in your Migma dashboard:
+
+1. Go to **Settings → API Integration → Webhooks**
+2. View success/failure counts for each webhook
+3. Click the clock icon to see delivery history
+4. Check response codes and timing for each delivery
+
+### Metrics to Track
+
+- **Success rate**: Percentage of successful deliveries
+- **Response time**: How long your endpoint takes to respond
+- **Failure patterns**: Common error codes or failure reasons
+- **Retry frequency**: How often retries are needed
+
+## Troubleshooting
+
+### Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| Signature verification fails | Ensure you're using the correct secret and computing HMAC over the raw JSON body |
+| Timeouts | Respond with 200 immediately, process asynchronously |
+| Duplicate events | Implement idempotency using event IDs |
+| Missing events | Check your endpoint returns 200-299 status codes |
+| Webhook not firing | Verify the event is triggered via API (not dashboard) |
+
+### HTTP Response Codes
+
+Return these codes to control webhook behavior:
+
+- **200-299**: Success - no retry
+- **400-499**: Client error - no retry (except 408, 429)
+- **500-599**: Server error - will retry
+- **Timeout (10s)**: Will retry
+
+### Rate Limits
+
+Your webhook endpoint should handle:
+
 - **Up to 100 requests per second** during high activity
 - **Burst traffic** from batch operations (e.g., bulk imports)
 
 Ensure your endpoint can scale appropriately.
 
-## Support
+## Example Use Cases
 
-Need help with webhooks?
-- 📚 [API Reference](/api-reference/introduction)
-- 💬 [Join Discord](https://discord.gg/ZB6c2meCUA)
-- 💌 [Contact Support](https://migma.ai/support)
+### Automated Email Workflows
+
+```javascript
+// Trigger follow-up actions when email generation completes
+case 'email.generation.completed':
+  const { conversationId, projectId, subject } = data;
+
+  // Log to your analytics
+  await analytics.track('email_generated', {
+    projectId,
+    conversationId,
+    subject
+  });
+
+  // Notify your team
+  await slack.notify({
+    channel: '#marketing',
+    message: `New email generated: "${subject}"`
+  });
+  break;
+```
+
+### Error Monitoring
+
+```javascript
+// Alert your team when generation fails
+case 'email.generation.failed':
+  await slack.notify({
+    channel: '#alerts',
+    message: `Email generation failed for project ${data.projectId}`,
+    error: data.error
+  });
+  break;
+```
+
+### Integration Sync
+
+```javascript
+// Sync subscribers to your CRM
+case 'subscriber.added':
+  await crm.createContact({
+    email: data.email,
+    source: 'migma',
+    tags: data.tags
+  });
+  break;
+```
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card
+    title="Join Discord"
+    icon="discord"
+    href="https://discord.gg/ZB6c2meCUA"
+  >
+    Connect with developers and get support
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Explore all available API endpoints
+  </Card>
+</CardGroup>
+
+---
+
+**Performance**: Webhooks are completely non-blocking and never impact API response times.
+
+**Reliability**: Automatic retries with exponential backoff ensure delivery even during temporary outages.
+
+**Security**: HMAC SHA-256 signature verification protects against unauthorized requests.

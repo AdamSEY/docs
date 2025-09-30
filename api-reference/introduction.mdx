@@ -193,14 +193,12 @@ Generate AI-powered, on-brand emails with async processing:
 
 ### Subscribers
 
-Manage your email audience:
+Manage your email audience via API:
 
 - `GET /v1/subscribers` - List subscribers
 - `POST /v1/subscribers` - Add a subscriber
-- `GET /v1/subscribers/{subscriberId}` - Get subscriber details
-- `PATCH /v1/subscribers/{subscriberId}` - Update subscriber
-- `DELETE /v1/subscribers/{subscriberId}` - Remove subscriber
-- `POST /v1/subscribers/import` - Bulk import subscribers
+- `POST /v1/subscribers/bulk` - Bulk import subscribers
+- `POST /v1/subscribers/unsubscribe` - Unsubscribe a subscriber
 
 ### Exports
 
