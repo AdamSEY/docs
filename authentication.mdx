@@ -1,0 +1,290 @@
+---
+title: "Authentication"
+description: "Learn how to authenticate with the Migma.ai API"
+---
+
+## API Keys
+
+Migma.ai uses API keys to authenticate requests. Your API keys carry many privileges, so be sure to keep them secure! Do not share your API keys in publicly accessible areas such as GitHub, client-side code, etc.
+
+## Creating an API Key
+
+<Steps>
+  <Step title="Navigate to Settings">
+    Log in to [migma.ai](https://migma.ai) and go to **Settings → API Integration**
+  </Step>
+  <Step title="Create New Key">
+    Click **Create API Key** in the API Keys tab
+  </Step>
+  <Step title="Configure Permissions">
+    Give your key a name and select the permissions it needs
+  </Step>
+  <Step title="Save Securely">
+    Copy the key immediately - it won't be shown again!
+  </Step>
+</Steps>
+
+<Warning>
+  API keys are shown only once at creation. Store them securely in a password manager or environment variables.
+</Warning>
+
+## Using Your API Key
+
+Include your API key in the `Authorization` header of every request:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+### Example Request
+
+```bash cURL
+curl https://api.migma.ai/v1/projects \
+  -H "Authorization: Bearer mgma_sk_live_1234567890abcdef"
+```
+
+```javascript JavaScript
+const response = await fetch('https://api.migma.ai/v1/projects', {
+  headers: {
+    'Authorization': 'Bearer mgma_sk_live_1234567890abcdef'
+  }
+});
+```
+
+```python Python
+import requests
+
+headers = {
+    'Authorization': 'Bearer mgma_sk_live_1234567890abcdef'
+}
+
+response = requests.get(
+    'https://api.migma.ai/v1/projects',
+    headers=headers
+)
+```
+
+## API Key Permissions
+
+When creating an API key, you can grant specific permissions to limit what the key can access:
+
+| Permission | Description |
+|-----------|-------------|
+| `project:read` | View projects and their details |
+| `project:write` | Create, update, and delete projects |
+| `email:read` | View generated emails and conversations |
+| `email:write` | Generate new emails and manage conversations |
+| `subscriber:read` | View subscribers and audience segments |
+| `subscriber:write` | Add, update, and delete subscribers |
+| `export:read` | View export history |
+| `export:write` | Trigger email exports |
+| `webhook:read` | View webhook configurations |
+| `webhook:write` | Create and manage webhooks |
+
+<Tip>
+  Follow the principle of least privilege: only grant the permissions your application needs.
+</Tip>
+
+## Environment-Specific Keys
+
+Use different API keys for different environments:
+
+```bash Development
+MIGMA_API_KEY=mgma_sk_test_...
+```
+
+```bash Production
+MIGMA_API_KEY=mgma_sk_live_...
+```
+
+<Info>
+  Test keys start with `mgma_sk_test_` and production keys start with `mgma_sk_live_`
+</Info>
+
+## Security Best Practices
+
+### 1. Store Keys Securely
+
+Never hardcode API keys in your source code. Use environment variables:
+
+```javascript JavaScript
+// ❌ Don't do this
+const apiKey = 'mgma_sk_live_1234567890abcdef';
+
+// ✅ Do this
+const apiKey = process.env.MIGMA_API_KEY;
+```
+
+### 2. Use Environment Variables
+
+```bash .env
+MIGMA_API_KEY=mgma_sk_live_1234567890abcdef
+```
+
+```javascript JavaScript
+require('dotenv').config();
+
+const apiKey = process.env.MIGMA_API_KEY;
+```
+
+### 3. Rotate Keys Regularly
+
+Create new API keys periodically and revoke old ones:
+
+1. Create a new API key with the same permissions
+2. Update your application to use the new key
+3. Test thoroughly
+4. Revoke the old key
+
+### 4. Use Read-Only Keys When Possible
+
+If your application only needs to read data, create a key with only read permissions:
+
+```javascript
+// Key with only read permissions
+const readOnlyHeaders = {
+  'Authorization': `Bearer ${process.env.MIGMA_READONLY_KEY}`
+};
+```
+
+### 5. Monitor Key Usage
+
+Check your API key usage regularly in the Migma dashboard:
+- Go to **Settings → API Integration → API Keys**
+- View last used date for each key
+- Check for any unexpected usage patterns
+
+## Key Management
+
+### Viewing Your Keys
+
+Navigate to **Settings → API Integration → API Keys** to see:
+- Key name and ID (first 8 characters)
+- Permissions granted
+- Creation date
+- Last used date
+- Usage statistics
+
+### Revoking a Key
+
+If a key is compromised or no longer needed:
+
+<Steps>
+  <Step title="Find the Key">
+    Go to **Settings → API Integration → API Keys**
+  </Step>
+  <Step title="Delete">
+    Click the delete icon next to the key
+  </Step>
+  <Step title="Confirm">
+    Confirm the deletion - this action cannot be undone
+  </Step>
+</Steps>
+
+<Warning>
+  Revoking a key will immediately invalidate it. Any applications using that key will receive 401 Unauthorized errors.
+</Warning>
+
+## Error Responses
+
+### 401 Unauthorized
+
+Your API key is invalid or missing:
+
+```json
+{
+  "success": false,
+  "error": "Invalid or missing API key"
+}
+```
+
+**Common causes:**
+- API key not included in Authorization header
+- Wrong format (must be `Bearer YOUR_KEY`)
+- Key has been revoked
+- Using test key in production environment
+
+### 403 Forbidden
+
+Your API key doesn't have permission for this action:
+
+```json
+{
+  "success": false,
+  "error": "Insufficient permissions"
+}
+```
+
+**Solution:** Create a new key with the required permissions or update the existing key's permissions.
+
+## Rate Limiting
+
+API keys are subject to rate limits based on your plan:
+
+| Plan | Rate Limit |
+|------|-----------|
+| Free | 10 requests/minute |
+| Pro | 100 requests/minute |
+| Enterprise | Custom limits |
+
+Rate limit headers are included in every response:
+
+```http
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1609459200
+```
+
+When you exceed the rate limit, you'll receive a `429 Too Many Requests` response:
+
+```json
+{
+  "success": false,
+  "error": "Rate limit exceeded",
+  "retryAfter": 60
+}
+```
+
+<Tip>
+  Implement exponential backoff when you receive 429 responses to avoid further rate limiting.
+</Tip>
+
+## Testing Authentication
+
+Test your API key with a simple request:
+
+```bash cURL
+curl https://api.migma.ai/v1/projects \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Expected response for valid key:
+
+```json
+{
+  "success": true,
+  "data": {
+    "projects": [],
+    "total": 0
+  }
+}
+```
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card
+    title="Quickstart Guide"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Get started with your first API call
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Explore all available endpoints
+  </Card>
+</CardGroup>

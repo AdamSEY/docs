@@ -1,36 +1,152 @@
 ---
-title: MigmaAI Documentation
-description: "Welcome to the MigmaAI developer documentation"
+title: "Migma.ai API Documentation"
+description: "AI-powered email generation API - Build beautiful, on-brand emails in seconds"
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.png"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.png"
-  alt="Hero Dark"
-/>
+## Welcome to Migma.ai
 
-## Welcome
-
-Build with MigmaAI. Explore endpoints, guides, and examples tailored to your workflow.
+Migma.ai is an AI-powered email generation platform that helps you create stunning, on-brand marketing emails in seconds. Our API allows you to integrate Migma's powerful email generation capabilities directly into your applications.
 
 <CardGroup cols={2}>
   <Card
-    title="API Reference"
-    icon="bolt"
-    href="/api-reference"
+    title="Quickstart"
+    icon="rocket"
+    href="/quickstart"
   >
-    Explore auto‑generated endpoints from our OpenAPI spec
+    Get started with your first API call in under 5 minutes
   </Card>
   <Card
-    title="Get Started"
-    icon="rocket"
+    title="Webhooks Guide"
+    icon="bolt"
+    href="/webhooks"
+  >
+    Receive real-time notifications for events in your account
+  </Card>
+  <Card
+    title="API Reference"
+    icon="code"
     href="/api-reference/introduction"
   >
-    Learn how to authenticate and call the API
+    Explore all available endpoints and responses
+  </Card>
+  <Card
+    title="Authentication"
+    icon="key"
+    href="/authentication"
+  >
+    Learn how to authenticate and secure your API requests
+  </Card>
+</CardGroup>
+
+## What can you build?
+
+<AccordionGroup>
+  <Accordion title="Email Marketing Automation" icon="envelope">
+    Generate personalized email campaigns at scale. Import your brand, define your audience, and let AI create perfectly on-brand emails automatically.
+  </Accordion>
+
+  <Accordion title="E-commerce Integrations" icon="shopping-cart">
+    Build integrations with Shopify, WooCommerce, or any e-commerce platform. Generate product announcements, promotional emails, and cart abandonment campaigns.
+  </Accordion>
+
+  <Accordion title="CRM & Marketing Tools" icon="chart-line">
+    Connect Migma to your CRM or marketing automation platform. Trigger email generation based on user actions, lifecycle stages, or custom events.
+  </Accordion>
+
+  <Accordion title="Custom Applications" icon="wand-magic-sparkles">
+    Build custom email generation workflows tailored to your business needs. From transactional emails to newsletters, Migma adapts to your use case.
+  </Accordion>
+</AccordionGroup>
+
+## Key Features
+
+<CardGroup cols={3}>
+  <Card title="AI-Powered Generation" icon="brain">
+    Generate emails that match your brand voice and style automatically
+  </Card>
+  <Card title="Brand Import" icon="palette">
+    Import your brand from any website - colors, fonts, logos, and voice
+  </Card>
+  <Card title="Real-time Webhooks" icon="bolt">
+    Get notified instantly when generation completes or errors occur
+  </Card>
+  <Card title="HTML Export" icon="file-code">
+    Export production-ready HTML compatible with all major email clients
+  </Card>
+  <Card title="Audience Management" icon="users">
+    Manage subscribers, segments, and preferences via API
+  </Card>
+  <Card title="Rate Limits" icon="gauge">
+    Fair usage limits with automatic scaling for enterprise customers
+  </Card>
+</CardGroup>
+
+## Popular Use Cases
+
+### Marketing Automation
+```javascript
+// Generate a promotional email
+const response = await fetch('https://api.migma.ai/v1/projects/{projectId}/conversations', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    prompt: "Create a summer sale announcement with 30% off, highlighting our new collection",
+    purpose: "promotional"
+  })
+});
+```
+
+### E-commerce Integration
+```javascript
+// Generate product announcement
+const response = await fetch('https://api.migma.ai/v1/projects/{projectId}/conversations', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    prompt: "Announce our new sustainable clothing line with product images and features",
+    purpose: "product_announcement"
+  })
+});
+```
+
+## Getting Started
+
+<Steps>
+  <Step title="Get Your API Key">
+    Sign up at [migma.ai](https://migma.ai) and generate your API key from Settings → API Integration
+  </Step>
+  <Step title="Import Your Brand">
+    Create a project by importing your brand from your website URL
+  </Step>
+  <Step title="Generate Your First Email">
+    Make your first API call to generate an on-brand email
+  </Step>
+  <Step title="Export & Send">
+    Export the generated HTML and send via your email provider
+  </Step>
+</Steps>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card
+    title="Join Our Community"
+    icon="discord"
+    href="https://discord.gg/migma"
+  >
+    Connect with other developers and get support
+  </Card>
+  <Card
+    title="Contact Support"
+    icon="life-ring"
+    href="https://migma.ai/support"
+  >
+    Get in touch with our support team
   </Card>
 </CardGroup>

@@ -1,33 +1,294 @@
 ---
-title: 'MigmaAI API'
-description: 'MigmaAI API overview and how to use the auto-generated endpoints'
+title: "API Reference"
+description: "Complete reference for the Migma.ai API"
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Overview
 
-## Welcome
+The Migma.ai API provides programmatic access to our AI-powered email generation platform. Build custom integrations, automate email creation, and manage your email marketing workflows.
 
-MigmaAI uses Mintlify to render API documentation. You can build API docs from your OpenAPI spec or author custom MDX pages. This site is configured to use the OpenAPI specification below.
+## Base URL
 
-<Card
-  title="Browse API Endpoints"
-  icon="bolt"
-  href="/api-reference"
->
-  Explore the auto‑generated API Reference pages
-</Card>
+All API requests should be made to:
+
+```
+https://api.migma.ai
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints require authentication using API keys. Include your API key in the `Authorization` header:
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Card
+  title="Authentication Guide"
+  icon="key"
+  href="/authentication"
+>
+  Learn how to create and manage API keys
+</Card>
+
+## API Structure
+
+The Migma.ai API is organized around REST principles:
+
+- **Predictable resource-oriented URLs**
+- **Standard HTTP response codes**
+- **JSON request and response bodies**
+- **Bearer token authentication**
+
+## Request Format
+
+All `POST`, `PATCH`, and `PUT` requests should use JSON format:
+
+```http
+Content-Type: application/json
+```
+
+Example request:
+
+```bash
+curl -X POST https://api.migma.ai/v1/projects/import \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"urls": ["https://yourbrand.com"], "name": "My Brand"}'
+```
+
+## Response Format
+
+All API responses follow a consistent structure:
+
+### Success Response
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "success": true,
+  "data": {
+    // Response data here
+  },
+  "metadata": {
+    "timestamp": "2024-09-30T12:34:56.789Z",
+    "requestId": "req_1234567890"
   }
-]
+}
 ```
+
+### Error Response
+
+```json
+{
+  "success": false,
+  "error": "Error message describing what went wrong",
+  "code": "ERROR_CODE",
+  "metadata": {
+    "timestamp": "2024-09-30T12:34:56.789Z",
+    "requestId": "req_1234567890"
+  }
+}
+```
+
+## HTTP Status Codes
+
+The API uses standard HTTP status codes:
+
+| Code | Meaning | Description |
+|------|---------|-------------|
+| `200` | OK | Request succeeded |
+| `201` | Created | Resource was created successfully |
+| `400` | Bad Request | Invalid request parameters |
+| `401` | Unauthorized | Invalid or missing API key |
+| `403` | Forbidden | API key lacks required permissions |
+| `404` | Not Found | Resource doesn't exist |
+| `429` | Too Many Requests | Rate limit exceeded |
+| `500` | Internal Server Error | Something went wrong on our end |
+| `503` | Service Unavailable | Service temporarily unavailable |
+
+## Rate Limiting
+
+API requests are rate limited based on your plan:
+
+| Plan | Rate Limit |
+|------|-----------|
+| Free | 10 requests/minute |
+| Pro | 100 requests/minute |
+| Enterprise | Custom limits |
+
+Rate limit information is included in response headers:
+
+```http
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1609459200
+```
+
+<Tip>
+  When rate limited (429 response), wait for the time specified in `X-RateLimit-Reset` before retrying.
+</Tip>
+
+## Pagination
+
+List endpoints support pagination using `limit` and `offset` parameters:
+
+```bash
+GET /v1/projects?limit=20&offset=0
+```
+
+Response includes pagination metadata:
+
+```json
+{
+  "success": true,
+  "data": {
+    "projects": [...],
+    "total": 45,
+    "limit": 20,
+    "offset": 0
+  }
+}
+```
+
+## Idempotency
+
+Some endpoints support idempotency to safely retry requests without duplicating operations. Include an `Idempotency-Key` header:
+
+```http
+Idempotency-Key: unique-key-12345
+```
+
+Requests with the same idempotency key return the same response for 24 hours.
+
+## Webhooks
+
+Instead of polling for status updates, use webhooks to receive real-time notifications:
+
+<Card
+  title="Webhooks Guide"
+  icon="bolt"
+  href="/webhooks"
+>
+  Learn how to set up webhooks for real-time notifications
+</Card>
+
+## API Endpoints
+
+### Projects
+
+Manage brand projects and imports:
+
+- `GET /v1/projects` - List all projects
+- `GET /v1/projects/{projectId}` - Get project details
+- `POST /v1/projects/import` - Import a new brand
+
+### Email Generation
+
+Generate AI-powered emails:
+
+- `POST /v1/projects/{projectId}/conversations` - Generate an email
+- `GET /v1/projects/{projectId}/conversations/{conversationId}` - Get generated email
+- `GET /v1/projects/{projectId}/conversations/{conversationId}/status` - Check generation status
+
+### Subscribers
+
+Manage your email audience:
+
+- `GET /v1/subscribers` - List subscribers
+- `POST /v1/subscribers` - Add a subscriber
+- `GET /v1/subscribers/{subscriberId}` - Get subscriber details
+- `PATCH /v1/subscribers/{subscriberId}` - Update subscriber
+- `DELETE /v1/subscribers/{subscriberId}` - Remove subscriber
+- `POST /v1/subscribers/import` - Bulk import subscribers
+
+### Exports
+
+Export emails to various platforms:
+
+- `POST /v1/export` - Export an email
+- `GET /v1/export/{exportId}` - Get export status
+
+<Card
+  title="Browse Full API Reference"
+  icon="book"
+  href="/api-reference"
+>
+  Explore auto-generated documentation for all endpoints
+</Card>
+
+## Error Codes
+
+Common error codes and their meanings:
+
+| Code | Description |
+|------|-------------|
+| `INVALID_API_KEY` | API key is invalid or revoked |
+| `INSUFFICIENT_PERMISSIONS` | API key lacks required permissions |
+| `INVALID_REQUEST` | Request parameters are invalid |
+| `RESOURCE_NOT_FOUND` | Requested resource doesn't exist |
+| `RATE_LIMIT_EXCEEDED` | Too many requests in time window |
+| `GENERATION_FAILED` | Email generation encountered an error |
+| `IMPORT_FAILED` | Brand import encountered an error |
+
+## Environments
+
+Use different API keys for different environments:
+
+### Production
+```
+Base URL: https://api.migma.ai
+API Key: mgma_sk_live_...
+```
+
+### Development/Testing
+```
+Base URL: https://api.migma.ai
+API Key: mgma_sk_test_...
+```
+
+<Info>
+  Test keys are separate from production keys and don't affect your production data or rate limits.
+</Info>
+
+## SDKs & Libraries
+
+Official SDKs coming soon for:
+- Node.js / TypeScript
+- Python
+- Ruby
+- PHP
+
+In the meantime, use standard HTTP libraries to make requests.
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card
+    title="Quickstart"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Get started in under 5 minutes
+  </Card>
+  <Card
+    title="Webhooks"
+    icon="bolt"
+    href="/webhooks"
+  >
+    Set up real-time notifications
+  </Card>
+  <Card
+    title="Authentication"
+    icon="key"
+    href="/authentication"
+  >
+    Learn about API keys and security
+  </Card>
+  <Card
+    title="Support"
+    icon="life-ring"
+    href="https://migma.ai/support"
+  >
+    Contact our support team
+  </Card>
+</CardGroup>

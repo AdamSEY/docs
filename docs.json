@@ -11,6 +11,25 @@
   "navigation": {
     "tabs": [
       {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "index",
+              "quickstart",
+              "authentication"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "webhooks"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "API Reference",
         "groups": [
           {
@@ -20,7 +39,7 @@
             ]
           },
           {
-            "group": "API Documentation",
+            "group": "API Endpoints",
             "openapi": "/api-reference/openapi.json"
           }
         ]
