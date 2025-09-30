@@ -7,6 +7,10 @@ description: "Receive real-time notifications for events in your Migma account"
 
 Webhooks allow you to receive real-time HTTP notifications when events occur in your Migma account. Instead of polling for updates, your application receives instant POST requests to your specified endpoint.
 
+<Warning>
+  **Important**: Webhooks are triggered only for events that occur through the **API v1 endpoints** (when using API keys). Events from the Migma web dashboard do not trigger webhooks. This design ensures webhooks are used for API integrations and automations.
+</Warning>
+
 ## Getting Started
 
 ### 1. Create a Webhook Endpoint
@@ -185,6 +189,43 @@ def webhook():
     # Process the webhook
     return '', 200
 ```
+
+## Performance & Reliability
+
+### Non-Blocking Delivery
+
+Webhook triggers are **completely non-blocking** and designed for optimal performance:
+
+- ✅ Webhook events are triggered asynchronously using `setImmediate()`
+- ✅ Your API responses are never delayed by webhook delivery
+- ✅ Webhook failures do not affect your API request success
+- ✅ Multiple webhooks are delivered in parallel
+
+**What this means for you:**
+- API calls return immediately, regardless of webhook configuration
+- Webhook delivery happens in the background after the response is sent
+- Network issues or slow webhook endpoints won't slow down your API
+
+### Delivery Guarantees
+
+Migma ensures reliable webhook delivery with:
+
+- **At-least-once delivery**: Events are delivered at least once, possibly more during retries
+- **Automatic retries**: Failed deliveries are retried 3 times with exponential backoff
+- **Persistent queue**: Delivery attempts are stored in the database for reliability
+- **Status tracking**: View delivery history and success rates in your dashboard
+
+### When Webhooks Trigger
+
+<Info>
+  Webhooks trigger **only for API v1 operations**:
+  - Brand imports via API
+  - Email generation via API
+  - Subscriber management via API
+  - Exports via API
+
+  Web dashboard actions (manual email generation, UI imports, etc.) **do not** trigger webhooks.
+</Info>
 
 ## Best Practices
 
