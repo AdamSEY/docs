@@ -5,7 +5,9 @@ description: "Complete reference for the Migma.ai API"
 
 ## Overview
 
-The Migma.ai API provides programmatic access to our AI-powered email generation platform. Build custom integrations, automate email creation, and manage your email marketing workflows.
+The Migma.ai API provides programmatic access to our AI Email Engine that creates pixel-perfect, on-brand emails in 30 seconds. Build custom integrations, automate email creation workflows, track customer events, export to platforms like Mailchimp and HubSpot, and manage your entire email marketing infrastructure programmatically.
+
+Generate emails 200x faster and 95% cheaper with AI that learns your brand voice, fetches live content, and creates cross-client compatible HTML/React code.
 
 ## Base URL
 
@@ -184,11 +186,10 @@ Manage brand projects and imports:
 
 ### Email Generation
 
-Generate AI-powered emails:
+Generate AI-powered, on-brand emails with async processing:
 
-- `POST /v1/projects/{projectId}/conversations` - Generate an email
-- `GET /v1/projects/{projectId}/conversations/{conversationId}` - Get generated email
-- `GET /v1/projects/{projectId}/conversations/{conversationId}/status` - Check generation status
+- `POST /v1/projects/emails/generate` - Generate an email (async)
+- `GET /v1/projects/emails/{conversationId}/status` - Check generation status and get HTML/React code
 
 ### Subscribers
 
@@ -203,9 +204,9 @@ Manage your email audience:
 
 ### Exports
 
-Export emails to various platforms:
+Export emails to various platforms with one-click integrations:
 
-- `POST /v1/export` - Export an email
+- `POST /v1/export` - Export to Mailchimp, HubSpot, Klaviyo, and more
 - `GET /v1/export/{exportId}` - Get export status
 
 <Card
@@ -285,10 +286,10 @@ In the meantime, use standard HTTP libraries to make requests.
     Learn about API keys and security
   </Card>
   <Card
-    title="Support"
-    icon="life-ring"
-    href="https://migma.ai/support"
+    title="Join Discord"
+    icon="discord"
+    href="https://discord.gg/ZB6c2meCUA"
   >
-    Contact our support team
+    Connect with developers and get support
   </Card>
 </CardGroup>

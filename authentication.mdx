@@ -70,16 +70,13 @@ When creating an API key, you can grant specific permissions to limit what the k
 
 | Permission | Description |
 |-----------|-------------|
-| `project:read` | View projects and their details |
-| `project:write` | Create, update, and delete projects |
-| `email:read` | View generated emails and conversations |
-| `email:write` | Generate new emails and manage conversations |
-| `subscriber:read` | View subscribers and audience segments |
-| `subscriber:write` | Add, update, and delete subscribers |
-| `export:read` | View export history |
-| `export:write` | Trigger email exports |
-| `webhook:read` | View webhook configurations |
-| `webhook:write` | Create and manage webhooks |
+| `audience:read` | View subscribers, tags, and audience segments |
+| `audience:write` | Add, update subscribers, manage tags, create segments |
+| `email:read` | View email templates and sending history |
+| `email:send` | Send emails to subscribers using templates |
+| `template:read` | Read and use email templates |
+| `webhook:read` | List and view webhook configurations |
+| `webhook:write` | Create, update, and delete webhooks for real-time notifications |
 
 <Tip>
   Follow the principle of least privilege: only grant the permissions your application needs.
