@@ -148,7 +148,7 @@
       "post": {
         "tags": ["Email"],
         "summary": "Generate Email (Async)",
-        "description": "Generate an email for a project using its brand context and optional images. Returns immediately with a conversationId and 'pending' status. Use GET /v1/projects/emails/{conversationId}/status to check progress and retrieve the result.",
+        "description": "Generate an email for a project using its brand context and optional images. Returns immediately with a conversationId and 'pending' status. Use GET /v1/projects/emails/{conversationId}/status to check generation progress. Once completed, use the export endpoint to retrieve the HTML/React code.",
         "requestBody": {
           "required": true,
           "content": {
@@ -177,7 +177,7 @@
       "get": {
         "tags": ["Email"],
         "summary": "Get Email Generation Status",
-        "description": "Check the status of an email generation and retrieve the result when completed.",
+        "description": "Check the status of an email generation. Returns basic information like subject and generation metadata when completed. To retrieve the HTML/React code, use the export endpoint.",
         "parameters": [
           {
             "name": "conversationId",
@@ -680,9 +680,10 @@
         "properties": {
           "conversationId": { "type": "string", "description": "The conversation ID to check status and retrieve results" },
           "status": { "type": "string", "enum": ["pending"], "description": "Initial status is always pending" },
-          "message": { "type": "string", "description": "Information message about the generation process" }
+          "message": { "type": "string", "description": "Information message about the generation process" },
+          "link": { "type": "string", "format": "uri", "description": "Direct link to view the email in Migma dashboard (https://migma.ai/chat?c={conversationId})" }
         },
-        "required": ["conversationId", "status", "message"]
+        "required": ["conversationId", "status", "message", "link"]
       },
 
       "EmailStatusData": {
@@ -695,12 +696,9 @@
           "error": { "type": "string", "description": "Error message if status is failed" },
           "result": {
             "type": "object",
-            "description": "Email generation result (only present when status is completed)",
+            "description": "Basic email information (only present when status is completed). Use the export endpoint to retrieve HTML/React code.",
             "properties": {
-              "content": { "type": "string" },
-              "reactEmail": { "type": "string" },
-              "html": { "type": "string" },
-              "klaviyoHtml": { "type": "string" },
+              "subject": { "type": "string", "description": "Email subject line" },
               "metadata": {
                 "type": "object",
                 "properties": {
@@ -710,8 +708,7 @@
                   "outputTokens": { "type": "number" }
                 }
               },
-              "languages": { "type": "array", "items": { "type": "string" } },
-              "enhancedPrompt": { "type": "string" }
+              "languages": { "type": "array", "items": { "type": "string" } }
             }
           }
         },
