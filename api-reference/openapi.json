@@ -148,7 +148,7 @@
       "post": {
         "tags": ["Email"],
         "summary": "Generate Email (Async)",
-        "description": "Generate an email for a project using its brand context and optional images. Returns immediately with a conversationId and 'pending' status. Use GET /v1/projects/emails/{conversationId}/status to check generation progress. Once completed, use the export endpoint to retrieve the HTML/React code.",
+        "description": "Generate an email for a project using its brand context and optional images. Returns immediately with a conversationId and 'pending' status. Use GET /v1/projects/emails/conversationId/status to check generation progress or register a webhook to receive real-time notifications. Once completed, use the export endpoint to retrieve the HTML/React code.",
         "requestBody": {
           "required": true,
           "content": {
@@ -680,13 +680,14 @@
         "type": "object",
         "properties": {
           "projectId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "prompt": { "type": "string" },
+          "prompt": { "type": "string", "description": "The prompt to generate the email. It will be used to generate the email. It should be a short description of the email." },
           "images": {
             "type": "array",
             "items": { "$ref": "#/components/schemas/EmailImage" },
-            "maxItems": 5
+            "maxItems": 5,
+            "description": "The images to use to generate the email. It can be templates or specifc styles."
           },
-          "model": { "type": "string", "default": "migmaAI-model-v0.1" },
+          "model": { "type": "string", "default": "migmaAI-model-v0.1", "description": "The model to use to generate the email."},
           "webMode": { "type": "boolean", "default": true,
             "description": "Allow MigmaAI to do research, use connectors, mcp and more. It may take longer to generate the email. Use only if the prompt is unclear or requires additional information."},
           "languages": {
