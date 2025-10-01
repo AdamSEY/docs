@@ -411,6 +411,36 @@
       }
     },
 
+    "/v1/export/mjml/{conversationId}": {
+      "get": {
+        "tags": ["Export"],
+        "summary": "Export MJML",
+        "description": "Export conversation as MJML (Mailjet Markup Language) responsive email template. Returns URLs for file downloads.",
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "description": "The conversation ID to export",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "MJML export successful",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+
     "/v1/export/hubspot": {
       "post": {
         "tags": ["Export"],
@@ -952,7 +982,7 @@
           "filename": { "type": "string", "description": "Name of the exported file" },
           "url": { "type": "string", "format": "uri", "description": "Download URL for the exported file" },
           "content": { "type": "string", "description": "File content" },
-          "format": { "type": "string", "enum": ["html", "hubl", "json", "text"], "description": "Format of the exported file" },
+          "format": { "type": "string", "enum": ["html", "hubl", "json", "text", "mjml"], "description": "Format of the exported file" },
           "description": { "type": "string", "description": "Description of the exported file" },
           "fileSize": { "type": "number", "description": "File size in bytes" }
         },
@@ -966,7 +996,7 @@
           "filename": { "type": "string", "description": "Name of the exported file" },
           "url": { "type": "string", "format": "uri", "description": "Download URL for the exported file" },
           "content": { "type": "string", "description": "File content" },
-          "format": { "type": "string", "enum": ["html", "hubl", "json", "text"], "description": "Format of the exported file" },
+          "format": { "type": "string", "enum": ["html", "hubl", "json", "text", "mjml"], "description": "Format of the exported file" },
           "description": { "type": "string", "description": "Description of the exported file" },
           "fileSize": { "type": "number", "description": "File size in bytes" }
         },
@@ -979,7 +1009,7 @@
         "properties": {
           "filename": { "type": "string", "description": "Name of the exported file" },
           "content": { "type": "string", "description": "File content" },
-          "format": { "type": "string", "enum": ["html", "hubl", "json", "text"], "description": "Format of the exported file" },
+          "format": { "type": "string", "enum": ["html", "hubl", "json", "text", "mjml"], "description": "Format of the exported file" },
           "description": { "type": "string", "description": "Description of the exported file" }
         },
         "required": ["filename", "content", "format", "description"],
@@ -995,7 +1025,7 @@
             "description": "Array of exported files with download URLs and content"
           },
           "executionTime": { "type": "number", "description": "Export execution time in milliseconds" },
-          "exportType": { "type": "string", "enum": ["html", "klaviyo", "mailchimp", "hubspot"], "description": "Type of export performed" }
+          "exportType": { "type": "string", "enum": ["html", "klaviyo", "mailchimp", "mjml", "hubspot"], "description": "Type of export performed" }
         },
         "required": ["files", "executionTime", "exportType"]
       },
@@ -1009,7 +1039,7 @@
             "description": "Array of exported files with content"
           },
           "executionTime": { "type": "number", "description": "Export execution time in milliseconds" },
-          "exportType": { "type": "string", "enum": ["html", "klaviyo", "mailchimp", "hubspot"], "description": "Type of export performed" }
+          "exportType": { "type": "string", "enum": ["html", "klaviyo", "mailchimp", "mjml", "hubspot"], "description": "Type of export performed" }
         },
         "required": ["files", "executionTime", "exportType"]
       },
