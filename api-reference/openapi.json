@@ -3,18 +3,32 @@
   "info": {
     "title": "Migma.ai API - Project Import & Email Generation (v1)",
     "description": "API endpoints for importing brand projects from websites and generating emails based on project data.",
-    "license": { "name": "MIT" },
+    "license": {
+      "name": "MIT"
+    },
     "version": "1.0.0"
   },
   "servers": [
-    { "url": "https://api.migma.ai", "description": "Production" },
-    { "url": "https://api-test.migma.ai", "description": "Development" }
+    {
+      "url": "https://api.migma.ai",
+      "description": "Production"
+    },
+    {
+      "url": "https://api-test.migma.ai",
+      "description": "Development"
+    }
   ],
-  "security": [ { "bearerAuth": [] } ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
   "paths": {
     "/v1/projects": {
       "get": {
-        "tags": ["Projects"],
+        "tags": [
+          "Projects"
+        ],
         "summary": "List Projects",
         "description": "List projects for the authenticated user with basic information only. Use GET /v1/projects/{projectId} to get full project details.",
         "parameters": [
@@ -22,19 +36,29 @@
             "name": "limit",
             "in": "query",
             "description": "The maximum number of results to return (max 100)",
-            "schema": { "type": "integer", "format": "int32", "default": 20 }
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
           },
           {
             "name": "offset",
             "in": "query",
             "description": "The number of items to skip before starting to collect the result set",
-            "schema": { "type": "integer", "format": "int32", "default": 0 }
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
           },
           {
             "name": "status",
             "in": "query",
             "description": "Filter by project status (pending|processing|active|error)",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -42,48 +66,64 @@
             "description": "Projects list response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseProjectsList" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseProjectsList"
+                }
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
         }
       }
     },
-
     "/v1/projects/{projectId}": {
       "get": {
-        "tags": ["Projects"],
+        "tags": [
+          "Projects"
+        ],
         "summary": "Get Project Details",
         "description": "Get complete project details by ID, including branding information, colors, typography, and all project data.",
         "parameters": [
-          { "$ref": "#/components/parameters/ProjectIdParam" }
+          {
+            "$ref": "#/components/parameters/ProjectIdParam"
+          }
         ],
         "responses": {
           "200": {
             "description": "Project response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseProject" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseProject"
+                }
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/projects/import": {
       "post": {
-        "tags": ["Import"],
+        "tags": [
+          "Import"
+        ],
         "summary": "Import Project",
         "description": "Import a brand project from one or more website URLs. Optionally include logo URLs to skip AI logo extraction.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/ImportProjectRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/ImportProjectRequest"
+              }
             }
           }
         },
@@ -92,68 +132,99 @@
             "description": "Import started",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseImportStarted" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseImportStarted"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
         }
       }
     },
-
     "/v1/projects/import/{projectId}/status": {
       "get": {
-        "tags": ["Import"],
+        "tags": [
+          "Import"
+        ],
         "summary": "Get Import Status",
         "description": "Check the status of a project import.",
-        "parameters": [ { "$ref": "#/components/parameters/ProjectIdParam" } ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectIdParam"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Import status response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseImportStatus" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseImportStatus"
+                }
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/projects/import/{projectId}/retry": {
       "post": {
-        "tags": ["Import"],
+        "tags": [
+          "Import"
+        ],
         "summary": "Retry Import",
         "description": "Retry a failed or stuck import for the given project.",
-        "parameters": [ { "$ref": "#/components/parameters/ProjectIdParam" } ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectIdParam"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Retry initiated",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseImportRetry" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseImportRetry"
+                }
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/projects/emails/generate": {
       "post": {
-        "tags": ["Email"],
+        "tags": [
+          "Email"
+        ],
         "summary": "Generate Email (Async)",
-        "description": "Generate an email for a project using its brand context and optional images. Returns immediately with a conversationId and 'pending' status. Use GET /v1/projects/emails/conversationId/status to check generation progress or register a webhook to receive real-time notifications. Once completed, use the export endpoint to retrieve the HTML/React code.",
+        "description": "Generate an email for a project using its brand context and optional images. Returns immediately with a conversationId and 'pending' status. Use GET /v1/projects/emails/{conversationId}/status to check generation progress. Once completed, use the export endpoint to retrieve the HTML/React code.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/GenerateEmailRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/GenerateEmailRequest"
+              }
             }
           }
         },
@@ -162,20 +233,29 @@
             "description": "Email generation started",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseGenerateEmail" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseGenerateEmail"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/projects/emails/{conversationId}/status": {
       "get": {
-        "tags": ["Email"],
+        "tags": [
+          "Email"
+        ],
         "summary": "Get Email Generation Status",
         "description": "Check the status of an email generation. Returns basic information like subject and generation metadata when completed. To retrieve the HTML/React code, use the export endpoint.",
         "parameters": [
@@ -184,7 +264,9 @@
             "in": "path",
             "required": true,
             "description": "The conversation ID returned from the generate endpoint",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -192,51 +274,115 @@
             "description": "Email status retrieved",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseEmailStatus" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseEmailStatus"
+                }
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/subscribers": {
       "get": {
-        "tags": ["Audience"],
+        "tags": [
+          "Audience"
+        ],
         "summary": "List Subscribers",
         "description": "List subscribers for a project. Requires API key with AUDIENCE_READ.",
         "parameters": [
-          { "name": "projectId", "in": "query", "required": true, "schema": { "type": "string" } },
-          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
-          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 20, "maximum": 100 } },
-          { "name": "tags", "in": "query", "schema": { "type": "string" }, "description": "Comma-separated tag names" },
-          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["active", "unsubscribed", "bounced", "complained"] } },
-          { "name": "search", "in": "query", "schema": { "type": "string" } }
+          {
+            "name": "projectId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-separated tag names"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "active",
+                "unsubscribed",
+                "bounced",
+                "complained"
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Subscribers list",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseSubscribersList" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSubscribersList"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
         }
       },
       "post": {
-        "tags": ["Audience"],
+        "tags": [
+          "Audience"
+        ],
         "summary": "Add Subscriber",
         "description": "Add a single subscriber. Requires API key with AUDIENCE_WRITE.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/AddSubscriberRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/AddSubscriberRequest"
+              }
             }
           }
         },
@@ -245,27 +391,38 @@
             "description": "Subscriber created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseSubscriber" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSubscriber"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Unauthorized" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
         }
       }
     },
-
     "/v1/subscribers/bulk": {
       "post": {
-        "tags": ["Audience"],
+        "tags": [
+          "Audience"
+        ],
         "summary": "Bulk Import Subscribers",
         "description": "Bulk import subscribers. Requires API key with AUDIENCE_WRITE.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/BulkImportSubscribersRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/BulkImportSubscribersRequest"
+              }
             }
           }
         },
@@ -274,27 +431,38 @@
             "description": "Bulk import result",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseBulkImportResult" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBulkImportResult"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Unauthorized" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
         }
       }
     },
-
     "/v1/subscribers/unsubscribe": {
       "post": {
-        "tags": ["Audience"],
+        "tags": [
+          "Audience"
+        ],
         "summary": "Unsubscribe Subscriber",
         "description": "Unsubscribe a subscriber by email. Requires API key with AUDIENCE_WRITE.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/UnsubscribeRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/UnsubscribeRequest"
+              }
             }
           }
         },
@@ -303,21 +471,32 @@
             "description": "Unsubscribe success",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseSuccess" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSuccess"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/export/html/{conversationId}": {
       "get": {
-        "tags": ["Export"],
+        "tags": [
+          "Export"
+        ],
         "summary": "Export HTML",
         "description": "Export conversation as standard HTML.",
         "parameters": [
@@ -326,7 +505,9 @@
             "in": "path",
             "required": true,
             "description": "The conversation ID to export",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -334,20 +515,29 @@
             "description": "HTML export successful",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseExport"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/export/klaviyo/{conversationId}": {
       "get": {
-        "tags": ["Export"],
+        "tags": [
+          "Export"
+        ],
         "summary": "Export Klaviyo",
         "description": "Export conversation as Klaviyo-compatible HTML with editable regions.",
         "parameters": [
@@ -356,13 +546,22 @@
             "in": "path",
             "required": true,
             "description": "The conversation ID to export",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "klaviyoType",
             "in": "query",
             "description": "Type of Klaviyo export: 'html' for static HTML or 'hybrid' for dynamic hybrid with editable regions",
-            "schema": { "type": "string", "enum": ["html", "hybrid"], "default": "hybrid" }
+            "schema": {
+              "type": "string",
+              "enum": [
+                "html",
+                "hybrid"
+              ],
+              "default": "hybrid"
+            }
           }
         ],
         "responses": {
@@ -370,20 +569,29 @@
             "description": "Klaviyo export successful",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseExport"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/export/mailchimp/{conversationId}": {
       "get": {
-        "tags": ["Export"],
+        "tags": [
+          "Export"
+        ],
         "summary": "Export Mailchimp",
         "description": "Export conversation as Mailchimp-compatible HTML. Returns URLs for file downloads.",
         "parameters": [
@@ -392,7 +600,9 @@
             "in": "path",
             "required": true,
             "description": "The conversation ID to export",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -400,20 +610,29 @@
             "description": "Mailchimp export successful",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseExport"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/export/mjml/{conversationId}": {
       "get": {
-        "tags": ["Export"],
+        "tags": [
+          "Export"
+        ],
         "summary": "Export MJML",
         "description": "Export conversation as MJML (Mailjet Markup Language) responsive email template. Returns URLs for file downloads.",
         "parameters": [
@@ -422,7 +641,9 @@
             "in": "path",
             "required": true,
             "description": "The conversation ID to export",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -430,20 +651,29 @@
             "description": "MJML export successful",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseExport"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/export/hubspot": {
       "post": {
-        "tags": ["Export"],
+        "tags": [
+          "Export"
+        ],
         "summary": "Export HubSpot",
         "description": "Export conversation as HubSpot-compatible HTML and HubL files.",
         "requestBody": {
@@ -468,7 +698,9 @@
                     }
                   }
                 },
-                "required": ["conversationId"]
+                "required": [
+                  "conversationId"
+                ]
               }
             }
           }
@@ -478,20 +710,29 @@
             "description": "HubSpot export successful",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseExport" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseExport"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/export/status/{conversationId}": {
       "get": {
-        "tags": ["Export"],
+        "tags": [
+          "Export"
+        ],
         "summary": "Get Export Status",
         "description": "Check export availability for a conversation",
         "parameters": [
@@ -500,7 +741,9 @@
             "in": "path",
             "required": true,
             "description": "The conversation ID to check",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -508,19 +751,26 @@
             "description": "Export status retrieved",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseExportStatus" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseExportStatus"
+                }
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "404": { "$ref": "#/components/responses/NotFound" }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     },
-
     "/v1/export/formats": {
       "get": {
-        "tags": ["Export"],
+        "tags": [
+          "Export"
+        ],
         "summary": "List Export Formats",
         "description": "Get available export formats",
         "responses": {
@@ -528,16 +778,19 @@
             "description": "Available export formats retrieved",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseExportFormats" }
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseExportFormats"
+                }
               }
             }
           },
-          "401": { "$ref": "#/components/responses/Unauthorized" }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
         }
       }
     }
   },
-
   "components": {
     "parameters": {
       "ProjectIdParam": {
@@ -545,800 +798,1603 @@
         "in": "path",
         "required": true,
         "description": "Project ID (MongoDB ObjectId)",
-        "schema": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" }
+        "schema": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{24}$"
+        }
       }
     },
-
     "responses": {
       "Unauthorized": {
         "description": "Unauthorized",
         "content": {
-          "application/json": { "schema": { "$ref": "#/components/schemas/ApiError" } }
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ApiError"
+            }
+          }
         }
       },
       "NotFound": {
         "description": "Resource not found",
         "content": {
-          "application/json": { "schema": { "$ref": "#/components/schemas/ApiError" } }
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ApiError"
+            }
+          }
         }
       },
       "BadRequest": {
         "description": "Bad request",
         "content": {
-          "application/json": { "schema": { "$ref": "#/components/schemas/ApiError" } }
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ApiError"
+            }
+          }
         }
       }
     },
-
     "schemas": {
       "ApiResponse": {
         "type": "object",
         "properties": {
-          "success": { "type": "boolean" },
-          "data": { "nullable": true },
-          "error": { "type": "string", "nullable": true }
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          }
         },
-        "required": ["success"]
+        "required": [
+          "success"
+        ]
       },
-
       "ApiError": {
         "type": "object",
         "properties": {
-          "success": { "type": "boolean", "default": false },
-          "error": { "type": "string" }
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "error": {
+            "type": "string"
+          }
         },
-        "required": ["success", "error"]
+        "required": [
+          "success",
+          "error"
+        ]
       },
-
       "LogoUrls": {
         "type": "object",
         "properties": {
-          "primary": { "type": "string", "format": "uri" },
-          "secondary": { "type": "string", "format": "uri" },
-          "favicon": { "type": "string", "format": "uri" }
+          "primary": {
+            "type": "string",
+            "format": "uri"
+          },
+          "secondary": {
+            "type": "string",
+            "format": "uri"
+          },
+          "favicon": {
+            "type": "string",
+            "format": "uri"
+          }
         },
         "additionalProperties": false
       },
-
       "ImportProjectRequest": {
         "type": "object",
         "properties": {
           "urls": {
             "type": "array",
-            "items": { "type": "string", "format": "uri" },
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
             "minItems": 1,
             "maxItems": 10
           },
-          "logoUrls": { "$ref": "#/components/schemas/LogoUrls" }
+          "logoUrls": {
+            "$ref": "#/components/schemas/LogoUrls"
+          }
         },
-        "required": ["urls"]
+        "required": [
+          "urls"
+        ]
       },
-
       "ImportStartedData": {
         "type": "object",
         "properties": {
-          "projectId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "status": { "type": "string", "enum": ["pending"] },
-          "domain": { "type": "string" },
-          "urls": { "type": "array", "items": { "type": "string", "format": "uri" } },
-          "message": { "type": "string" }
+          "projectId": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending"
+            ]
+          },
+          "domain": {
+            "type": "string"
+          },
+          "urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "message": {
+            "type": "string"
+          }
         },
-        "required": ["projectId", "status", "domain", "urls"]
+        "required": [
+          "projectId",
+          "status",
+          "domain",
+          "urls"
+        ]
       },
-
       "ImportStatusProgress": {
         "type": "object",
         "properties": {
-          "stage": { "type": "string", "enum": ["initializing", "analyzing", "completed", "failed", "pending", "processing", "unknown"] },
-          "percentage": { "type": "integer", "format": "int32", "minimum": 0, "maximum": 100 }
+          "stage": {
+            "type": "string",
+            "enum": [
+              "initializing",
+              "analyzing",
+              "completed",
+              "failed",
+              "pending",
+              "processing",
+              "unknown"
+            ]
+          },
+          "percentage": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 100
+          }
         },
-        "required": ["stage", "percentage"]
+        "required": [
+          "stage",
+          "percentage"
+        ]
       },
-
       "ImportStatusData": {
         "type": "object",
         "properties": {
-          "projectId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "status": { "type": "string", "enum": ["pending", "processing", "active", "error"] },
-          "name": { "type": "string" },
-          "description": { "type": "string" },
-          "domain": { "type": "string" },
-          "error": { "type": "string", "nullable": true },
-          "progress": { "$ref": "#/components/schemas/ImportStatusProgress" }
+          "projectId": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processing",
+              "active",
+              "error"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "progress": {
+            "$ref": "#/components/schemas/ImportStatusProgress"
+          }
         },
-        "required": ["status", "name", "description", "progress"]
+        "required": [
+          "status",
+          "name",
+          "description",
+          "progress"
+        ]
       },
-
       "ImportRetryData": {
         "type": "object",
         "properties": {
-          "projectId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "status": { "type": "string", "enum": ["pending"] },
-          "message": { "type": "string" }
+          "projectId": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
         },
-        "required": ["status"]
+        "required": [
+          "status"
+        ]
       },
-
       "EmailImageSource": {
         "type": "object",
         "properties": {
-          "type": { "type": "string", "enum": ["url"], "default": "url" },
-          "url": { "type": "string", "format": "uri" }
+          "type": {
+            "type": "string",
+            "enum": [
+              "url"
+            ],
+            "default": "url"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
         },
-        "required": ["type", "url"]
+        "required": [
+          "type",
+          "url"
+        ]
       },
-
       "EmailImage": {
         "type": "object",
         "properties": {
-          "source": { "$ref": "#/components/schemas/EmailImageSource" }
+          "source": {
+            "$ref": "#/components/schemas/EmailImageSource"
+          }
         },
-        "required": ["source"]
+        "required": [
+          "source"
+        ]
       },
-
       "GenerateEmailRequest": {
         "type": "object",
         "properties": {
-          "projectId": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "prompt": { "type": "string", "description": "The prompt to generate the email. It will be used to generate the email. It should be a short description of the email." },
+          "projectId": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$"
+          },
+          "prompt": {
+            "type": "string"
+          },
           "images": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/EmailImage" },
-            "maxItems": 5,
-            "description": "The images to use to generate the email. It can be templates or specifc styles."
+            "items": {
+              "$ref": "#/components/schemas/EmailImage"
+            },
+            "maxItems": 5
           },
-          "model": { "type": "string", "default": "migmaAI-model-v0.1", "description": "The model to use to generate the email."},
-          "webMode": { "type": "boolean", "default": true,
-            "description": "Allow MigmaAI to do research, use connectors, mcp and more. It may take longer to generate the email. Use only if the prompt is unclear or requires additional information."},
+          "model": {
+            "type": "string",
+            "default": "migmaAI-model-v0.1"
+          },
+          "webMode": {
+            "type": "boolean",
+            "default": true,
+            "description": "Allow MigmaAI to do research, use connectors, mcp and more. It may take longer to generate the email. Use only if the prompt is unclear or requires additional information."
+          },
           "languages": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "maxItems": 5,
             "description": "The languages to generate the email in. If not provided, the email will be generated as instructed by the prompt."
           },
           "visibility": {
             "type": "string",
-            "enum": ["private", "unlisted", "public"],
+            "enum": [
+              "private",
+              "unlisted",
+              "public"
+            ],
             "default": "private",
             "description": "Set the visibility of the generated conversation. Private conversations are only visible to the user, unlisted conversations are accessible via direct link but not listed publicly, and public conversations are visible in the public gallery."
           }
         },
-        "required": ["projectId", "prompt"]
+        "required": [
+          "projectId",
+          "prompt"
+        ]
       },
-
       "GenerateEmailData": {
         "type": "object",
         "properties": {
-          "conversationId": { "type": "string", "description": "The conversation ID to check status and retrieve results" },
-          "status": { "type": "string", "enum": ["pending"], "description": "Initial status is always pending" },
-          "message": { "type": "string", "description": "Information message about the generation process" },
-          "link": { "type": "string", "format": "uri", "description": "Direct link to view the email in Migma dashboard (https://migma.ai/chat?c={conversationId})" }
+          "conversationId": {
+            "type": "string",
+            "description": "The conversation ID to check status and retrieve results"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending"
+            ],
+            "description": "Initial status is always pending"
+          },
+          "message": {
+            "type": "string",
+            "description": "Information message about the generation process"
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Direct link to view the email in Migma dashboard (https://migma.ai/chat?c={conversationId})"
+          }
         },
-        "required": ["conversationId", "status", "message", "link"]
+        "required": [
+          "conversationId",
+          "status",
+          "message",
+          "link"
+        ]
       },
-
       "EmailStatusData": {
         "type": "object",
         "properties": {
-          "conversationId": { "type": "string" },
-          "status": { "type": "string", "enum": ["pending", "processing", "completed", "failed"] },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" },
-          "error": { "type": "string", "description": "Error message if status is failed" },
+          "conversationId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processing",
+              "completed",
+              "failed"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if status is failed"
+          },
           "result": {
             "type": "object",
             "description": "Basic email information (only present when status is completed). Use the export endpoint to retrieve HTML/React code.",
             "properties": {
-              "subject": { "type": "string", "description": "Email subject line" },
+              "subject": {
+                "type": "string",
+                "description": "Email subject line"
+              },
               "metadata": {
                 "type": "object",
                 "properties": {
-                  "model": { "type": "string" },
-                  "generationTime": { "type": "number" },
-                  "inputTokens": { "type": "number" },
-                  "outputTokens": { "type": "number" }
+                  "model": {
+                    "type": "string"
+                  },
+                  "generationTime": {
+                    "type": "number"
+                  },
+                  "inputTokens": {
+                    "type": "number"
+                  },
+                  "outputTokens": {
+                    "type": "number"
+                  }
                 }
               },
-              "languages": { "type": "array", "items": { "type": "string" } }
+              "languages": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           }
         },
-        "required": ["conversationId", "status", "createdAt", "updatedAt"]
+        "required": [
+          "conversationId",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ]
       },
-
       "Project": {
         "type": "object",
         "properties": {
-          "_id": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "name": { "type": "string" },
-          "description": { "type": "string" },
-          "status": { "type": "string", "enum": ["pending", "processing", "active", "error"] },
-          "companyDetails": { "type": "object", "additionalProperties": true },
-          "logoUrls": { "$ref": "#/components/schemas/LogoUrls" },
-          "imageUrls": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
-          "typography": { "type": "object", "additionalProperties": true },
-          "colors": { "type": "object", "additionalProperties": true },
-          "screenshotUrl": { "type": "string", "format": "uri" },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "_id": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processing",
+              "active",
+              "error"
+            ]
+          },
+          "companyDetails": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "logoUrls": {
+            "$ref": "#/components/schemas/LogoUrls"
+          },
+          "imageUrls": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "typography": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "colors": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "screenshotUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
         },
         "additionalProperties": true
       },
-
       "ProjectBasic": {
         "type": "object",
         "properties": {
-          "_id": { "type": "string", "pattern": "^[0-9a-fA-F]{24}$" },
-          "name": { "type": "string" },
-          "description": { "type": "string" },
-          "status": { "type": "string", "enum": ["pending", "processing", "active", "error"] },
-          "domain": { "type": "string" },
-          "logoUrls": { "$ref": "#/components/schemas/LogoUrls" },
-          "screenshotUrl": { "type": "string", "format": "uri" },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "_id": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "processing",
+              "active",
+              "error"
+            ]
+          },
+          "domain": {
+            "type": "string"
+          },
+          "logoUrls": {
+            "$ref": "#/components/schemas/LogoUrls"
+          },
+          "screenshotUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "email_create_suggestions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "AI-generated suggestions for email content creation based on the project context"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
         },
-        "required": ["_id", "name", "description", "status", "createdAt", "updatedAt"]
+        "required": [
+          "_id",
+          "name",
+          "description",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ]
       },
-
       "Pagination": {
         "type": "object",
         "properties": {
-          "total": { "type": "integer", "format": "int32" },
-          "limit": { "type": "integer", "format": "int32" },
-          "offset": { "type": "integer", "format": "int32" },
-          "hasMore": { "type": "boolean" }
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
         },
-        "required": ["total", "limit", "offset", "hasMore"]
+        "required": [
+          "total",
+          "limit",
+          "offset",
+          "hasMore"
+        ]
       },
-
       "ProjectsListData": {
         "type": "object",
         "properties": {
-          "projects": { "type": "array", "items": { "$ref": "#/components/schemas/ProjectBasic" } },
-          "pagination": { "$ref": "#/components/schemas/Pagination" }
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectBasic"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
         },
-        "required": ["projects", "pagination"]
+        "required": [
+          "projects",
+          "pagination"
+        ]
       },
-
       "ApiResponseImportStarted": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/ImportStartedData" } }
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ImportStartedData"
+              }
+            }
           }
         ]
       },
-
       "ApiResponseImportStatus": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/ImportStatusData" } }
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ImportStatusData"
+              }
+            }
           }
         ]
       },
-
       "ApiResponseImportRetry": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/ImportRetryData" } }
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ImportRetryData"
+              }
+            }
           }
         ]
       },
-
       "ApiResponseGenerateEmail": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/GenerateEmailData" } }
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/GenerateEmailData"
+              }
+            }
           }
         ]
       },
-
       "ApiResponseEmailStatus": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/EmailStatusData" } }
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/EmailStatusData"
+              }
+            }
           }
         ]
       },
-
       "ApiResponseProject": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/Project" } }
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
           }
         ]
       },
-
       "ApiResponseProjectsList": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
-            "properties": { "data": { "$ref": "#/components/schemas/ProjectsListData" } }
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ProjectsListData"
+              }
+            }
           }
         ]
       },
-
       "Subscriber": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "email": { "type": "string", "format": "email" },
-          "firstName": { "type": "string" },
-          "lastName": { "type": "string" },
-          "country": { "type": "string" },
-          "language": { "type": "string" },
-          "tags": { "type": "array", "items": { "type": "string" } },
-          "customFields": { "type": "object", "additionalProperties": true },
-          "status": { "type": "string", "enum": ["active", "unsubscribed", "bounced", "complained"] },
-          "createdAt": { "type": "string", "format": "date-time" },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customFields": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "unsubscribed",
+              "bounced",
+              "complained"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
         }
       },
-
       "AddSubscriberRequest": {
         "type": "object",
         "properties": {
-          "email": { "type": "string", "format": "email" },
-          "firstName": { "type": "string" },
-          "lastName": { "type": "string" },
-          "country": { "type": "string" },
-          "language": { "type": "string" },
-          "tags": { "type": "array", "items": { "type": "string" } },
-          "customFields": { "type": "object", "additionalProperties": true },
-          "projectId": { "type": "string" }
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customFields": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "projectId": {
+            "type": "string"
+          }
         },
-        "required": ["email", "projectId"]
+        "required": [
+          "email",
+          "projectId"
+        ]
       },
-
       "BulkImportSubscribersRequest": {
         "type": "object",
         "properties": {
           "subscribers": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/AddSubscriberRequest" },
+            "items": {
+              "$ref": "#/components/schemas/AddSubscriberRequest"
+            },
             "minItems": 1
           },
-          "projectId": { "type": "string" }
+          "projectId": {
+            "type": "string"
+          }
         },
-        "required": ["subscribers", "projectId"]
+        "required": [
+          "subscribers",
+          "projectId"
+        ]
       },
-
       "UnsubscribeRequest": {
         "type": "object",
         "properties": {
-          "email": { "type": "string", "format": "email" },
-          "allLists": { "type": "boolean", "default": true },
-          "tags": { "type": "array", "items": { "type": "string" } },
-          "projectId": { "type": "string" }
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "allLists": {
+            "type": "boolean",
+            "default": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "projectId": {
+            "type": "string"
+          }
         },
-        "required": ["email", "projectId"]
-      },
-
-      "ApiResponseSubscriber": {
-        "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
-          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/Subscriber" } } }
+        "required": [
+          "email",
+          "projectId"
         ]
       },
-
+      "ApiResponseSubscriber": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Subscriber"
+              }
+            }
+          }
+        ]
+      },
       "ApiResponseSubscribersList": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
               "data": {
                 "type": "array",
-                "items": { "$ref": "#/components/schemas/Subscriber" }
+                "items": {
+                  "$ref": "#/components/schemas/Subscriber"
+                }
               },
-              "count": { "type": "integer" }
+              "count": {
+                "type": "integer"
+              }
             }
           }
         ]
       },
-
       "ApiResponseBulkImportResult": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
               "data": {
                 "type": "object",
                 "properties": {
-                  "success": { "type": "integer" },
-                  "failed": { "type": "integer" },
-                  "updated": { "type": "integer" },
-                  "errors": { "type": "array", "items": { "type": "string" } }
+                  "success": {
+                    "type": "integer"
+                  },
+                  "failed": {
+                    "type": "integer"
+                  },
+                  "updated": {
+                    "type": "integer"
+                  },
+                  "errors": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
           }
         ]
       },
-
       "ApiResponseSuccess": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
-          { "type": "object", "properties": { "data": { "type": "object", "properties": { "success": { "type": "boolean" } } } } }
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
         ]
       },
-
       "ExportFile": {
         "type": "object",
         "properties": {
-          "filename": { "type": "string", "description": "Name of the exported file" },
-          "url": { "type": "string", "format": "uri", "description": "Download URL for the exported file" },
-          "content": { "type": "string", "description": "File content" },
-          "format": { "type": "string", "enum": ["html", "hubl", "json", "text", "mjml"], "description": "Format of the exported file" },
-          "description": { "type": "string", "description": "Description of the exported file" },
-          "fileSize": { "type": "number", "description": "File size in bytes" }
+          "filename": {
+            "type": "string",
+            "description": "Name of the exported file"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Download URL for the exported file"
+          },
+          "content": {
+            "type": "string",
+            "description": "File content"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "html",
+              "hubl",
+              "json",
+              "text",
+              "mjml"
+            ],
+            "description": "Format of the exported file"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the exported file"
+          },
+          "fileSize": {
+            "type": "number",
+            "description": "File size in bytes"
+          }
         },
-        "required": ["filename", "content", "format", "description"],
+        "required": [
+          "filename",
+          "content",
+          "format",
+          "description"
+        ],
         "additionalProperties": false
       },
-
       "V1ExportFile": {
         "type": "object",
         "properties": {
-          "filename": { "type": "string", "description": "Name of the exported file" },
-          "url": { "type": "string", "format": "uri", "description": "Download URL for the exported file" },
-          "content": { "type": "string", "description": "File content" },
-          "format": { "type": "string", "enum": ["html", "hubl", "json", "text", "mjml"], "description": "Format of the exported file" },
-          "description": { "type": "string", "description": "Description of the exported file" },
-          "fileSize": { "type": "number", "description": "File size in bytes" }
+          "filename": {
+            "type": "string",
+            "description": "Name of the exported file"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Download URL for the exported file"
+          },
+          "content": {
+            "type": "string",
+            "description": "File content"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "html",
+              "hubl",
+              "json",
+              "text",
+              "mjml"
+            ],
+            "description": "Format of the exported file"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the exported file"
+          },
+          "fileSize": {
+            "type": "number",
+            "description": "File size in bytes"
+          }
         },
-        "required": ["filename", "url", "content", "format", "description", "fileSize"],
+        "required": [
+          "filename",
+          "url",
+          "content",
+          "format",
+          "description",
+          "fileSize"
+        ],
         "additionalProperties": false
       },
-
       "StandardExportFile": {
         "type": "object",
         "properties": {
-          "filename": { "type": "string", "description": "Name of the exported file" },
-          "content": { "type": "string", "description": "File content" },
-          "format": { "type": "string", "enum": ["html", "hubl", "json", "text", "mjml"], "description": "Format of the exported file" },
-          "description": { "type": "string", "description": "Description of the exported file" }
+          "filename": {
+            "type": "string",
+            "description": "Name of the exported file"
+          },
+          "content": {
+            "type": "string",
+            "description": "File content"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "html",
+              "hubl",
+              "json",
+              "text",
+              "mjml"
+            ],
+            "description": "Format of the exported file"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the exported file"
+          }
         },
-        "required": ["filename", "content", "format", "description"],
+        "required": [
+          "filename",
+          "content",
+          "format",
+          "description"
+        ],
         "additionalProperties": false
       },
-
       "ExportData": {
         "type": "object",
         "properties": {
           "files": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/V1ExportFile" },
+            "items": {
+              "$ref": "#/components/schemas/V1ExportFile"
+            },
             "description": "Array of exported files with download URLs and content"
           },
-          "executionTime": { "type": "number", "description": "Export execution time in milliseconds" },
-          "exportType": { "type": "string", "enum": ["html", "klaviyo", "mailchimp", "mjml", "hubspot"], "description": "Type of export performed" }
+          "executionTime": {
+            "type": "number",
+            "description": "Export execution time in milliseconds"
+          },
+          "exportType": {
+            "type": "string",
+            "enum": [
+              "html",
+              "klaviyo",
+              "mailchimp",
+              "mjml",
+              "hubspot"
+            ],
+            "description": "Type of export performed"
+          }
         },
-        "required": ["files", "executionTime", "exportType"]
+        "required": [
+          "files",
+          "executionTime",
+          "exportType"
+        ]
       },
-
       "StandardExportData": {
         "type": "object",
         "properties": {
           "files": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/StandardExportFile" },
+            "items": {
+              "$ref": "#/components/schemas/StandardExportFile"
+            },
             "description": "Array of exported files with content"
           },
-          "executionTime": { "type": "number", "description": "Export execution time in milliseconds" },
-          "exportType": { "type": "string", "enum": ["html", "klaviyo", "mailchimp", "mjml", "hubspot"], "description": "Type of export performed" }
+          "executionTime": {
+            "type": "number",
+            "description": "Export execution time in milliseconds"
+          },
+          "exportType": {
+            "type": "string",
+            "enum": [
+              "html",
+              "klaviyo",
+              "mailchimp",
+              "mjml",
+              "hubspot"
+            ],
+            "description": "Type of export performed"
+          }
         },
-        "required": ["files", "executionTime", "exportType"]
+        "required": [
+          "files",
+          "executionTime",
+          "exportType"
+        ]
       },
-
       "ApiResponseExport": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
-              "data": { "$ref": "#/components/schemas/ExportData" }
+              "data": {
+                "$ref": "#/components/schemas/ExportData"
+              }
             }
           }
         ]
       },
-
       "ExportStatusData": {
         "type": "object",
         "properties": {
-          "conversationId": { "type": "string", "description": "The conversation ID" },
-          "canExport": { "type": "boolean", "description": "Whether the conversation can be exported" },
+          "conversationId": {
+            "type": "string",
+            "description": "The conversation ID"
+          },
+          "canExport": {
+            "type": "boolean",
+            "description": "Whether the conversation can be exported"
+          },
           "availableFormats": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "Available export formats for this conversation"
           },
-          "reason": { "type": "string", "description": "Reason if export is not available" }
+          "reason": {
+            "type": "string",
+            "description": "Reason if export is not available"
+          }
         },
-        "required": ["conversationId", "canExport", "availableFormats"]
+        "required": [
+          "conversationId",
+          "canExport",
+          "availableFormats"
+        ]
       },
-
       "ApiResponseExportStatus": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
-              "data": { "$ref": "#/components/schemas/ExportStatusData" }
+              "data": {
+                "$ref": "#/components/schemas/ExportStatusData"
+              }
             }
           }
         ]
       },
-
       "ExportFormat": {
         "type": "object",
         "properties": {
-          "name": { "type": "string", "description": "Format name" },
-          "description": { "type": "string", "description": "Format description" },
+          "name": {
+            "type": "string",
+            "description": "Format name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Format description"
+          },
           "supportedFormats": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "Supported file formats"
           },
-          "type": { "type": "string", "enum": ["simple", "complex"], "description": "Export complexity type" }
+          "type": {
+            "type": "string",
+            "enum": [
+              "simple",
+              "complex"
+            ],
+            "description": "Export complexity type"
+          }
         },
-        "required": ["name", "description", "supportedFormats", "type"]
+        "required": [
+          "name",
+          "description",
+          "supportedFormats",
+          "type"
+        ]
       },
-
       "ExportFormatsData": {
         "type": "object",
         "properties": {
           "formats": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ExportFormat" },
+            "items": {
+              "$ref": "#/components/schemas/ExportFormat"
+            },
             "description": "Available export formats"
           },
-          "total": { "type": "integer", "description": "Total number of available formats" }
+          "total": {
+            "type": "integer",
+            "description": "Total number of available formats"
+          }
         },
-        "required": ["formats", "total"]
+        "required": [
+          "formats",
+          "total"
+        ]
       },
-
       "ApiResponseExportFormats": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
-              "data": { "$ref": "#/components/schemas/ExportFormatsData" }
+              "data": {
+                "$ref": "#/components/schemas/ExportFormatsData"
+              }
             }
           }
         ]
       },
-
       "CreateWebhookRequest": {
         "type": "object",
         "properties": {
-          "url": { "type": "string", "format": "uri", "description": "The webhook endpoint URL (must be HTTPS)" },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The webhook endpoint URL (must be HTTPS)"
+          },
           "events": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "minItems": 1,
             "description": "Array of event types to subscribe to (e.g., email.generation.completed)"
           },
-          "description": { "type": "string", "description": "Optional description for the webhook" },
+          "description": {
+            "type": "string",
+            "description": "Optional description for the webhook"
+          },
           "customHeaders": {
             "type": "object",
-            "additionalProperties": { "type": "string" },
+            "additionalProperties": {
+              "type": "string"
+            },
             "description": "Optional custom headers to include in webhook requests"
           }
         },
-        "required": ["url", "events"]
+        "required": [
+          "url",
+          "events"
+        ]
       },
-
       "UpdateWebhookRequest": {
         "type": "object",
         "properties": {
-          "url": { "type": "string", "format": "uri", "description": "The webhook endpoint URL (must be HTTPS)" },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The webhook endpoint URL (must be HTTPS)"
+          },
           "events": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "minItems": 1,
             "description": "Array of event types to subscribe to"
           },
-          "active": { "type": "boolean", "description": "Whether the webhook is active" },
-          "description": { "type": "string", "description": "Optional description for the webhook" },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the webhook is active"
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional description for the webhook"
+          },
           "customHeaders": {
             "type": "object",
-            "additionalProperties": { "type": "string" },
+            "additionalProperties": {
+              "type": "string"
+            },
             "description": "Optional custom headers to include in webhook requests"
           }
         }
       },
-
       "Webhook": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "description": "Webhook ID" },
-          "url": { "type": "string", "format": "uri", "description": "The webhook endpoint URL" },
-          "events": { "type": "array", "items": { "type": "string" }, "description": "Subscribed event types" },
-          "active": { "type": "boolean", "description": "Whether the webhook is active" },
-          "description": { "type": "string", "description": "Optional description" },
-          "successCount": { "type": "integer", "description": "Number of successful deliveries" },
-          "failureCount": { "type": "integer", "description": "Number of failed deliveries" },
-          "lastTriggeredAt": { "type": "string", "format": "date-time", "description": "Last trigger timestamp" },
-          "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
-          "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp" }
+          "id": {
+            "type": "string",
+            "description": "Webhook ID"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The webhook endpoint URL"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Subscribed event types"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the webhook is active"
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional description"
+          },
+          "successCount": {
+            "type": "integer",
+            "description": "Number of successful deliveries"
+          },
+          "failureCount": {
+            "type": "integer",
+            "description": "Number of failed deliveries"
+          },
+          "lastTriggeredAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last trigger timestamp"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+          }
         }
       },
-
       "WebhookWithSecret": {
         "allOf": [
-          { "$ref": "#/components/schemas/Webhook" },
+          {
+            "$ref": "#/components/schemas/Webhook"
+          },
           {
             "type": "object",
             "properties": {
-              "secret": { "type": "string", "description": "Webhook secret for signature verification (only shown once upon creation)" }
+              "secret": {
+                "type": "string",
+                "description": "Webhook secret for signature verification (only shown once upon creation)"
+              }
             }
           }
         ]
       },
-
       "WebhookEvent": {
         "type": "object",
         "properties": {
-          "type": { "type": "string", "description": "Event type identifier" },
-          "description": { "type": "string", "description": "Event description" }
+          "type": {
+            "type": "string",
+            "description": "Event type identifier"
+          },
+          "description": {
+            "type": "string",
+            "description": "Event description"
+          }
         }
       },
-
       "WebhookDelivery": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "description": "Delivery ID" },
-          "eventId": { "type": "string", "description": "Event ID (for idempotency)" },
-          "eventType": { "type": "string", "description": "Event type" },
-          "status": { "type": "string", "enum": ["pending", "sending", "success", "failed", "retry"], "description": "Delivery status" },
-          "attempts": { "type": "integer", "description": "Number of delivery attempts" },
-          "lastAttemptAt": { "type": "string", "format": "date-time", "description": "Last attempt timestamp" },
+          "id": {
+            "type": "string",
+            "description": "Delivery ID"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "Event ID (for idempotency)"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "Event type"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "sending",
+              "success",
+              "failed",
+              "retry"
+            ],
+            "description": "Delivery status"
+          },
+          "attempts": {
+            "type": "integer",
+            "description": "Number of delivery attempts"
+          },
+          "lastAttemptAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last attempt timestamp"
+          },
           "response": {
             "type": "object",
             "properties": {
-              "statusCode": { "type": "integer", "description": "HTTP status code" },
-              "error": { "type": "string", "description": "Error message if failed" }
+              "statusCode": {
+                "type": "integer",
+                "description": "HTTP status code"
+              },
+              "error": {
+                "type": "string",
+                "description": "Error message if failed"
+              }
             }
           },
-          "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          }
         }
       },
-
       "WebhookStats": {
         "type": "object",
         "properties": {
-          "totalWebhooks": { "type": "integer", "description": "Total number of webhooks" },
-          "activeWebhooks": { "type": "integer", "description": "Number of active webhooks" },
+          "totalWebhooks": {
+            "type": "integer",
+            "description": "Total number of webhooks"
+          },
+          "activeWebhooks": {
+            "type": "integer",
+            "description": "Number of active webhooks"
+          },
           "deliveries": {
             "type": "object",
             "properties": {
-              "total": { "type": "integer", "description": "Total deliveries" },
-              "success": { "type": "integer", "description": "Successful deliveries" },
-              "failed": { "type": "integer", "description": "Failed deliveries" },
-              "pending": { "type": "integer", "description": "Pending deliveries" }
+              "total": {
+                "type": "integer",
+                "description": "Total deliveries"
+              },
+              "success": {
+                "type": "integer",
+                "description": "Successful deliveries"
+              },
+              "failed": {
+                "type": "integer",
+                "description": "Failed deliveries"
+              },
+              "pending": {
+                "type": "integer",
+                "description": "Pending deliveries"
+              }
             }
           }
         }
       },
-
       "ApiResponseWebhooksList": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
               "data": {
                 "type": "object",
                 "properties": {
-                  "webhooks": { "type": "array", "items": { "$ref": "#/components/schemas/Webhook" } },
-                  "total": { "type": "integer" }
+                  "webhooks": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Webhook"
+                    }
+                  },
+                  "total": {
+                    "type": "integer"
+                  }
                 }
               }
             }
           }
         ]
       },
-
       "ApiResponseWebhookCreated": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
-              "data": { "$ref": "#/components/schemas/WebhookWithSecret" }
+              "data": {
+                "$ref": "#/components/schemas/WebhookWithSecret"
+              }
             }
           }
         ]
       },
-
       "ApiResponseWebhookDetail": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
-              "data": { "$ref": "#/components/schemas/WebhookWithSecret" }
+              "data": {
+                "$ref": "#/components/schemas/WebhookWithSecret"
+              }
             }
           }
         ]
       },
-
       "ApiResponseWebhookEvents": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
               "data": {
                 "type": "object",
                 "properties": {
-                  "events": { "type": "array", "items": { "$ref": "#/components/schemas/WebhookEvent" } },
-                  "total": { "type": "integer" }
+                  "events": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/WebhookEvent"
+                    }
+                  },
+                  "total": {
+                    "type": "integer"
+                  }
                 }
               }
             }
           }
         ]
       },
-
       "ApiResponseWebhookStats": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
-              "data": { "$ref": "#/components/schemas/WebhookStats" }
+              "data": {
+                "$ref": "#/components/schemas/WebhookStats"
+              }
             }
           }
         ]
       },
-
       "ApiResponseWebhookTest": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
               "data": {
                 "type": "object",
                 "properties": {
-                  "success": { "type": "boolean" },
-                  "statusCode": { "type": "integer" },
-                  "responseTime": { "type": "integer", "description": "Response time in milliseconds" }
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "statusCode": {
+                    "type": "integer"
+                  },
+                  "responseTime": {
+                    "type": "integer",
+                    "description": "Response time in milliseconds"
+                  }
                 }
               }
             }
           }
         ]
       },
-
       "ApiResponseWebhookDeliveries": {
         "allOf": [
-          { "$ref": "#/components/schemas/ApiResponse" },
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
           {
             "type": "object",
             "properties": {
               "data": {
                 "type": "object",
                 "properties": {
-                  "deliveries": { "type": "array", "items": { "$ref": "#/components/schemas/WebhookDelivery" } },
-                  "total": { "type": "integer" }
+                  "deliveries": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/WebhookDelivery"
+                    }
+                  },
+                  "total": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -1346,7 +2402,6 @@
         ]
       }
     },
-
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",

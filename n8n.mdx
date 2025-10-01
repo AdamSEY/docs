@@ -1,0 +1,927 @@
+---
+title: "n8n Integration"
+description: "Automate email generation with Migma and n8n - No code required"
+---
+
+## Overview
+
+This guide shows you how to build automated email workflows using Migma and [n8n](https://n8n.io), the powerful workflow automation platform. You'll learn how to import a brand and generate emails automatically—all without writing code.
+
+<Info>
+  **What is n8n?** n8n is an open-source workflow automation tool that lets you connect APIs and services with a visual interface. It's perfect for building marketing automation, integrations, and custom workflows.
+</Info>
+
+## What You'll Build
+
+In this guide, you'll create a simple but powerful workflow:
+
+1. **Import a brand** from a website URL
+2. **Wait for import to complete** (using polling or webhooks)
+3. **Generate an email** using AI with your brand context
+4. **Get the HTML output** when generation completes
+
+<CardGroup cols={2}>
+  <Card title="Use Case: Welcome Email Automation" icon="envelope">
+    Automatically generate personalized welcome emails when a new user signs up
+  </Card>
+  <Card title="Use Case: Marketing Campaigns" icon="bullhorn">
+    Generate promotional emails on a schedule or trigger from external events
+  </Card>
+  <Card title="Use Case: E-commerce" icon="shopping-cart">
+    Create product announcement emails when new items are added to your store
+  </Card>
+  <Card title="Use Case: Content Distribution" icon="paper-plane">
+    Convert blog posts into email newsletters automatically
+  </Card>
+</CardGroup>
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+<Steps>
+  <Step title="n8n Account">
+    Sign up for [n8n Cloud](https://n8n.io) or [self-host n8n](https://docs.n8n.io/hosting/)
+  </Step>
+  <Step title="Migma API Key">
+    Get your API key from [Migma Settings → API Integration](https://migma.ai/settings)
+  </Step>
+  <Step title="Brand Website">
+    Have a website URL ready to import (e.g., your company website)
+  </Step>
+</Steps>
+
+## Setup: Add Migma Credentials to n8n
+
+First, configure your Migma API key in n8n:
+
+<Steps>
+  <Step title="Create HTTP Request Credentials">
+    In n8n, go to **Settings → Credentials → Add Credential**
+  </Step>
+  <Step title="Select Http Bearer Auth">
+    Choose **Http Bearer Auth** as the credential type
+  </Step>
+  <Step title="Enter Your API Key">
+    Paste your Migma API key (e.g., `mgma_sk_live_...`)
+    
+    Get your API key from [Migma Settings → API Integration](https://migma.ai/settings)
+  </Step>
+  <Step title="Save Credentials">
+    Name it "Migma API" and save
+  </Step>
+</Steps>
+
+<Warning>
+  Store your API key securely! Never share it or commit it to version control.
+</Warning>
+
+## Quick Start: Import the Workflow
+
+The fastest way to get started is to import our pre-built workflow:
+
+<Accordion title="Complete n8n Workflow JSON (Click to Expand)">
+```json
+{
+  "name": "Migma: Import Brand & Generate Email",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.migma.ai/v1/projects/import",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"urls\": [\"https://yourbrand.com\"]}",
+        "options": {}
+      },
+      "id": "import-brand-node",
+      "name": "Import Brand (Batch)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [250, 300],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Migma API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "seconds"
+      },
+      "id": "wait-for-import",
+      "name": "Wait for Import",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "webhookId": "wait-webhook-id"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.migma.ai/v1/projects/import/{{ $json.data.projectId }}/status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "id": "check-import-status",
+      "name": "Check Import Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [650, 300],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Migma API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.data.status }}",
+              "operation": "equals",
+              "value2": "active"
+            }
+          ]
+        }
+      },
+      "id": "is-import-complete",
+      "name": "Is Import Complete?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.migma.ai/v1/projects/{{ $json.data.projectId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "id": "get-project-details",
+      "name": "Get Project Details",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1050, 200],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Migma API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.migma.ai/v1/projects/emails/generate",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"projectId\": \"{{ $json.data._id }}\", \"prompt\": \"{{ $json.data.email_create_suggestions[0] }}\", \"languages\": [\"en\"]}",
+        "options": {}
+      },
+      "id": "generate-email-node",
+      "name": "Generate Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1250, 200],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Migma API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "seconds"
+      },
+      "id": "wait-for-generation",
+      "name": "Wait for Generation",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1250, 200],
+      "webhookId": "wait-webhook-gen-id"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.migma.ai/v1/projects/emails/{{ $json.data.conversationId }}/status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "id": "check-generation-status",
+      "name": "Check Generation Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1650, 200],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Migma API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.data.status }}",
+              "operation": "equals",
+              "value2": "completed"
+            }
+          ]
+        }
+      },
+      "id": "is-generation-complete",
+      "name": "Is Generation Complete?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1850, 200]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.migma.ai/v1/export/html/{{ $json.data.conversationId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "id": "export-html",
+      "name": "Export HTML",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [2050, 100],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Migma API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Import Brand (Batch)": {
+      "main": [[{ "node": "Wait for Import", "type": "main", "index": 0 }]]
+    },
+    "Wait for Import": {
+      "main": [[{ "node": "Check Import Status", "type": "main", "index": 0 }]]
+    },
+    "Check Import Status": {
+      "main": [[{ "node": "Is Import Complete?", "type": "main", "index": 0 }]]
+    },
+    "Is Import Complete?": {
+      "main": [
+        [{ "node": "Get Project Details", "type": "main", "index": 0 }],
+        [{ "node": "Wait for Import", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get Project Details": {
+      "main": [[{ "node": "Generate Email", "type": "main", "index": 0 }]]
+    },
+    "Generate Email": {
+      "main": [[{ "node": "Wait for Generation", "type": "main", "index": 0 }]]
+    },
+    "Wait for Generation": {
+      "main": [[{ "node": "Check Generation Status", "type": "main", "index": 0 }]]
+    },
+    "Check Generation Status": {
+      "main": [[{ "node": "Is Generation Complete?", "type": "main", "index": 0 }]]
+    },
+    "Is Generation Complete?": {
+      "main": [
+        [{ "node": "Export HTML", "type": "main", "index": 0 }],
+        [{ "node": "Wait for Generation", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
+```
+</Accordion>
+
+### How to Import:
+
+1. Copy the JSON above
+2. In n8n, click **Workflows → Import from File**
+3. Paste the JSON
+4. Update credential IDs to match your "Migma API" credential
+5. Test the workflow!
+
+## Step-by-Step: Building the Workflow
+
+Let's build the workflow from scratch to understand each component.
+
+### Step 1: Import Brand from Website
+
+<Steps>
+  <Step title="Add HTTP Request Node">
+    Add a new **HTTP Request** node to your n8n workflow
+  </Step>
+  <Step title="Configure the Request">
+    - **Method**: POST
+    - **URL**: `https://api.migma.ai/v1/projects/import`
+    - **Authentication**: Generic Credential Type → Http Bearer Auth
+    - **Credential**: Select your "Migma API" credential
+    - **Send Headers**: Yes
+    - **Header**: `Content-Type` = `application/json`
+    - **Send Body**: Yes
+    - **Body Content Type**: JSON
+  </Step>
+  <Step title="Set the Request Body">
+    ```json
+    {
+      "urls": ["https://yourbrand.com"]
+    }
+    ```
+    
+    Replace `https://yourbrand.com` with your actual website URL
+  </Step>
+</Steps>
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "projectId": "507f1f77bcf86cd799439011",
+    "status": "pending",
+    "domain": "yourbrand.com",
+    "urls": ["https://yourbrand.com"],
+    "message": "Project import started"
+  }
+}
+```
+
+<Tip>
+  Save the `projectId` from the response—you'll need it for the next steps!
+</Tip>
+
+### Step 2: Wait for Import to Complete
+
+Brand imports can take 30-60 seconds. You have two options:
+
+#### Option A: Polling (Simpler)
+
+<Steps>
+  <Step title="Add Wait Node">
+    Add a **Wait** node and set it to wait 10 seconds
+  </Step>
+  <Step title="Add HTTP Request to Check Status">
+    Add another **HTTP Request** node:
+    - **Method**: GET
+    - **URL**: `https://api.migma.ai/v1/projects/import/{{ $json.data.projectId }}/status`
+    - **Authentication**: Migma API credential
+  </Step>
+  <Step title="Add IF Node to Check Completion">
+    Add an **IF** node:
+    - **Condition**: `{{ $json.data.status }}` equals `active`
+    - **True**: Continue to email generation
+    - **False**: Loop back to Wait node (retry)
+  </Step>
+</Steps>
+
+#### Option B: Webhooks (Better)
+
+Use [Migma webhooks](/webhooks) to get notified instantly when import completes:
+
+<Steps>
+  <Step title="Create Webhook in n8n">
+    Add a **Webhook** node and copy the webhook URL
+  </Step>
+  <Step title="Register Webhook in Migma">
+    Go to Migma Settings → API Integration → Webhooks and add:
+    - **URL**: Your n8n webhook URL
+    - **Events**: Select `project.import.completed`
+  </Step>
+  <Step title="Connect to Next Step">
+    When the webhook fires, proceed directly to email generation
+  </Step>
+</Steps>
+
+<Info>
+  Webhooks are recommended for production workflows—they're faster and more efficient than polling.
+</Info>
+
+### Step 3: Get Project Details
+
+Once the brand import is complete, get the full project details to access AI-generated email suggestions:
+
+<Steps>
+  <Step title="Add HTTP Request Node">
+    Add a new **HTTP Request** node
+  </Step>
+  <Step title="Configure Get Project">
+    - **Method**: GET
+    - **URL**: `https://api.migma.ai/v1/projects/{{ $json.data.projectId }}`
+    - **Authentication**: Select your "Migma API" credential
+  </Step>
+</Steps>
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "507f1f77bcf86cd799439011",
+    "name": "Your Brand",
+    "description": "Brand description...",
+    "status": "active",
+    "email_create_suggestions": [
+      "Create a welcome email for new subscribers",
+      "Design a product launch announcement",
+      "Generate a newsletter template"
+    ],
+    "logoUrls": { "primary": "https://..." },
+    "colors": { ... }
+  }
+}
+```
+
+<Info>
+  The `email_create_suggestions` array contains AI-generated prompt ideas based on your brand context. We'll use the first suggestion for email generation!
+</Info>
+
+### Step 4: Generate Email
+
+Now generate an email using the AI-suggested prompt:
+
+<Steps>
+  <Step title="Add HTTP Request Node">
+    Add a new **HTTP Request** node
+  </Step>
+  <Step title="Configure Email Generation">
+    - **Method**: POST
+    - **URL**: `https://api.migma.ai/v1/projects/emails/generate`
+    - **Authentication**: Migma API credential
+    - **Body**:
+    ```json
+    {
+      "projectId": "{{ $json.data._id }}",
+      "prompt": "{{ $json.data.email_create_suggestions[0] }}",
+      "languages": ["en"]
+    }
+    ```
+  </Step>
+</Steps>
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "conversationId": "conv_abc123xyz789",
+    "status": "pending",
+    "message": "Email generation started",
+    "link": "https://migma.ai/chat?c=conv_abc123xyz789"
+  }
+}
+```
+
+<Tip>
+  You can customize the `prompt` to generate different types of emails: promotional, transactional, newsletters, etc.
+</Tip>
+
+### Step 5: Wait for Email Generation
+
+Email generation typically takes 5-15 seconds:
+
+<Steps>
+  <Step title="Add Wait Node">
+    Wait 5 seconds before checking status
+  </Step>
+  <Step title="Check Generation Status">
+    Add **HTTP Request** node:
+    - **Method**: GET
+    - **URL**: `https://api.migma.ai/v1/projects/emails/{{ $json.data.conversationId }}/status`
+  </Step>
+  <Step title="Add IF Node">
+    Check if `{{ $json.data.status }}` equals `completed`
+    - **True**: Continue to export
+    - **False**: Loop back to wait (retry)
+  </Step>
+</Steps>
+
+### Step 6: Export HTML
+
+Get the final HTML email output:
+
+<Steps>
+  <Step title="Add HTTP Request Node">
+    Add **HTTP Request** node:
+    - **Method**: GET
+    - **URL**: `https://api.migma.ai/v1/export/html/{{ $json.data.conversationId }}`
+    - **Authentication**: Migma API credential
+  </Step>
+  <Step title="Access the HTML">
+    The response contains:
+    - **Download URL**: `data.files[0].url` - Direct download link for the file
+    - **Content**: `data.files[0].content` - Full HTML content as string
+  </Step>
+</Steps>
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "files": [
+      {
+        "filename": "email.html",
+        "url": "https://migma.ai/download/email_abc123.html",
+        "content": "<!DOCTYPE html><html>...",
+        "format": "html",
+        "description": "Responsive HTML email",
+        "fileSize": 15234
+      }
+    ],
+    "executionTime": 234,
+    "exportType": "html"
+  }
+}
+```
+
+<Tip>
+  You can either download the file from the `url` or use the `content` directly in your workflow. The URL is valid for 24 hours.
+</Tip>
+
+## Common Use Cases
+
+### 1. Welcome Email Automation
+
+Trigger when a new user signs up:
+
+```json
+{
+  "prompt": "Create a warm welcome email for new subscribers. Include a thank you message, brief company introduction, and what to expect from our emails. Use a friendly, conversational tone."
+}
+```
+
+### 2. Product Launch Email
+
+Generate promotional emails for new products:
+
+```json
+{
+  "prompt": "Create an exciting product launch email for our new wireless headphones. Highlight: 40-hour battery life, noise cancellation, comfortable fit. Include a 20% launch discount code: LAUNCH20"
+}
+```
+
+### 3. Newsletter from Blog Post
+
+Convert blog content into email newsletters:
+
+```json
+{
+  "prompt": "Create a newsletter email from this blog post summary: [PASTE BLOG SUMMARY]. Make it engaging and include a clear call-to-action to read the full article."
+}
+```
+
+### 4. Abandoned Cart Recovery
+
+E-commerce cart recovery emails:
+
+```json
+{
+  "prompt": "Create an abandoned cart recovery email. Remind the customer about items left in cart, create urgency with 'limited stock' message, and offer 10% discount to complete purchase."
+}
+```
+
+## Advanced: Export & Use HTML
+
+### Option 1: Use HTML Content Directly
+
+Access the HTML content from the export response and use it in your workflow:
+
+```javascript
+// In a Function node
+const htmlContent = $json.data.files[0].content;
+const subject = $json.data.result?.subject || 'Email Subject';
+
+return {
+  html: htmlContent,
+  subject: subject
+};
+```
+
+### Option 2: Download from URL
+
+Use the file URL to download or share the email:
+
+```javascript
+// In a Function node
+const fileUrl = $json.data.files[0].url;
+const filename = $json.data.files[0].filename;
+
+// URL is valid for 24 hours
+return {
+  downloadUrl: fileUrl,
+  filename: filename,
+  expiresIn: '24 hours'
+};
+```
+
+### Option 3: Export to Mailchimp/Klaviyo
+
+Connect Migma email generation to your ESP:
+
+**Export to Mailchimp:**
+```json
+{
+  "method": "GET",
+  "url": "https://api.migma.ai/v1/export/mailchimp/{{ $json.data.conversationId }}"
+}
+```
+
+Then use n8n's Mailchimp node with `data.files[0].content` to create a campaign.
+
+**Export to Klaviyo:**
+```json
+{
+  "method": "GET",
+  "url": "https://api.migma.ai/v1/export/klaviyo/{{ $json.data.conversationId }}?klaviyoType=hybrid"
+}
+```
+
+Then use the exported HTML with n8n's HTTP Request to push to Klaviyo's API.
+
+## Error Handling
+
+Add error handling to make your workflow robust:
+
+<Steps>
+  <Step title="Add Error Trigger Node">
+    Add an **Error Trigger** node to catch failures
+  </Step>
+  <Step title="Log Errors">
+    Connect to a **Function** node to log errors or send alerts
+  </Step>
+  <Step title="Retry Logic">
+    Use the **IF** nodes to implement custom retry logic for transient failures
+  </Step>
+</Steps>
+
+Example error handling code:
+
+```javascript
+// In a Function node
+const error = $input.first().error;
+
+if (error.httpCode === 429) {
+  // Rate limit - wait and retry
+  return { retry: true, waitMinutes: 5 };
+}
+
+if (error.httpCode >= 500) {
+  // Server error - retry
+  return { retry: true, waitMinutes: 1 };
+}
+
+// Log and alert
+console.error('Workflow failed:', error);
+return { retry: false, error: error.message };
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Webhooks for Production" icon="bolt">
+    Webhooks are more efficient than polling. Set up Migma webhooks to trigger n8n workflows instantly when events complete.
+  </Accordion>
+
+  <Accordion title="Handle Rate Limits" icon="gauge-high">
+    Respect API rate limits. Add delays between requests and implement exponential backoff for retries.
+  </Accordion>
+
+  <Accordion title="Store Project IDs" icon="database">
+    Save `projectId` values to avoid re-importing the same brand. Use n8n's database nodes or external storage.
+  </Accordion>
+
+  <Accordion title="Validate Inputs" icon="check">
+    Always validate URLs and prompts before sending to the API. Use n8n's **IF** nodes for validation.
+  </Accordion>
+
+  <Accordion title="Monitor Workflows" icon="chart-line">
+    Enable n8n's execution logging and set up alerts for failures. Monitor your Migma dashboard for API usage.
+  </Accordion>
+
+  <Accordion title="Test with Different Prompts" icon="flask">
+    Experiment with different prompt styles to get the best email results. Migma's AI adapts to your instructions.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="401 Unauthorized Error">
+    **Problem**: Invalid or missing API key
+    
+    **Solution**: 
+    - Check that your API key is correct in n8n credentials
+    - Ensure you're using `Bearer YOUR_API_KEY` format
+    - Verify the API key hasn't been revoked in Migma settings
+  </Accordion>
+
+  <Accordion title="Import Takes Too Long">
+    **Problem**: Brand import stuck in 'pending' or 'processing'
+    
+    **Solution**:
+    - Increase wait time to 15-20 seconds
+    - Check that the website URL is publicly accessible
+    - Try importing from the Migma dashboard to verify the URL works
+    - Use webhooks instead of polling for better reliability
+  </Accordion>
+
+  <Accordion title="Generation Failed">
+    **Problem**: Email generation returns 'failed' status
+    
+    **Solution**:
+    - Check error message in the status response
+    - Ensure prompt is clear and not too long (max ~500 words)
+    - Verify the projectId is valid and import completed successfully
+    - Try simplifying the prompt
+  </Accordion>
+
+  <Accordion title="Workflow Stuck in Loop">
+    **Problem**: IF nodes keep looping back to wait
+    
+    **Solution**:
+    - Add a counter to limit retry attempts (max 20 retries)
+    - Check the condition logic in your IF node
+    - Verify you're checking the correct field path (e.g., `$json.data.status`)
+    - Add timeout logic to fail gracefully after X minutes
+  </Accordion>
+
+  <Accordion title="Cannot Access HTML Export">
+    **Problem**: Export endpoint returns error or empty response
+    
+    **Solution**:
+    - Ensure generation is fully completed (status = 'completed')
+    - Check that conversationId is valid
+    - Try the export endpoint directly in Postman to debug
+    - Access HTML from `data.files[0].content` in the response
+  </Accordion>
+</AccordionGroup>
+
+## API Reference
+
+Quick reference for all Migma endpoints used in n8n:
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/v1/projects/import` | POST | Import a brand from URLs |
+| `/v1/projects/import/{projectId}/status` | GET | Check import status |
+| `/v1/projects/emails/generate` | POST | Generate an email (async) |
+| `/v1/projects/emails/{conversationId}/status` | GET | Check generation status |
+| `/v1/export/html/{conversationId}` | GET | Export as HTML |
+| `/v1/export/mailchimp/{conversationId}` | GET | Export for Mailchimp |
+| `/v1/export/klaviyo/{conversationId}` | GET | Export for Klaviyo |
+
+<Card
+  title="Full API Documentation"
+  icon="book"
+  href="/api-reference/introduction"
+>
+  Explore complete API reference with all parameters and responses
+</Card>
+
+## Example Workflows
+
+### Simple: Brand Import Only
+
+Perfect for one-time brand setup:
+
+```
+[Trigger] → [Import Brand] → [Wait] → [Check Status] → [IF Complete] → [Success]
+                                           ↓
+                                      [Loop Back]
+```
+
+### Complete: Import + Generate + Export
+
+Full automation pipeline:
+
+```
+[Trigger] 
+  → [Import Brand] 
+  → [Wait] 
+  → [Check Import Status] 
+  → [IF Complete]
+    → [Generate Email]
+    → [Wait]
+    → [Check Generation Status]
+    → [IF Complete]
+      → [Export HTML]
+      → [Send via Mailchimp]
+      → [Success]
+```
+
+### Advanced: Multi-Language Emails
+
+Generate emails in multiple languages:
+
+```
+[Trigger]
+  → [Import Brand]
+  → [Wait & Check]
+  → [Split in Batches: Languages]
+    → [Generate Email (EN)]
+    → [Generate Email (ES)]
+    → [Generate Email (FR)]
+  → [Merge Results]
+  → [Export All]
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Set Up Webhooks"
+    icon="bolt"
+    href="/webhooks"
+  >
+    Get real-time notifications instead of polling
+  </Card>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference/introduction"
+  >
+    Explore all available Migma API endpoints
+  </Card>
+  <Card
+    title="n8n Documentation"
+    icon="book"
+    href="https://docs.n8n.io"
+  >
+    Learn more about n8n workflows and nodes
+  </Card>
+  <Card
+    title="Join Community"
+    icon="discord"
+    href="https://discord.gg/ZB6c2meCUA"
+  >
+    Get help and share your n8n workflows
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+<AccordionGroup>
+  <Accordion title="Where do I find my Migma API key?" icon="key">
+    Log in to [Migma](https://migma.ai), go to **Settings → API Integration → API Keys tab**, and click **Create API Key**.
+  </Accordion>
+
+  <Accordion title="Can I use this with n8n self-hosted?" icon="server">
+    Yes! This guide works with both n8n Cloud and self-hosted instances. Just make sure your n8n instance can reach `https://api.migma.ai`.
+  </Accordion>
+
+  <Accordion title="How much does this cost?" icon="dollar-sign">
+    Migma charges based on API usage (email generations). Check your plan limits in the Migma dashboard. n8n has separate pricing for Cloud vs self-hosted.
+  </Accordion>
+
+  <Accordion title="Can I trigger workflows from external events?" icon="webhook">
+    Yes! Use n8n's webhook trigger node to receive events from external systems (Shopify, WordPress, etc.), then generate emails with Migma.
+  </Accordion>
+
+  <Accordion title="How do I schedule email generation?" icon="clock">
+    Use n8n's **Schedule Trigger** node (Cron) to run workflows on a schedule—daily, weekly, or custom intervals.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+**Built something cool?** Share your n8n + Migma workflows in our [Discord community](https://discord.gg/ZB6c2meCUA)!
+

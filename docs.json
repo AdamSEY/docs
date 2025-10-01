@@ -24,7 +24,8 @@
           {
             "group": "Guides",
             "pages": [
-              "webhooks"
+              "webhooks",
+              "n8n"
             ]
           }
         ]
