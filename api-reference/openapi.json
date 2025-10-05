@@ -289,6 +289,49 @@
         }
       }
     },
+    "/v1/emails/test/send": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "summary": "Send Test Email",
+        "description": "Send a test email from a completed conversation using Migma's system email service. Extracts the React Email template from the conversation and sends it to the specified recipients. Requires API key with EMAIL_SEND permission.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendTestEmailRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Test email sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTestEmailSent"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
     "/v1/subscribers": {
       "get": {
         "tags": [
@@ -827,6 +870,16 @@
       },
       "BadRequest": {
         "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ApiError"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden - Missing required permissions or access denied",
         "content": {
           "application/json": {
             "schema": {
@@ -1441,6 +1494,74 @@
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/EmailStatusData"
+              }
+            }
+          }
+        ]
+      },
+      "SendTestEmailRequest": {
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$",
+            "description": "The conversation ID containing the email to send"
+          },
+          "to": {
+            "type": "string",
+            "format": "email",
+            "description": "Recipient email address"
+          }
+        },
+        "required": [
+          "conversationId",
+          "to"
+        ]
+      },
+      "TestEmailSentData": {
+        "type": "object",
+        "properties": {
+          "messageId": {
+            "type": "string",
+            "description": "Message ID from the email service"
+          },
+          "conversationId": {
+            "type": "string",
+            "description": "The conversation ID that was used"
+          },
+          "sentTo": {
+            "type": "string",
+            "format": "email",
+            "description": "Recipient email address"
+          },
+          "sentAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the email was sent"
+          },
+          "subject": {
+            "type": "string",
+            "description": "The subject line that was sent"
+          }
+        },
+        "required": [
+          "messageId",
+          "conversationId",
+          "sentTo",
+          "sentAt",
+          "subject"
+        ]
+      },
+      "ApiResponseTestEmailSent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/TestEmailSentData"
               }
             }
           }
