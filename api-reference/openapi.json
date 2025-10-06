@@ -12,10 +12,6 @@
     {
       "url": "https://api.migma.ai",
       "description": "Production"
-    },
-    {
-      "url": "https://api-test.migma.ai",
-      "description": "Development"
     }
   ],
   "security": [
@@ -31,11 +27,13 @@
         ],
         "summary": "List Projects",
         "description": "List projects for the authenticated user with basic information only. Use GET /v1/projects/{projectId} to get full project details.",
+        "operationId": "ListProjects",
         "parameters": [
           {
             "name": "limit",
             "in": "query",
             "description": "The maximum number of results to return (max 100)",
+            "required": false,
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -46,6 +44,7 @@
             "name": "offset",
             "in": "query",
             "description": "The number of items to skip before starting to collect the result set",
+            "required": false,
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -56,6 +55,7 @@
             "name": "status",
             "in": "query",
             "description": "Filter by project status (pending|processing|active|error)",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -85,9 +85,17 @@
         ],
         "summary": "Get Project Details",
         "description": "Get complete project details by ID, including branding information, colors, typography, and all project data.",
+        "operationId": "GetProjectDetails",
         "parameters": [
           {
-            "$ref": "#/components/parameters/ProjectIdParam"
+            "name": "projectId",
+            "in": "path",
+            "description": "Project ID (MongoDB ObjectId)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{24}$"
+            }
           }
         ],
         "responses": {
@@ -117,6 +125,7 @@
         ],
         "summary": "Import Project",
         "description": "Import a brand project from one or more website URLs. Optionally include logo URLs to skip AI logo extraction.",
+        "operationId": "ImportProject",
         "requestBody": {
           "required": true,
           "content": {
@@ -154,9 +163,17 @@
         ],
         "summary": "Get Import Status",
         "description": "Check the status of a project import.",
+        "operationId": "GetImportStatus",
         "parameters": [
           {
-            "$ref": "#/components/parameters/ProjectIdParam"
+            "name": "projectId",
+            "in": "path",
+            "description": "Project ID (MongoDB ObjectId)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{24}$"
+            }
           }
         ],
         "responses": {
@@ -186,9 +203,17 @@
         ],
         "summary": "Retry Import",
         "description": "Retry a failed or stuck import for the given project.",
+        "operationId": "RetryImport",
         "parameters": [
           {
-            "$ref": "#/components/parameters/ProjectIdParam"
+            "name": "projectId",
+            "in": "path",
+            "description": "Project ID (MongoDB ObjectId)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{24}$"
+            }
           }
         ],
         "responses": {
@@ -218,6 +243,7 @@
         ],
         "summary": "Generate Email (Async)",
         "description": "Generate an email for a project using its brand context and optional images. Returns immediately with a conversationId and 'pending' status. Use GET /v1/projects/emails/{conversationId}/status to check generation progress. Once completed, use the export endpoint to retrieve the HTML/React code.",
+        "operationId": "GenerateEmail",
         "requestBody": {
           "required": true,
           "content": {
@@ -258,12 +284,13 @@
         ],
         "summary": "Get Email Generation Status",
         "description": "Check the status of an email generation. Returns basic information like subject and generation metadata when completed. To retrieve the HTML/React code, use the export endpoint.",
+        "operationId": "GetEmailGenerationStatus",
         "parameters": [
           {
             "name": "conversationId",
             "in": "path",
-            "required": true,
             "description": "The conversation ID returned from the generate endpoint",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -296,6 +323,7 @@
         ],
         "summary": "Send Test Email",
         "description": "Send a test email from a completed conversation using Migma's system email service. Extracts the React Email template from the conversation and sends it to the specified recipients. Requires API key with EMAIL_SEND permission.",
+        "operationId": "SendTestEmail",
         "requestBody": {
           "required": true,
           "content": {
@@ -332,6 +360,50 @@
         }
       }
     },
+    "/v1/shopify/connect": {
+      "post": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Connect Shopify Store",
+        "description": "Connect a Shopify store to a project. Requires API key with EMAIL_READ permission.",
+        "operationId": "ConnectShopifyStore",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectShopifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Shopify store connected successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseShopifyConnect"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
     "/v1/subscribers": {
       "get": {
         "tags": [
@@ -339,10 +411,12 @@
         ],
         "summary": "List Subscribers",
         "description": "List subscribers for a project. Requires API key with AUDIENCE_READ.",
+        "operationId": "ListSubscribers",
         "parameters": [
           {
             "name": "projectId",
             "in": "query",
+            "description": "Project ID",
             "required": true,
             "schema": {
               "type": "string"
@@ -351,6 +425,8 @@
           {
             "name": "page",
             "in": "query",
+            "description": "Page number for pagination",
+            "required": false,
             "schema": {
               "type": "integer",
               "default": 1
@@ -359,6 +435,8 @@
           {
             "name": "limit",
             "in": "query",
+            "description": "Number of results per page (max 100)",
+            "required": false,
             "schema": {
               "type": "integer",
               "default": 20,
@@ -368,14 +446,17 @@
           {
             "name": "tags",
             "in": "query",
+            "description": "Comma-separated tag names",
+            "required": false,
             "schema": {
               "type": "string"
-            },
-            "description": "Comma-separated tag names"
+            }
           },
           {
             "name": "status",
             "in": "query",
+            "description": "Filter by subscriber status",
+            "required": false,
             "schema": {
               "type": "string",
               "enum": [
@@ -389,6 +470,8 @@
           {
             "name": "search",
             "in": "query",
+            "description": "Search query to filter subscribers",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -419,6 +502,7 @@
         ],
         "summary": "Add Subscriber",
         "description": "Add a single subscriber. Requires API key with AUDIENCE_WRITE.",
+        "operationId": "AddSubscriber",
         "requestBody": {
           "required": true,
           "content": {
@@ -459,6 +543,7 @@
         ],
         "summary": "Bulk Import Subscribers",
         "description": "Bulk import subscribers. Requires API key with AUDIENCE_WRITE.",
+        "operationId": "BulkImportSubscribers",
         "requestBody": {
           "required": true,
           "content": {
@@ -499,6 +584,7 @@
         ],
         "summary": "Unsubscribe Subscriber",
         "description": "Unsubscribe a subscriber by email. Requires API key with AUDIENCE_WRITE.",
+        "operationId": "UnsubscribeSubscriber",
         "requestBody": {
           "required": true,
           "content": {
@@ -542,12 +628,13 @@
         ],
         "summary": "Export HTML",
         "description": "Export conversation as standard HTML.",
+        "operationId": "ExportHTML",
         "parameters": [
           {
             "name": "conversationId",
             "in": "path",
-            "required": true,
             "description": "The conversation ID to export",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -583,6 +670,7 @@
         ],
         "summary": "Export Klaviyo",
         "description": "Export conversation as Klaviyo-compatible HTML with editable regions.",
+        "operationId": "ExportKlaviyo",
         "parameters": [
           {
             "name": "conversationId",
@@ -597,6 +685,7 @@
             "name": "klaviyoType",
             "in": "query",
             "description": "Type of Klaviyo export: 'html' for static HTML or 'hybrid' for dynamic hybrid with editable regions",
+            "required": false,
             "schema": {
               "type": "string",
               "enum": [
@@ -637,12 +726,13 @@
         ],
         "summary": "Export Mailchimp",
         "description": "Export conversation as Mailchimp-compatible HTML. Returns URLs for file downloads.",
+        "operationId": "ExportMailchimp",
         "parameters": [
           {
             "name": "conversationId",
             "in": "path",
-            "required": true,
             "description": "The conversation ID to export",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -678,12 +768,13 @@
         ],
         "summary": "Export MJML",
         "description": "Export conversation as MJML (Mailjet Markup Language) responsive email template. Returns URLs for file downloads.",
+        "operationId": "ExportMJML",
         "parameters": [
           {
             "name": "conversationId",
             "in": "path",
-            "required": true,
             "description": "The conversation ID to export",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -719,6 +810,7 @@
         ],
         "summary": "Export HubSpot",
         "description": "Export conversation as HubSpot-compatible HTML and HubL files.",
+        "operationId": "ExportHubSpot",
         "requestBody": {
           "required": true,
           "content": {
@@ -778,12 +870,13 @@
         ],
         "summary": "Get Export Status",
         "description": "Check export availability for a conversation",
+        "operationId": "GetExportStatus",
         "parameters": [
           {
             "name": "conversationId",
             "in": "path",
-            "required": true,
             "description": "The conversation ID to check",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -816,6 +909,7 @@
         ],
         "summary": "List Export Formats",
         "description": "Get available export formats",
+        "operationId": "ListExportFormats",
         "responses": {
           "200": {
             "description": "Available export formats retrieved",
@@ -835,18 +929,6 @@
     }
   },
   "components": {
-    "parameters": {
-      "ProjectIdParam": {
-        "name": "projectId",
-        "in": "path",
-        "required": true,
-        "description": "Project ID (MongoDB ObjectId)",
-        "schema": {
-          "type": "string",
-          "pattern": "^[0-9a-fA-F]{24}$"
-        }
-      }
-    },
     "responses": {
       "Unauthorized": {
         "description": "Unauthorized",
@@ -1231,28 +1313,12 @@
                 "type": "string",
                 "description": "Email subject line"
               },
-              "metadata": {
-                "type": "object",
-                "properties": {
-                  "model": {
-                    "type": "string"
-                  },
-                  "generationTime": {
-                    "type": "number"
-                  },
-                  "inputTokens": {
-                    "type": "number"
-                  },
-                  "outputTokens": {
-                    "type": "number"
-                  }
-                }
-              },
               "languages": {
                 "type": "array",
                 "items": {
                   "type": "string"
-                }
+                },
+                "description": "Languages the email was generated in"
               }
             }
           }
@@ -1562,6 +1628,83 @@
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/TestEmailSentData"
+              }
+            }
+          }
+        ]
+      },
+      "ConnectShopifyRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$",
+            "description": "The project ID to connect the Shopify store to"
+          },
+          "shopifyStoreUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "The Shopify store URL (e.g., https://example.com or https://store.myshopify.com)"
+          }
+        },
+        "required": [
+          "projectId",
+          "shopifyStoreUrl"
+        ]
+      },
+      "ShopifyConnectData": {
+        "type": "object",
+        "properties": {
+          "serverId": {
+            "type": "string",
+            "description": "The MCP server ID created for this Shopify connection"
+          },
+          "projectId": {
+            "type": "string",
+            "description": "The project ID"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "connected"
+            ],
+            "description": "Connection status: 'connected' (successful)"
+          },
+          "message": {
+            "type": "string",
+            "description": "Status message"
+          },
+          "store": {
+            "type": "string",
+            "description": "The Shopify store name extracted from the URL"
+          },
+          "toolsEnabled": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of enabled Shopify tool names"
+          }
+        },
+        "required": [
+          "serverId",
+          "projectId",
+          "status",
+          "message",
+          "store",
+          "toolsEnabled"
+        ]
+      },
+      "ApiResponseShopifyConnect": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ShopifyConnectData"
               }
             }
           }
