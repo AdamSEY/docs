@@ -238,12 +238,44 @@ Here's a full workflow that imports a brand, waits for completion, generates an 
   "name": "Migma: Complete Workflow",
   "nodes": [
     {
-      "parameters": {},
-      "id": "start",
-      "name": "Start",
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [250, 300]
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1uS3X18r5pqrcZK6iHMI6StQtBaLAZvpavrUhahv_bTE",
+          "mode": "list",
+          "cachedResultName": "Migma Leads v1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uS3X18r5pqrcZK6iHMI6StQtBaLAZvpavrUhahv_bTE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1667714778,
+          "mode": "list",
+          "cachedResultName": "Copy of Sheet01",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uS3X18r5pqrcZK6iHMI6StQtBaLAZvpavrUhahv_bTE/edit#gid=1667714778"
+        },
+        "options": {}
+      },
+      "id": "df5ca5e4-3224-42bd-a593-eecfeceaf60f",
+      "name": "Read Stores",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        -1760,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a83ab73f-b6cd-4882-970f-983c93d7b10a",
+      "name": "Loop Stores",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1552,
+        352
+      ]
     },
     {
       "parameters": {
@@ -262,52 +294,38 @@ Here's a full workflow that imports a brand, waits for completion, generates an 
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\"urls\": [\"https://yourwebsite.com\"]}",
+        "jsonBody": "={\"urls\": [\"{{ $json['Store URL'] }}\"]}",
         "options": {}
       },
-      "id": "import",
-      "name": "Import Brand",
+      "id": "2a72b8c9-76fd-4ee2-aee6-a9627e6f8a2c",
+      "name": "Import Store",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [450, 300],
+      "position": [
+        -1360,
+        352
+      ],
       "credentials": {
         "httpBearerAuth": {
-          "id": "YOUR_CREDENTIAL_ID",
-          "name": "Migma API"
+          "id": "StqUFSi6OmezZlVH",
+          "name": "Bearer Auth account"
         }
       }
     },
     {
       "parameters": {
-        "amount": 10,
+        "amount": 5,
         "unit": "seconds"
       },
-      "id": "wait-import",
+      "id": "94310ed1-811c-480a-81cd-50c0b4d3d2d2",
       "name": "Wait",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1,
-      "position": [650, 300],
-      "webhookId": "wait-webhook-1"
-    },
-    {
-      "parameters": {
-        "method": "GET",
-        "url": "=https://api.migma.ai/v1/projects/import/{{ $json.data.projectId }}/status",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "options": {}
-      },
-      "id": "check-import",
-      "name": "Check Import Status",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4,
-      "position": [850, 300],
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "YOUR_CREDENTIAL_ID",
-          "name": "Migma API"
-        }
-      }
+      "position": [
+        -192,
+        560
+      ],
+      "webhookId": "wait-webhook-gen"
     },
     {
       "parameters": {
@@ -316,16 +334,48 @@ Here's a full workflow that imports a brand, waits for completion, generates an 
             {
               "value1": "={{ $json.data.status }}",
               "operation": "equals",
-              "value2": "active"
+              "value2": "completed"
             }
           ]
         }
       },
-      "id": "is-complete",
-      "name": "Is Complete?",
+      "id": "55ff368a-5dee-479d-aecf-c6f78c7807e4",
+      "name": "Is Ready?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [1050, 300]
+      "position": [
+        32,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.migma.ai/v1/shopify/connect",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"projectId\": \"{{ $json.data.projectId }}\", \"shopifyStoreUrl\": \"{{ $('Loop Stores').item.json['Store URL'] }}\"}",
+        "options": {}
+      },
+      "id": "b5f28477-5b11-49c7-a6c0-51a6605c6a60",
+      "name": "Connect Shopify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -784,
+        128
+      ]
     },
     {
       "parameters": {
@@ -344,50 +394,99 @@ Here's a full workflow that imports a brand, waits for completion, generates an 
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\"projectId\": \"{{ $json.data.projectId }}\", \"prompt\": \"Create a welcome email\"}",
+        "jsonBody": "={\"projectId\": \"{{ $json.data.projectId }}\", \"prompt\": \"Create a welcome email\", \"webMode\": true}",
         "options": {}
       },
-      "id": "generate",
+      "id": "db9b18ac-e681-4771-890b-a7516d89aaf2",
       "name": "Generate Email",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [1250, 200],
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "YOUR_CREDENTIAL_ID",
-          "name": "Migma API"
-        }
-      }
+      "position": [
+        -384,
+        64
+      ]
     },
     {
       "parameters": {
-        "amount": 5,
-        "unit": "seconds"
-      },
-      "id": "wait-generate",
-      "name": "Wait",
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1,
-      "position": [1450, 200],
-      "webhookId": "wait-webhook-2"
-    },
-    {
-      "parameters": {
-        "method": "GET",
         "url": "=https://api.migma.ai/v1/projects/emails/{{ $json.data.conversationId }}/status",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
         "options": {}
       },
-      "id": "check-generate",
-      "name": "Check Generation Status",
+      "id": "43a7fc19-604f-48a8-b01b-b564d01db916",
+      "name": "Check Generation",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
-      "position": [1650, 200],
+      "position": [
+        -176,
+        48
+      ],
       "credentials": {
         "httpBearerAuth": {
-          "id": "YOUR_CREDENTIAL_ID",
-          "name": "Migma API"
+          "id": "StqUFSi6OmezZlVH",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.migma.ai/v1/emails/test/send",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"conversationId\": \"{{ $json.data.conversationId }}\", \"to\": \"{{ $('Loop Stores').item.json['Store Owner Email'] }}\"}",
+        "options": {}
+      },
+      "id": "7ea88642-5680-49ff-ae09-df719a68f773",
+      "name": "Send Test Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        608,
+        144
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1920,
+        352
+      ],
+      "id": "bb3666c4-1a2b-4638-8b50-c90e91761c82",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.migma.ai/v1/projects/import/{{ $json.data.projectId }}/status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "id": "3d6bf6d2-cfd7-4106-b291-a658cd3dc7db",
+      "name": "Check Import Status1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -1168,
+        352
+      ],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "StqUFSi6OmezZlVH",
+          "name": "Bearer Auth account"
         }
       }
     },
@@ -398,70 +497,212 @@ Here's a full workflow that imports a brand, waits for completion, generates an 
             {
               "value1": "={{ $json.data.status }}",
               "operation": "equals",
-              "value2": "completed"
+              "value2": "active"
             }
           ]
         }
       },
-      "id": "is-generated",
-      "name": "Is Generated?",
+      "id": "8cd0a55d-23fa-47d7-a42c-4e3377f587c9",
+      "name": "Is Complete?1",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [1850, 200]
+      "position": [
+        -992,
+        352
+      ]
     },
     {
       "parameters": {
-        "method": "GET",
-        "url": "=https://api.migma.ai/v1/export/html/{{ $json.data.conversationId }}",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "options": {}
+        "amount": 10
       },
-      "id": "export",
-      "name": "Export HTML",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4,
-      "position": [2050, 100],
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "YOUR_CREDENTIAL_ID",
-          "name": "Migma API"
-        }
-      }
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -784,
+        368
+      ],
+      "id": "5930e29f-c31b-4f8c-a5b9-6595df8a3e41",
+      "name": "Wait1",
+      "webhookId": "318bf499-3ab0-4862-979e-7ae8f7555e66"
     }
   ],
+  "pinData": {},
   "connections": {
-    "Start": {
-      "main": [[{ "node": "Import Brand", "type": "main", "index": 0 }]]
+    "Read Stores": {
+      "main": [
+        [
+          {
+            "node": "Loop Stores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
-    "Import Brand": {
-      "main": [[{ "node": "Wait", "type": "main", "index": 0 }]]
+    "Loop Stores": {
+      "main": [
+        [
+          {
+            "node": "Import Store",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Import Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Import Store": {
+      "main": [
+        [
+          {
+            "node": "Check Import Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Wait": {
-      "main": [[{ "node": "Check Import Status", "type": "main", "index": 0 }]]
-    },
-    "Check Import Status": {
-      "main": [[{ "node": "Is Complete?", "type": "main", "index": 0 }]]
-    },
-    "Is Complete?": {
       "main": [
-        [{ "node": "Generate Email", "type": "main", "index": 0 }],
-        [{ "node": "Wait", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Is Ready?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Ready?": {
+      "main": [
+        [
+          {
+            "node": "Send Test Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Connect Shopify": {
+      "main": [
+        [
+          {
+            "node": "Generate Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Generate Email": {
-      "main": [[{ "node": "Wait", "type": "main", "index": 0 }]]
-    },
-    "Check Generation Status": {
-      "main": [[{ "node": "Is Generated?", "type": "main", "index": 0 }]]
-    },
-    "Is Generated?": {
       "main": [
-        [{ "node": "Export HTML", "type": "main", "index": 0 }],
-        [{ "node": "Wait", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Check Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Generation": {
+      "main": [
+        [
+          {
+            "node": "Is Ready?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Test Email": {
+      "main": [
+        [
+          {
+            "node": "Loop Stores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Read Stores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Import Status1": {
+      "main": [
+        [
+          {
+            "node": "Is Complete?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Complete?1": {
+      "main": [
+        [
+          {
+            "node": "Connect Shopify",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Check Import Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
-  }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "52001030-f518-4ec1-9ecb-ef3adc46bf07",
+  "meta": {
+    "instanceId": "2d68fadaa6ab455961c0fbd849b7b2cf998bc0f9d88f3977fe8e22efddd544b8"
+  },
+  "id": "Gk1gFIZGdAKIJ7oo",
+  "tags": []
 }
 ```
 </Accordion>
