@@ -242,7 +242,7 @@
           "Email"
         ],
         "summary": "Generate Email (Async)",
-        "description": "Generate an email for a project using its brand context and optional images. Returns immediately with a conversationId and 'pending' status. Use GET /v1/projects/emails/{conversationId}/status to check generation progress. Once completed, use the export endpoint to retrieve the HTML/React code.",
+        "description": "Generate an email for a project using its brand context and optional images. You can also provide a referenceId pointing to an existing conversation to remix its content. Returns immediately with a conversationId and 'pending' status. Use GET /v1/projects/emails/{conversationId}/status to check generation progress. Once completed, use the export endpoint to retrieve the HTML/React code.",
         "operationId": "GenerateEmail",
         "requestBody": {
           "required": true,
@@ -1240,6 +1240,11 @@
             ],
             "default": "private",
             "description": "Set the visibility of the generated conversation. Private conversations are only visible to the user, unlisted conversations are accessible via direct link but not listed publicly, and public conversations are visible in the public gallery."
+          },
+          "referenceId": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{24}$",
+            "description": "Optional conversation ID to remix so you can create personalized variants from an existing conversation."
           }
         },
         "required": [
