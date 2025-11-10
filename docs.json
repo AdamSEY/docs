@@ -11,7 +11,91 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "User Guide",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "get-started/introduction",
+              "get-started/create-first-email",
+              "get-started/configure-brand",
+              "get-started/setup-wizard"
+            ]
+          },
+          {
+            "group": "Creating Emails",
+            "pages": [
+              "creating-emails/overview",
+              "creating-emails/prompt-based-creation",
+              "creating-emails/image-clone",
+              "creating-emails/figma-import",
+              "creating-emails/youtube-to-email",
+              "creating-emails/remix-emails",
+              "creating-emails/multi-language"
+            ]
+          },
+          {
+            "group": "Email Editor",
+            "pages": [
+              "email-editor/visual-editor",
+              "email-editor/email-preflight",
+              "email-editor/export-options"
+            ]
+          },
+          {
+            "group": "Campaigns",
+            "pages": [
+              "campaigns/overview",
+              "campaigns/send-campaign",
+              "campaigns/track-results"
+            ]
+          },
+          {
+            "group": "Audience",
+            "pages": [
+              "audience/manage-contacts",
+              "audience/csv-upload",
+              "audience/sending-emails",
+              "audience/preference-center"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/overview",
+              "integrations/email-service-providers",
+              "integrations/klaviyo",
+              "integrations/mailchimp",
+              "integrations/shopify",
+              "integrations/mcp-servers"
+            ]
+          },
+          {
+            "group": "Advanced Features",
+            "pages": [
+              "advanced-features/ai-image-generation",
+              "content-repurposing/email-to-content"
+            ]
+          },
+          {
+            "group": "Settings",
+            "pages": [
+              "settings/projects",
+              "settings/team-management",
+              "settings/account-settings"
+            ]
+          },
+          {
+            "group": "About",
+            "pages": [
+              "about/meet-the-founders",
+              "security/compliance"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Docs",
         "groups": [
           {
             "group": "Getting Started",
@@ -22,7 +106,7 @@
             ]
           },
           {
-            "group": "Guides",
+            "group": "Integration Guides",
             "pages": [
               "webhooks",
               "n8n"

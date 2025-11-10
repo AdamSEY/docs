@@ -1,0 +1,622 @@
+---
+title: "Mailchimp Integration"
+description: "Export emails to Mailchimp with one-click API integration and automatic merge tag support"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="Mailchimp Integration" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+The Mailchimp integration enables you to **export emails directly from Migma to Mailchimp with a single click**. All merge tags are automatically preserved, and emails can be pushed as campaigns or saved as reusable templates.
+
+<Note>
+**One-Click Export:** Create beautiful emails in Migma, then export them to Mailchimp instantly via API. No manual copying, merge tags automatically work, and formatting stays perfect.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Campaign Push" icon="paper-plane">
+    Create draft campaigns in Mailchimp
+  </Card>
+  <Card title="Template Library" icon="layer-group">
+    Save to Mailchimp templates
+  </Card>
+  <Card title="Merge Tags" icon="tags">
+    Automatic merge tag preservation
+  </Card>
+  <Card title="Audience Sync" icon="users">
+    Bidirectional list synchronization
+  </Card>
+</CardGroup>
+
+---
+
+## Setup Mailchimp Connection
+
+<Steps>
+  <Step title="Get Mailchimp API Key">
+    **In Mailchimp:**
+    1. Go to **Account → Extras → API keys**
+    2. Click **"Create A Key"**
+    3. Give it a name like "Migma Integration"
+    4. Copy your API key
+
+    **API Key Format:** `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-us11`
+
+    The suffix (`us11`) indicates your data center region.
+
+    <Warning>
+    Keep your API key secure - it grants full access to your Mailchimp account
+    </Warning>
+  </Step>
+
+  <Step title="Connect in Migma">
+    **In Migma:**
+    1. Navigate to **Settings → Integrations → Marketing Platforms**
+    2. Click **"Connect Mailchimp"**
+    3. Paste your API key
+    4. Click **"Authorize"**
+
+    Migma automatically detects your data center from the API key.
+  </Step>
+
+  <Step title="Select Audiences">
+    **Choose which Mailchimp audiences to sync:**
+
+    Select the audiences you want to access:
+    - ☑ Newsletter Subscribers (12,450 contacts)
+    - ☑ Product Updates (8,230 contacts)
+    - ☑ VIP Customers (1,500 contacts)
+    - ☐ Archived List (2,100 contacts)
+
+    You can modify these selections anytime.
+  </Step>
+
+  <Step title="Configure Sync Direction">
+    **Choose how to sync data:**
+    - ○ Migma → Mailchimp only
+    - ● Bidirectional (recommended)
+    - ○ Mailchimp → Migma only
+
+    Bidirectional keeps both platforms in sync automatically.
+  </Step>
+
+  <Step title="Map Custom Fields">
+    **Match Migma fields to Mailchimp merge tags:**
+
+    | Migma Field | Mailchimp Tag |
+    |-------------|---------------|
+    | First Name | `FNAME` |
+    | Last Name | `LNAME` |
+    | Email | `EMAIL` |
+    | Company | `COMPANY` |
+    | Job Title | `JOBTITLE` |
+
+    Custom fields are auto-detected and mapped.
+  </Step>
+
+  <Step title="Test Connection">
+    Click **"Test Sync"** to verify:
+    - ✅ API connection successful
+    - ✅ Audiences accessible
+    - ✅ Field mapping correct
+    - ✅ Sync working properly
+  </Step>
+</Steps>
+
+---
+
+## One-Click Export to Mailchimp
+
+### Export as Campaign
+
+**Create a draft campaign directly in Mailchimp:**
+
+<Steps>
+  <Step title="Create Email in Migma">
+    Design and finalize your email using Migma's AI or visual editor
+  </Step>
+
+  <Step title="Click Export">
+    In the email editor, click **"Export" → "Mailchimp Campaign"**
+  </Step>
+
+  <Step title="Configure Campaign Settings">
+    **In the export dialog:**
+
+    ```
+    Campaign Name: "Summer Sale 2024"
+    Audience: Newsletter Subscribers
+    Subject Line: "50% Off Summer Collection"
+    Preview Text: "Limited time offer - shop now"
+    From Name: "Your Store"
+    From Email: hello@yourstore.com
+    Reply-To: support@yourstore.com
+    ```
+  </Step>
+
+  <Step title="Export via API">
+    Click **"Create Campaign"**
+
+    **Migma automatically:**
+    - ✅ Creates draft campaign in Mailchimp
+    - ✅ Uploads email HTML with proper encoding
+    - ✅ Preserves all merge tags (`*|FNAME|*`, etc.)
+    - ✅ Hosts images on CDN
+    - ✅ Sets campaign metadata
+  </Step>
+
+  <Step title="Finish in Mailchimp">
+    Go to Mailchimp to:
+    - Review the campaign
+    - Send test emails
+    - Schedule delivery
+    - Launch campaign
+    - View analytics
+  </Step>
+</Steps>
+
+### Export as Template
+
+**Save to Mailchimp template library for reuse:**
+
+<Steps>
+  <Step title="Export as Template">
+    Click **"Export" → "Mailchimp Template"**
+  </Step>
+
+  <Step title="Template Settings">
+    **Configure:**
+    - Template name: "Product Showcase Template"
+    - Category: "Newsletter" (optional)
+    - Description: "Reusable product showcase layout"
+    - Tags: "product", "promotional"
+  </Step>
+
+  <Step title="API Upload">
+    Migma uploads the template via Mailchimp API
+
+    Template appears in:
+    **Mailchimp → Templates → Saved templates**
+  </Step>
+
+  <Step title="Use Template">
+    **Create new campaigns with your template:**
+    1. In Mailchimp, create a new campaign
+    2. Choose "Saved templates"
+    3. Select your Migma template
+    4. Customize and send
+  </Step>
+</Steps>
+
+### HTML Export (Manual Method)
+
+**For advanced users or special cases:**
+
+<Steps>
+  <Step title="Export HTML">
+    Click **"Export" → "HTML"** in Migma
+  </Step>
+
+  <Step title="Copy HTML">
+    Copy the exported HTML code
+  </Step>
+
+  <Step title="Create Campaign in Mailchimp">
+    1. Create new campaign in Mailchimp
+    2. Choose **"Code your own"** option
+    3. Paste the HTML
+  </Step>
+
+  <Step title="Verify Merge Tags">
+    Merge tags are automatically preserved:
+    ```html
+    Hello *|FNAME|*!
+    Your order *|ORDER_NUMBER|* has shipped.
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Merge Tags & Personalization
+
+Migma **automatically preserves** Mailchimp's merge tag syntax. Use merge tags in your prompts, and they'll work perfectly in Mailchimp.
+
+### Subscriber Fields
+
+```html
+<!-- Basic subscriber information -->
+*|FNAME|*                    → First name
+*|LNAME|*                    → Last name
+*|EMAIL|*                    → Email address
+*|PHONE|*                    → Phone number
+
+<!-- Custom fields -->
+*|COMPANY|*                  → Company name
+*|JOBTITLE|*                 → Job title
+*|BIRTHDAY|*                 → Birthday
+```
+
+### Campaign Fields
+
+```html
+<!-- Campaign information -->
+*|MC:SUBJECT|*               → Email subject line
+*|CURRENT_YEAR|*             → Current year
+*|DATE:Y|*                   → Current year
+*|DATE:M-D-Y|*               → Current date (MM-DD-YYYY)
+
+<!-- List information -->
+*|LIST:COMPANY|*             → Your company name
+*|LIST:DESCRIPTION|*         → List description
+```
+
+### Link Fields
+
+```html
+<!-- Management links -->
+*|UNSUB|*                    → Unsubscribe link
+*|UPDATE_PROFILE|*           → Update preferences link
+*|FORWARD|*                  → Forward to friend link
+*|REWARDS|*                  → MonkeyRewards link (if enabled)
+
+<!-- Social links -->
+*|FACEBOOK:PROFILEURL|*      → Facebook profile
+*|TWITTER:PROFILEURL|*       → Twitter profile
+```
+
+### Conditional Merge Tags
+
+```html
+<!-- With default values -->
+*|FNAME:Friend|*             → First name or "Friend"
+*|COMPANY:your company|*     → Company or "your company"
+
+<!-- Example greeting -->
+Hello *|FNAME:there|*,
+```
+
+---
+
+## Using Merge Tags in Migma
+
+### In Prompts
+
+Tell Migma to include merge tags in your prompt:
+
+```text
+Create a welcome email with:
+- Greeting: "Hi *|FNAME|*!"
+- Personalized content mentioning *|COMPANY|*
+- Unsubscribe link using *|UNSUB|*
+- Current year with *|CURRENT_YEAR|*
+```
+
+Migma will generate the email with merge tags intact.
+
+### Visual Editor
+
+When editing in Migma's visual editor:
+1. Type merge tags directly: `*|FNAME|*`
+2. They'll be preserved when exporting to Mailchimp
+3. Preview shows placeholder values
+
+### Common Examples
+
+**Welcome Email:**
+```html
+Hi *|FNAME|*,
+
+Welcome to *|LIST:COMPANY|*!
+
+We're excited to have you on board. You signed up on *|DATE:M-D-Y|*.
+
+If you have any questions, just reply to this email.
+
+Thanks,
+The *|LIST:COMPANY|* Team
+
+<a href="*|UNSUB|*">Unsubscribe</a>
+```
+
+**Newsletter:**
+```html
+Hello *|FNAME:Subscriber|*,
+
+Here's what's new this week at *|COMPANY:our store|*:
+
+[Newsletter Content]
+
+Don't want these emails? <a href="*|UNSUB|*">Unsubscribe</a>
+or <a href="*|UPDATE_PROFILE|*">update your preferences</a>.
+```
+
+**Promotional Email:**
+```html
+Hi *|FNAME|*,
+
+Special offer just for you!
+
+Use code SAVE20 at checkout.
+
+Offer valid through December *|CURRENT_YEAR|*.
+
+Shop now: [Product Link]
+
+Not interested? <a href="*|UNSUB|*">Unsubscribe</a>
+```
+
+---
+
+## Audience Sync
+
+### Bidirectional Synchronization
+
+**Keep subscriber data in sync between Migma and Mailchimp:**
+
+<Check>Export contacts from Migma to Mailchimp</Check>
+<Check>Import Mailchimp audiences into Migma</Check>
+<Check>Automatic field mapping</Check>
+<Check>Custom field synchronization</Check>
+<Check>Tag and segment preservation</Check>
+
+### Configure Sync Settings
+
+1. **Settings → Integrations → Mailchimp**
+2. Click **"Manage Audiences"**
+3. Choose sync frequency:
+   - Real-time (instant sync)
+   - Hourly batch
+   - Daily batch
+   - Manual only
+4. Select which fields to sync
+5. Configure conflict resolution
+
+### Field Mapping
+
+**Automatic mapping between platforms:**
+
+| Migma Field | Mailchimp Merge Tag | Sync Direction |
+|-------------|---------------------|----------------|
+| email | EMAIL | Bidirectional |
+| first_name | FNAME | Bidirectional |
+| last_name | LNAME | Bidirectional |
+| phone | PHONE | Bidirectional |
+| company | COMPANY | Bidirectional |
+| Custom fields | Auto-detected | Bidirectional |
+
+---
+
+## Advanced Features
+
+### Segmentation
+
+**Use Mailchimp segments in Migma:**
+
+<Steps>
+  <Step title="Import Segments">
+    Automatically import Mailchimp segments:
+    - Based on engagement
+    - Purchase history
+    - Demographics
+    - Custom conditions
+  </Step>
+
+  <Step title="Target Campaigns">
+    Export campaigns to specific segments:
+    - VIP customers only
+    - Engaged subscribers
+    - Recent purchasers
+    - Custom segments
+  </Step>
+</Steps>
+
+### Template Variables
+
+**Use advanced Mailchimp features:**
+
+```html
+<!-- Conditional content -->
+*|IF:FNAME|*
+  Hello *|FNAME|*
+*|ELSE:|*
+  Hello Subscriber
+*|END:IF|*
+
+<!-- Date formatting -->
+*|DATE:Y-m-d|*              → 2024-12-25
+*|DATE:F j, Y|*             → December 25, 2024
+
+<!-- Math operations -->
+*|REWARDS_BALANCE|*         → Points balance
+```
+
+### Automation Integration
+
+**Use Migma templates in Mailchimp automations:**
+
+1. Export template to Mailchimp
+2. Create automation in Mailchimp
+3. Select your Migma template
+4. Configure triggers and timing
+
+**Common automations:**
+- Welcome series
+- Abandoned cart
+- Re-engagement
+- Birthday emails
+- Anniversary emails
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Merge Tags Effectively" icon="bullseye">
+    **Do:**
+    - ✅ Always provide defaults: `*|FNAME:Friend|*`
+    - ✅ Test with real subscriber data
+    - ✅ Use standard merge tags when possible
+    - ✅ Include unsubscribe links: `*|UNSUB|*`
+
+    **Don't:**
+    - ❌ Use merge tags without defaults
+    - ❌ Over-personalize (creepy factor)
+    - ❌ Forget required links (unsubscribe)
+    - ❌ Mix Mailchimp syntax with other platforms
+  </Accordion>
+
+  <Accordion title="Test Before Sending" icon="flask">
+    **Always test campaigns:**
+    1. Export to Mailchimp
+    2. Create test campaign
+    3. Send to test addresses
+    4. Check on multiple devices:
+       - Desktop email clients
+       - Mobile (iOS and Android)
+       - Web browsers
+    5. Verify all merge tags work
+    6. Test all links
+    7. Check images load correctly
+  </Accordion>
+
+  <Accordion title="Template Organization" icon="folder-tree">
+    **Keep templates organized:**
+    - Clear naming: "Welcome Email - v3"
+    - Use categories: Newsletter, Promotional, Transactional
+    - Add descriptions for team members
+    - Version control your templates
+    - Archive old versions
+  </Accordion>
+
+  <Accordion title="List Hygiene" icon="broom">
+    **Maintain clean lists:**
+    - Remove hard bounces immediately
+    - Clean soft bounces after 3 attempts
+    - Sunset inactive subscribers (6+ months)
+    - Honor unsubscribes instantly
+    - Segment engaged vs unengaged
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connection Failed" icon="plug-circle-xmark">
+    **Problem:** Can't connect Mailchimp to Migma
+
+    **Solutions:**
+    1. Verify API key format (includes data center: `-us11`)
+    2. Check for extra spaces in API key
+    3. Ensure API key hasn't been revoked
+    4. Try creating a new API key
+    5. Check your Mailchimp account is active
+  </Accordion>
+
+  <Accordion title="Merge Tags Not Working" icon="tags">
+    **Problem:** Merge tags showing as `*|FNAME|*` instead of names
+
+    **Solutions:**
+    1. Check syntax: Use `*|FNAME|*` not `{{FNAME}}`
+    2. Verify field exists in audience
+    3. Test with subscribers who have complete data
+    4. Add defaults: `*|FNAME:Friend|*`
+    5. Preview in Mailchimp before sending
+  </Accordion>
+
+  <Accordion title="Export Failed" icon="circle-exclamation">
+    **Problem:** Export to Mailchimp fails
+
+    **Solutions:**
+    1. Check API connection is active
+    2. Verify audience exists and is accessible
+    3. Ensure campaign name is unique
+    4. Check for special characters in settings
+    5. Try exporting as template first
+    6. Review Mailchimp API status
+  </Accordion>
+
+  <Accordion title="Images Not Displaying" icon="image">
+    **Problem:** Images broken in Mailchimp
+
+    **Solutions:**
+    1. Verify images uploaded to CDN
+    2. Check image URLs are publicly accessible
+    3. Ensure images are web-optimized
+    4. Try re-uploading images
+    5. Check image file sizes (< 1MB recommended)
+    6. Test in Mailchimp preview
+  </Accordion>
+
+  <Accordion title="Formatting Issues" icon="paintbrush">
+    **Problem:** Email looks different in Mailchimp
+
+    **Solutions:**
+    1. Check for Mailchimp CSS interference
+    2. Use inline styles (Migma does this automatically)
+    3. Test in Mailchimp inbox preview
+    4. Avoid complex CSS
+    5. Use Mailchimp-compatible HTML
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Comparison: Mailchimp vs Klaviyo
+
+| Feature | Mailchimp | Klaviyo |
+|---------|-----------|---------|
+| **Best For** | General email marketing | E-commerce & advanced automation |
+| **Merge Tag Syntax** | `*\|FNAME\|*` | `{{ first_name }}` |
+| **Pricing** | From $13/mo (500 contacts) | From $20/mo (250 contacts) |
+| **Export Method** | API campaign/template push | API campaign/template push |
+| **Automation** | Basic automations | Advanced flows |
+| **Segmentation** | Good | Excellent |
+| **Analytics** | Standard metrics | Advanced e-commerce tracking |
+| **Learning Curve** | Easy | Moderate |
+
+<Card title="Not sure which to choose?" icon="question">
+  - **Choose Mailchimp** if you want simplicity, lower costs, or traditional email marketing
+  - **Choose Klaviyo** if you run an e-commerce store or need advanced segmentation
+  - **Use both?** Migma supports exporting to both platforms!
+</Card>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Email Service Providers" icon="server" href="/integrations/email-service-providers">
+    Setup SES, Resend, or SendGrid
+  </Card>
+  <Card title="Klaviyo Integration" icon="k" href="/integrations/klaviyo">
+    Export to Klaviyo
+  </Card>
+  <Card title="Sending Emails" icon="paper-plane" href="/audience/sending-emails">
+    Send to your audience
+  </Card>
+  <Card title="Export Options" icon="download" href="/email-editor/export-options">
+    All export formats
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Watch Tutorial" icon="video" href="https://youtube.com/updatelater">
+    Mailchimp integration guide
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Get help from the community
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Integration assistance
+  </Card>
+  <Card title="Mailchimp Docs" icon="book" href="https://mailchimp.com/developer/">
+    Mailchimp API documentation
+  </Card>
+</CardGroup>

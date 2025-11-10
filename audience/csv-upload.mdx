@@ -1,0 +1,405 @@
+---
+title: "CSV Upload"
+description: "Bulk import contacts from CSV files with automatic field mapping and validation"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="CSV Upload" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Import hundreds or thousands of contacts at once using CSV files. Migma automatically validates emails, maps columns, handles duplicates, and provides detailed import results.
+
+<CardGroup cols={3}>
+  <Card title="Bulk Import" icon="file-csv">
+    Upload thousands of contacts instantly
+  </Card>
+  <Card title="Auto-Mapping" icon="arrows-split-up-and-left">
+    Smart column detection and mapping
+  </Card>
+  <Card title="Validation" icon="shield-check">
+    Email validation and error handling
+  </Card>
+</CardGroup>
+
+---
+
+## CSV Format
+
+### Required Column
+
+**Email** - Required in every CSV file
+
+```csv
+email
+john@example.com
+sarah@company.com
+```
+
+### Supported Standard Columns
+
+| Column Name | Description | Example |
+|-------------|-------------|---------|
+| `email` | Email address (required) | john@example.com |
+| `firstName` or `first_name` | First name | John |
+| `lastName` or `last_name` | Last name | Doe |
+| `name` | Full name | John Doe |
+| `language` | Preferred language (ISO 639-1) | en, es, fr |
+| `country` | Country (ISO 3166-1 alpha-2) | US, GB, CA |
+| `status` | Subscription status | subscribed, unsubscribed |
+
+### Custom Fields
+
+Any column not matching standard names becomes a custom field automatically.
+
+**Example CSV:**
+```csv
+email,firstName,lastName,company,jobTitle
+john@example.com,John,Doe,Acme Corp,CEO
+sarah@tech.com,Sarah,Smith,TechCo,CTO
+```
+
+`company` and `jobTitle` are stored as custom fields.
+
+---
+
+## Import Process
+
+<Steps>
+  <Step title="Navigate to Contacts">
+    Go to **Contacts** page in your project
+  </Step>
+
+  <Step title="Click Import CSV">
+    Click **"Import CSV"** or **"Bulk Import"** button
+  </Step>
+
+  <Step title="Upload File">
+    - Drag & drop CSV file or click to browse
+    - Max file size: 10MB
+    - Formats: .csv, .txt
+  </Step>
+
+  <Step title="Map Columns">
+    Review automatic column mapping:
+    - Migma auto-detects standard columns
+    - Verify email column is correctly mapped
+    - Custom fields are automatically identified
+    - Adjust mappings if needed
+  </Step>
+
+  <Step title="Set Options">
+    **Configure import:**
+    - **Default Status**: Subscribed, unsubscribed, or non-subscribed
+    - **Tags**: Add tags to all imported contacts (optional)
+    - **Skip Header**: Auto-detected, verify it's correct
+  </Step>
+
+  <Step title="Review & Import">
+    - Preview shows first 5 rows
+    - Total contacts to import displayed
+    - Click **"Import Contacts"** to start
+  </Step>
+
+  <Step title="View Results">
+    Import summary shows:
+    - ✅ Successfully imported
+    - ⏭️ Skipped (duplicates)
+    - ❌ Failed (validation errors)
+  </Step>
+</Steps>
+
+---
+
+## Column Mapping
+
+Migma automatically detects column names. Common variations are supported:
+
+**Email columns** (required):
+- `email`, `Email`, `EMAIL`
+- `e-mail`, `e_mail`
+
+**Name columns:**
+- `firstName`, `first_name`, `First Name`
+- `lastName`, `last_name`, `Last Name`
+- `name`, `Name`, `fullName`
+
+**Other standard columns:**
+- `language`, `lang`, `locale`
+- `country`, `countryCode`, `country_code`
+- `status`, `subscriptionStatus`, `subscription_status`
+
+**Custom fields:**
+Any unrecognized column name becomes a custom field (e.g., `company`, `phone`, `userId`)
+
+---
+
+## Validation & Handling
+
+### Email Validation
+
+Emails are validated automatically:
+
+<Check>Valid format (user@domain.com)</Check>
+<Check>Valid domain</Check>
+<Check>No duplicates within CSV</Check>
+<Check>Not already in your contact list</Check>
+
+**Invalid emails are skipped and shown in import results**
+
+### Duplicate Handling
+
+<Tabs>
+  <Tab title="Within CSV">
+    **If CSV contains duplicate emails:**
+    - Only first occurrence is imported
+    - Subsequent duplicates are skipped
+    - Count shown in import results
+  </Tab>
+
+  <Tab title="Existing Contacts">
+    **If email already exists in your list:**
+    - Existing contact is NOT updated
+    - Import skips this contact
+    - Preserves existing data
+    - Count shown in results
+  </Tab>
+</Tabs>
+
+### Status Handling
+
+**Default status (set in UI):**
+- Applied to all contacts without status column
+- Options: Subscribed, Unsubscribed, Non-subscribed
+
+**CSV status column (optional override):**
+- Include `status` column to set per-contact
+- Values: `subscribed`, `unsubscribed`, `non-subscribed`, `bounced`
+- Overrides UI default for that row
+
+<Warning>
+**Unsubscribed contacts:** If CSV contains `status=unsubscribed`, they will remain unsubscribed. This prevents accidental re-subscription.
+</Warning>
+
+---
+
+## Tags
+
+**Add tags during import:**
+
+<Steps>
+  <Step title="UI Tag Selection">
+    Use the tag selector to add tags to ALL imported contacts
+  </Step>
+  <Step title="Example Uses">
+    - Source: `CSV-Import-2024`
+    - Campaign: `Q4-Newsletter`
+    - Type: `Event-Attendees`
+  </Step>
+</Steps>
+
+<Note>
+**CSV tags column** is not currently supported. Use UI tag selector to apply tags to all imported contacts.
+</Note>
+
+---
+
+## Import Results
+
+After import completes, you'll see a detailed summary:
+
+**Example result:**
+```
+Import Complete!
+
+✅ Successfully imported: 847 contacts
+⏭️ Skipped (duplicates): 23 contacts
+❌ Failed (invalid): 5 contacts
+
+Total processed: 875 contacts
+```
+
+**Click details to see:**
+- Which emails were skipped (with reason)
+- Which emails failed validation
+- Error messages for failed rows
+
+---
+
+## CSV Examples
+
+<Tabs>
+  <Tab title="Minimal (Email Only)">
+    ```csv
+    email
+    john@example.com
+    sarah@company.com
+    mike@startup.co
+    ```
+
+    Simplest format - just email addresses
+  </Tab>
+
+  <Tab title="Standard Fields">
+    ```csv
+    email,firstName,lastName,language,country
+    john@example.com,John,Doe,en,US
+    sarah@company.com,Sarah,Smith,en,GB
+    pierre@france.fr,Pierre,Martin,fr,FR
+    ```
+
+    Common standard fields
+  </Tab>
+
+  <Tab title="With Custom Fields">
+    ```csv
+    email,firstName,company,jobTitle,userId
+    john@example.com,John,Acme Corp,CEO,user_123
+    sarah@tech.com,Sarah,TechCo,CTO,user_456
+    ```
+
+    `company`, `jobTitle`, `userId` stored as custom fields
+  </Tab>
+
+  <Tab title="With Status">
+    ```csv
+    email,firstName,status
+    john@example.com,John,subscribed
+    old@user.com,Old,unsubscribed
+    new@lead.com,New,non-subscribed
+    ```
+
+    Per-contact subscription status
+  </Tab>
+</Tabs>
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Prepare Your CSV" icon="file-csv">
+    **Before uploading:**
+    - Remove test data and internal emails
+    - Verify email column exists
+    - Check for duplicate emails
+    - Use consistent column names
+    - Remove special characters from column headers
+    - Use UTF-8 encoding for international characters
+  </Accordion>
+
+  <Accordion title="Tag Your Imports" icon="tags">
+    **Always add tags:**
+    - Import source: `Mailchimp-Export`, `EventBrite`
+    - Import date: `Import-Nov-2024`
+    - Campaign: `Webinar-Attendees`
+
+    Makes it easy to find and manage imported groups
+  </Accordion>
+
+  <Accordion title="Verify Before Sending" icon="shield-check">
+    **After import:**
+    - Check import results for errors
+    - Review a few contacts to verify data
+    - Filter by import tags to see the group
+    - Send test email before bulk campaign
+  </Accordion>
+
+  <Accordion title="Manage List Hygiene" icon="broom">
+    **Keep lists clean:**
+    - Don't import purchased lists (spam risk)
+    - Import only opted-in contacts
+    - Honor existing unsubscribe status
+    - Remove bounced emails promptly
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="All contacts skipped as duplicates" icon="clone">
+    **Cause:** Email addresses already exist in your contact list
+
+    **Solution:**
+    - Check if contacts were previously imported
+    - Use different CSV or clean existing duplicates
+    - Note: Existing contacts are NOT updated during import
+  </Accordion>
+
+  <Accordion title="Email column not detected" icon="envelope">
+    **Cause:** Column name not recognized as email
+
+    **Solution:**
+    - Ensure column is named `email`, `Email`, or `e-mail`
+    - Manually map column during import step
+    - Rename column header in CSV if needed
+  </Accordion>
+
+  <Accordion title="Many emails failed validation" icon="exclamation-triangle">
+    **Cause:** Invalid email formats
+
+    **Solution:**
+    - Review failed emails in import results
+    - Clean email list before importing
+    - Verify emails don't have extra spaces
+    - Check for proper email format (user@domain.com)
+  </Accordion>
+
+  <Accordion title="Custom fields not showing" icon="database">
+    **Cause:** Column names match standard field variations
+
+    **Solution:**
+    - Use unique names for custom fields
+    - Avoid names like `name`, `email`, `status`
+    - Check imported contacts to see custom field data
+  </Accordion>
+
+  <Accordion title="File upload fails" icon="file-circle-xmark">
+    **Cause:** File too large or wrong format
+
+    **Solution:**
+    - Max size: 10MB
+    - Format: .csv or .txt
+    - Try saving as CSV UTF-8 from Excel/Sheets
+    - Split large files into smaller batches
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Manage Contacts" icon="users" href="/audience/manage-contacts">
+    View and organize imported contacts
+  </Card>
+  <Card title="Send Campaign" icon="paper-plane" href="/audience/sending-emails">
+    Send emails to your imported list
+  </Card>
+  <Card title="Preference Center" icon="sliders" href="/audience/preference-center">
+    Set up subscription management
+  </Card>
+  <Card title="API Import" icon="code" href="/api-reference/introduction">
+    Import programmatically via API
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Discord Community" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Get help with CSV imports
+  </Card>
+  <Card title="Video Tutorial" icon="video" href="https://youtube.com/updatelater">
+    Watch CSV import walkthrough
+  </Card>
+  <Card title="Support Team" icon="life-ring" href="https://migma.ai/support">
+    Contact support
+  </Card>
+  <Card title="Sample CSV" icon="download" href="https://migma.ai/sample.csv">
+    Download sample CSV file
+  </Card>
+</CardGroup>

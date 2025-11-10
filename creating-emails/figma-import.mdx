@@ -1,0 +1,566 @@
+---
+title: "Figma to Email"
+description: "Import Figma designs and export clean HTML, React Email, or MJML code"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="Figma to Email Conversion" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Design in Figma, convert to production-ready email HTML in seconds. Migma imports your Figma files and generates clean, responsive HTML/React Email/MJML with no vendor lock-in.
+
+<CardGroup cols={3}>
+  <Card title="Cleaner Output" icon="code">
+    Cleaner HTML/React, better component detection, improved font handling
+  </Card>
+  <Card title="Pixel-Perfect" icon="ruler">
+    Preserves your exact design vision
+  </Card>
+  <Card title="No Lock-In" icon="unlock">
+    Export to any ESP or framework
+  </Card>
+</CardGroup>
+
+---
+
+## Why Figma to Email?
+
+### For Designers
+
+<Check>Design with full creative freedom in Figma</Check>
+<Check>No need to learn email HTML constraints</Check>
+<Check>Maintain design system consistency</Check>
+<Check>Faster than manual hand-off to developers</Check>
+
+### For Developers
+
+<Check>Clean, semantic HTML/React Email output</Check>
+<Check>Production-ready code in seconds</Check>
+<Check>No manual implementation of mockups</Check>
+<Check>Email-client compatible out of the box</Check>
+
+### For Teams
+
+<Check>Bridge design-development workflow</Check>
+<Check>Reduce back-and-forth iterations</Check>
+<Check>Maintain single source of truth (Figma)</Check>
+<Check>Scale email production</Check>
+
+---
+
+## How It Works
+
+<Steps>
+  <Step title="Design in Figma">
+    Create your email design in Figma using frames, components, and auto-layout
+  </Step>
+
+  <Step title="Get Figma URL">
+    Share your Figma file and copy the URL
+  </Step>
+
+  <Step title="Paste in Migma">
+    Navigate to Create page and paste Figma URL with special prompt
+  </Step>
+
+  <Step title="AI Converts">
+    Migma analyzes design and generates responsive HTML/React Email
+  </Step>
+
+  <Step title="Review & Export">
+    Preview, refine, and export in your preferred format
+  </Step>
+</Steps>
+
+<iframe width="100%" height="300" src="https://youtube.com/updatelater" title="Figma Import Process" frameborder="0" allowfullscreen></iframe>
+
+---
+
+## Step-by-Step: Import from Figma
+
+### 1. Prepare Your Figma File
+
+**Design Guidelines:**
+
+<AccordionGroup>
+  <Accordion title="Use Frames for Structure" icon="border-all">
+    - Main frame = email container (600px width recommended)
+    - Nested frames = sections (header, hero, content, footer)
+    - Auto-layout for consistent spacing
+  </Accordion>
+
+  <Accordion title="Typography" icon="font">
+    - Use web-safe fonts or Google Fonts
+    - Consistent text styles
+    - Clear hierarchy (H1, H2, body)
+    - **Tip:** Migma handles font fallbacks automatically
+  </Accordion>
+
+  <Accordion title="Colors" icon="palette">
+    - Named color styles for consistency
+    - Hex values for all colors
+    - Consider email dark mode
+  </Accordion>
+
+  <Accordion title="Images" icon="image">
+    - Export at 2x for retina displays
+    - Use fills or image fills
+    - Placeholder images acceptable (you can replace)
+  </Accordion>
+
+  <Accordion title="Buttons & CTAs" icon="hand-pointer">
+    - Use component instances for buttons
+    - Include button states if desired
+    - Clear text labels
+  </Accordion>
+</AccordionGroup>
+
+### 2. Share Your Figma File
+
+<Steps>
+  <Step title="Open Sharing Settings">
+    Click **Share** button in top-right of Figma
+  </Step>
+
+  <Step title="Set Permissions">
+    Choose **"Anyone with the link can view"**
+
+    <Warning>
+    **Important:** File must be publicly accessible or shared with Migma
+    </Warning>
+  </Step>
+
+  <Step title="Copy Link">
+    Click **Copy link** to get your Figma file URL
+  </Step>
+</Steps>
+
+### 3. Import to Migma
+
+Navigate to **Create** page and use this prompt pattern:
+
+```text
+Import from Figma: [PASTE YOUR FIGMA URL]
+
+Convert this design to responsive email HTML
+```
+
+**Advanced prompt example:**
+```text
+Import from Figma: https://www.figma.com/file/ABC123/Email-Design
+
+Convert to React Email format
+Use my brand colors if different from design
+Ensure mobile responsive breakpoints
+Add alt text to all images
+```
+
+### 4. Review Conversion
+
+Migma generates:
+- Clean HTML or React Email code
+- Mobile-responsive breakpoints
+- Email-client compatible CSS
+- Inline styles where needed
+- Proper image optimization
+
+---
+
+## What Migma Converts
+
+### ✅ Fully Supported
+
+<CardGroup cols={2}>
+  <Card title="Layout" icon="table-columns">
+    Frames, auto-layout, grids, columns
+  </Card>
+  <Card title="Typography" icon="text">
+    Text styles, fonts, sizes, colors, alignment
+  </Card>
+  <Card title="Colors" icon="droplet">
+    Fills, gradients (simplified for email), borders
+  </Card>
+  <Card title="Images" icon="image">
+    Image fills, exports, backgrounds
+  </Card>
+  <Card title="Shapes" icon="shapes">
+    Rectangles, rounded corners, borders
+  </Card>
+  <Card title="Spacing" icon="arrows-left-right">
+    Padding, margins, auto-layout gaps
+  </Card>
+</CardGroup>
+
+### ⚠️ Converted with Adaptations
+
+<AccordionGroup>
+  <Accordion title="Complex Shapes" icon="draw-polygon">
+    **What happens:** Complex vectors simplified to rectangles or images
+
+    **Best practice:** Use simple shapes or export as images
+  </Accordion>
+
+  <Accordion title="Advanced Effects" icon="wand-sparkles">
+    **What happens:** Shadows, blurs converted to email-safe alternatives
+
+    **Best practice:** Keep effects minimal for email compatibility
+  </Accordion>
+
+  <Accordion title="Animations" icon="film">
+    **What happens:** Converted to static state
+
+    **Best practice:** Use static designs or simple GIFs
+  </Accordion>
+
+  <Accordion title="Custom Fonts" icon="font-case">
+    **What happens:** Fallbacks provided for unsupported fonts
+
+    **Best practice:** Use Google Fonts or web-safe fonts
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Export Formats
+
+Choose your preferred output format:
+
+<Tabs>
+  <Tab title="HTML">
+    **Standard HTML with inline CSS**
+
+    **Best for:**
+    - Direct ESP upload
+    - Maximum compatibility
+    - Simple email workflows
+
+    **Includes:**
+    - Inline styles
+    - Table-based layout (for Outlook)
+    - Email-safe CSS
+    - Responsive media queries
+  </Tab>
+
+  <Tab title="React Email">
+    **React Email components**
+
+    **Best for:**
+    - Next.js applications
+    - Developer workflows
+    - Component reusability
+    - Version control
+
+    **Includes:**
+    - JSX components
+    - Tailwind CSS classes
+    - TypeScript support available
+    - Easy customization
+  </Tab>
+
+  <Tab title="MJML">
+    **MJML markup**
+
+    **Best for:**
+    - MJML-based workflows
+    - Framework flexibility
+    - Responsive-first design
+    - Developer preference
+
+    **Includes:**
+    - Semantic MJML tags
+    - Automatic responsiveness
+    - Clean code structure
+    - ESP compatibility
+  </Tab>
+</Tabs>
+
+---
+
+## Figma Design Best Practices
+
+### Optimal Email Dimensions
+
+```
+Desktop: 600-650px width
+Mobile: Auto-responsive (Migma handles breakpoints)
+Height: No limit (scrollable)
+```
+
+### Layer Organization
+
+**Recommended structure:**
+```
+📧 Email Container (600px)
+├── 🎯 Header
+│   ├── Logo
+│   └── Navigation (optional)
+├── 🖼️ Hero Section
+│   ├── Hero Image
+│   └── Headline + CTA
+├── 📝 Content Sections
+│   ├── Section 1
+│   ├── Section 2
+│   └── Section 3
+└── 🔚 Footer
+    ├── Social Icons
+    ├── Unsubscribe Link
+    └── Company Info
+```
+
+### Component Best Practices
+
+<AccordionGroup>
+  <Accordion title="Buttons" icon="rectangle-wide">
+    **Design:**
+    - Min height: 44px (touch target)
+    - Min width: 200px
+    - Padding: 12px 24px
+    - Rounded corners: 4-8px
+
+    **Figma setup:**
+    - Use component variants for states
+    - Include clear text labels
+    - Set constraints for responsive behavior
+  </Accordion>
+
+  <Accordion title="Images" icon="image">
+    **Design:**
+    - Use 2x resolution for retina
+    - Max width: 600px
+    - Alt text in layer names
+
+    **Figma setup:**
+    - Layer name = alt text suggestion
+    - Use fills or image fills
+    - Ensure images are exportable
+  </Accordion>
+
+  <Accordion title="Text Blocks" icon="align-left">
+    **Design:**
+    - Min font size: 14px body, 16px mobile
+    - Line height: 1.5-1.7
+    - Readable paragraph width
+
+    **Figma setup:**
+    - Use text styles
+    - Set auto-width for responsiveness
+    - Consider mobile line breaks
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Advanced Features
+
+### Brand Color Override
+
+Import Figma but apply your brand colors:
+
+```text
+Import from Figma: [URL]
+
+Replace all blue colors with my brand purple
+Apply my brand fonts
+Keep the layout structure
+```
+
+### Responsive Breakpoints
+
+Migma automatically handles mobile responsiveness, but you can specify:
+
+```text
+Import from Figma: [URL]
+
+On mobile:
+- Stack columns vertically
+- Increase font sizes by 10%
+- Make CTAs full-width
+```
+
+### Component Mapping
+
+Map Figma components to email patterns:
+
+```text
+Import from Figma: [URL]
+
+Convert:
+- "Button Primary" components to my CTA style
+- "Card" components to email-safe boxes
+- "Icon Grid" to table layout for Outlook
+```
+
+---
+
+## Figma Plugins for Migma
+
+### Recommended Figma Plugins
+
+While not required, these plugins enhance your Figma-to-email workflow:
+
+<CardGroup cols={2}>
+  <Card title="Email-Ready Components" icon="puzzle-piece">
+    Use email-specific component libraries designed for conversion
+  </Card>
+  <Card title="Export Helpers" icon="download">
+    Batch export images at correct sizes
+  </Card>
+  <Card title="Contrast Checkers" icon="circle-half-stroke">
+    Ensure text readability
+  </Card>
+  <Card title="Responsive Preview" icon="mobile">
+    Preview at 375px mobile width
+  </Card>
+</CardGroup>
+
+---
+
+## Comparison: Figma vs Other Methods
+
+| Feature | Figma Import | Image Clone | HTML Import |
+|---------|--------------|-------------|-------------|
+| **Accuracy** | ⭐⭐⭐⭐⭐ Highest | ⭐⭐⭐⭐ Very High | ⭐⭐⭐⭐⭐ Exact |
+| **Speed** | ⚡⚡ 60-90 sec | ⚡⚡⚡ 30-60 sec | ⚡ Instant |
+| **Text Quality** | Perfect | OCR-based | Perfect |
+| **Best For** | Original designs | Screenshots | Code migration |
+| **Setup** | Figma access | None | HTML source |
+| **Flexibility** | High | Medium | Low |
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Import failed: Cannot access Figma file" icon="lock">
+    **Cause:** File not publicly shared or wrong permissions
+
+    **Solution:**
+    1. Open Figma file
+    2. Click Share → Anyone with link can view
+    3. Copy new link and retry
+  </Accordion>
+
+  <Accordion title="Fonts don't match" icon="font">
+    **Cause:** Custom fonts not available in email clients
+
+    **Solution:**
+    - Migma automatically provides web-safe fallbacks
+    - Consider using Google Fonts
+    - Specify preferred fallback:
+    ```text
+    Use Arial as fallback for custom font
+    ```
+  </Accordion>
+
+  <Accordion title="Layout broken on mobile" icon="mobile-screen">
+    **Cause:** Fixed widths or complex positioning
+
+    **Solution:**
+    - Use Figma auto-layout
+    - Avoid absolute positioning
+    - Request specific mobile behavior:
+    ```text
+    Stack all columns on mobile
+    ```
+  </Accordion>
+
+  <Accordion title="Colors slightly different" icon="palette">
+    **Cause:** Color profile differences or rendering
+
+    **Solution:**
+    - Verify hex codes in Figma
+    - Manually adjust in refinement:
+    ```text
+    Change all blue to exact hex #2563EB
+    ```
+  </Accordion>
+
+  <Accordion title="Missing images" icon="image-slash">
+    **Cause:** Images not exported or inaccessible
+
+    **Solution:**
+    - Ensure images in Figma are fills (not links)
+    - Check image export settings
+    - Re-upload images if needed
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Designer-Developer Workflow
+
+### Collaboration Pattern
+
+<Steps>
+  <Step title="Designer Creates">
+    Designer builds email in Figma following guidelines
+  </Step>
+
+  <Step title="Designer Shares">
+    Designer shares Figma link with developer/marketer
+  </Step>
+
+  <Step title="Import to Migma">
+    Developer/marketer imports to Migma
+  </Step>
+
+  <Step title="Review Together">
+    Both review converted HTML, make adjustments
+  </Step>
+
+  <Step title="Refine in Chat">
+    Use Migma chat to make final tweaks collaboratively
+  </Step>
+
+  <Step title="Export & Deploy">
+    Export to ESP and launch campaign
+  </Step>
+</Steps>
+
+### Feedback Loop
+
+**Designer → Migma → Developer:**
+1. Designer updates Figma
+2. Re-import to Migma
+3. Compare versions
+4. Implement changes
+
+**Time saved:** Hours of manual HTML coding per email
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Visual Editor" icon="pen-to-square" href="/email-editor/visual-editor">
+    Edit Figma imports visually
+  </Card>
+  <Card title="Email Preflight" icon="clipboard-check" href="/email-editor/email-preflight">
+    Test on 30+ devices before sending
+  </Card>
+  <Card title="Export Options" icon="download" href="/email-editor/export-options">
+    Export to HTML, React Email, MJML
+  </Card>
+  <Card title="Image Clone" icon="image" href="/creating-emails/image-clone">
+    Clone emails from screenshots
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Figma Templates" icon="layer-group" href="https://migma.ai/figma-templates">
+    Download email-ready Figma templates
+  </Card>
+  <Card title="Video Tutorials" icon="video" href="https://youtube.com/updatelater">
+    Watch Figma-to-email walkthroughs
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Share designs and get feedback
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Get help with complex conversions
+  </Card>
+</CardGroup>

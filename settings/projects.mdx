@@ -1,0 +1,231 @@
+---
+title: 'Projects'
+description: 'Organize your work with projects in Migma'
+---
+
+## What are Projects?
+
+Projects in Migma help you organize your emails, campaigns, and audiences into separate workspaces. Each project can represent a different brand, client, or campaign initiative.
+
+<Info>
+  Projects keep your work organized and make it easy to switch between different brands or clients.
+</Info>
+
+## Creating a Project
+
+<Steps>
+  <Step title="Navigate to Projects">
+    Click on the Projects dropdown in the top navigation
+  </Step>
+  <Step title="Create New Project">
+    Click "New Project" and enter your project details
+  </Step>
+  <Step title="Configure Brand">
+    Set up your brand colors, fonts, and logo
+  </Step>
+  <Step title="Start Creating">
+    Begin creating emails within your new project
+  </Step>
+</Steps>
+
+## Project Settings
+
+Each project has its own independent settings:
+
+<CardGroup cols={2}>
+  <Card title="Brand Configuration" icon="palette">
+    Colors, fonts, logos, and visual identity
+  </Card>
+  <Card title="Email Settings" icon="envelope">
+    Default sender information and signatures
+  </Card>
+  <Card title="Integrations" icon="plug">
+    Email service providers and third-party tools
+  </Card>
+  <Card title="Team Access" icon="users">
+    Manage who can access this project
+  </Card>
+</CardGroup>
+
+## Project Brand Settings
+
+### Brand Colors
+
+Define your brand's color palette for consistent email design:
+
+```javascript Brand Colors
+{
+  "primary": "#6D28D9",      // Main brand color
+  "secondary": "#A78BFA",    // Accent color
+  "text": "#1F2937",         // Default text color
+  "background": "#FFFFFF",   // Background color
+  "accent": "#F59E0B"        // Highlight color
+}
+```
+
+### Typography
+
+Set default fonts for your project:
+
+<Tabs>
+  <Tab title="Headings">
+    Choose fonts for email headings and titles.
+
+    **Recommended web-safe fonts:**
+    - Arial
+    - Helvetica
+    - Georgia
+    - Times New Roman
+    - Verdana
+  </Tab>
+
+  <Tab title="Body Text">
+    Select the main font for email body content.
+
+    **Best practices:**
+    - Use web-safe fonts for maximum compatibility
+    - Maintain 14-16px minimum font size
+    - Ensure good contrast with background
+  </Tab>
+</Tabs>
+
+### Logo & Branding
+
+Upload your logo and configure how it appears in emails:
+
+<AccordionGroup>
+  <Accordion title="Logo Requirements">
+    - **Format:** PNG, SVG, or JPG
+    - **Size:** Maximum 500KB
+    - **Dimensions:** Recommended 600x200px or smaller
+    - **Background:** Transparent PNG recommended
+  </Accordion>
+
+  <Accordion title="Logo Placement">
+    Configure where your logo appears:
+    - Header (default)
+    - Footer
+    - Both header and footer
+    - Custom positioning
+  </Accordion>
+</AccordionGroup>
+
+## Default Email Settings
+
+Configure default settings for all emails in this project:
+
+| Setting | Description | Example |
+|---------|-------------|---------|
+| From Name | Sender name that appears in inbox | "Acme Marketing" |
+| From Email | Sender email address | "hello@acme.com" |
+| Reply-To | Where replies are sent | "support@acme.com" |
+| Default Subject | Template for subject lines | "[Acme] {subject}" |
+
+## Project Integrations
+
+Connect email service providers and tools at the project level:
+
+<CardGroup cols={2}>
+  <Card title="Email Providers" icon="server">
+    AWS SES, Resend, SendGrid, Mailgun
+  </Card>
+  <Card title="E-commerce" icon="shopping-cart">
+    Shopify, WooCommerce, Magento
+  </Card>
+  <Card title="CRM" icon="address-book">
+    Salesforce, HubSpot, Pipedrive
+  </Card>
+  <Card title="Analytics" icon="chart-bar">
+    Google Analytics, Mixpanel, Segment
+  </Card>
+</CardGroup>
+
+## Switching Between Projects
+
+Easily switch between your projects:
+
+1. Click the **Project dropdown** in the top navigation
+2. Select the project you want to work on
+3. All emails, campaigns, and audiences are scoped to that project
+
+<Tip>
+  Use keyboard shortcut `Cmd/Ctrl + K` to quickly switch projects
+</Tip>
+
+## Project Templates
+
+Save time by creating project templates with pre-configured settings:
+
+<Steps>
+  <Step title="Set Up Template">
+    Configure a project with your desired settings
+  </Step>
+  <Step title="Save as Template">
+    Mark the project as a template in settings
+  </Step>
+  <Step title="Create From Template">
+    When creating new projects, select your template
+  </Step>
+</Steps>
+
+## Archiving Projects
+
+Keep your workspace clean by archiving completed projects:
+
+<Warning>
+  Archived projects are read-only. You can view emails and campaigns but cannot send new emails or modify content.
+</Warning>
+
+**To archive a project:**
+1. Navigate to Project Settings
+2. Click "Archive Project"
+3. Confirm the action
+
+**Archived projects can be:**
+- Viewed at any time
+- Restored if needed
+- Permanently deleted after 90 days
+
+## Project Limits
+
+<Note>
+  Project limits depend on your subscription plan.
+</Note>
+
+| Plan | Active Projects | Archived Projects | Team Members per Project |
+|------|----------------|-------------------|-------------------------|
+| Free | 1 | 0 | 1 |
+| Starter | 3 | Unlimited | 3 |
+| Pro | 10 | Unlimited | 10 |
+| Enterprise | Unlimited | Unlimited | Unlimited |
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="One Project Per Brand">
+    Create separate projects for each brand you manage. This keeps branding, settings, and audiences isolated.
+  </Accordion>
+
+  <Accordion title="Use Descriptive Names">
+    Name projects clearly so team members can easily identify them (e.g., "Acme Corp - Q4 2024" instead of "Project 1").
+  </Accordion>
+
+  <Accordion title="Configure Brand Settings First">
+    Set up brand colors, fonts, and logos before creating emails to ensure consistency from the start.
+  </Accordion>
+
+  <Accordion title="Regular Cleanup">
+    Archive old projects to keep your workspace organized and improve performance.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Team Management" icon="users" href="/settings/team-management">
+    Invite team members and manage permissions
+  </Card>
+  <Card title="Account Settings" icon="cog" href="/settings/account-settings">
+    Configure your account preferences
+  </Card>
+</CardGroup>

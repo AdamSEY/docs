@@ -1,0 +1,273 @@
+---
+title: 'Track Results'
+description: 'Monitor and analyze your email campaign performance'
+---
+
+## Campaign Analytics
+
+Track the performance of your email campaigns with detailed metrics and insights to optimize future sends.
+
+## Key Metrics
+
+<CardGroup cols={2}>
+  <Card title="Open Rate" icon="envelope-open">
+    Percentage of recipients who opened your email
+
+    **Industry Average:** 15-25%
+  </Card>
+  <Card title="Click Rate" icon="mouse-pointer">
+    Percentage of recipients who clicked a link
+
+    **Industry Average:** 2-5%
+  </Card>
+  <Card title="Click-to-Open Rate" icon="percentage">
+    Percentage of openers who clicked a link
+
+    **Industry Average:** 10-15%
+  </Card>
+  <Card title="Bounce Rate" icon="exclamation-triangle">
+    Percentage of emails that couldn't be delivered
+
+    **Goal:** Keep below 2%
+  </Card>
+</CardGroup>
+
+## Understanding Your Metrics
+
+### Open Rate
+
+The percentage of recipients who opened your email.
+
+<Info>
+  Due to privacy changes (Apple Mail Privacy Protection), open rates may be inflated. Focus on clicks and conversions for more accurate engagement data.
+</Info>
+
+**What affects open rate:**
+- Subject line quality
+- Sender name recognition
+- Send time
+- Email list quality
+- Previous engagement history
+
+**Improving open rates:**
+- Test different subject lines (A/B testing)
+- Personalize subject lines with recipient names
+- Send at optimal times for your audience
+- Clean your email list regularly
+
+### Click Rate
+
+The percentage of recipients who clicked any link in your email.
+
+<Tip>
+  Click rate is a more reliable engagement metric than opens, especially post-iOS 15.
+</Tip>
+
+**What affects click rate:**
+- Email content relevance
+- Call-to-action (CTA) clarity
+- Link placement
+- Email design and layout
+- Audience targeting
+
+**Improving click rates:**
+- Use clear, action-oriented CTAs
+- Place links prominently
+- Create compelling content
+- Ensure mobile-friendly design
+- Segment your audience for relevance
+
+### Bounce Rate
+
+Emails that couldn't be delivered.
+
+<Warning>
+  High bounce rates (>5%) can harm your sender reputation and deliverability.
+</Warning>
+
+**Types of bounces:**
+
+| Type | Description | Action Required |
+|------|-------------|-----------------|
+| Hard Bounce | Permanent delivery failure (invalid email) | Remove from list immediately |
+| Soft Bounce | Temporary delivery failure (full inbox) | Retry, remove after 3-5 failures |
+
+**Reducing bounces:**
+- Use double opt-in for new subscribers
+- Regular list cleaning
+- Remove hard bounces immediately
+- Monitor soft bounces
+
+### Unsubscribe Rate
+
+Percentage of recipients who unsubscribed.
+
+<Note>
+  A healthy unsubscribe rate is 0.1-0.5%. Higher rates may indicate content or frequency issues.
+</Note>
+
+## Real-Time Campaign Dashboard
+
+View your campaign performance as it happens:
+
+```javascript Campaign Stats Example
+{
+  "campaignId": "camp_abc123",
+  "sent": 10000,
+  "delivered": 9850,
+  "opened": 2463,
+  "clicked": 493,
+  "bounced": 150,
+  "unsubscribed": 12,
+  "metrics": {
+    "openRate": "25.0%",
+    "clickRate": "5.0%",
+    "clickToOpenRate": "20.0%",
+    "bounceRate": "1.5%",
+    "unsubscribeRate": "0.12%"
+  }
+}
+```
+
+## Link Click Tracking
+
+See which links in your email are performing best:
+
+<CardGroup cols={2}>
+  <Card title="Click Heatmap" icon="fire">
+    Visual representation of where recipients are clicking
+  </Card>
+  <Card title="Link Performance" icon="list">
+    Detailed breakdown of clicks per link
+  </Card>
+</CardGroup>
+
+**Example link performance:**
+
+| Link | Clicks | Unique Clicks | CTR |
+|------|--------|---------------|-----|
+| Primary CTA | 312 | 298 | 3.0% |
+| Secondary CTA | 156 | 147 | 1.5% |
+| Footer Link | 89 | 86 | 0.9% |
+
+## Geographic & Device Analytics
+
+<Tabs>
+  <Tab title="Geographic Data">
+    See where your audience is located:
+    - Country breakdown
+    - Region/state data
+    - City-level insights
+    - Timezone distribution
+
+    **Use this data to:**
+    - Optimize send times
+    - Localize content
+    - Identify growth markets
+  </Tab>
+
+  <Tab title="Device & Client">
+    Understand how recipients view your emails:
+    - Desktop vs Mobile vs Tablet
+    - Email client breakdown (Gmail, Outlook, etc.)
+    - Operating system data
+    - Browser information
+
+    **Use this data to:**
+    - Optimize email design
+    - Test on popular clients
+    - Ensure mobile responsiveness
+  </Tab>
+</Tabs>
+
+## Engagement Over Time
+
+Track how engagement changes over time after sending:
+
+<Steps>
+  <Step title="0-1 Hour">
+    Initial spike in opens and clicks from highly engaged subscribers
+  </Step>
+  <Step title="1-24 Hours">
+    Majority of engagement happens in the first day
+  </Step>
+  <Step title="24-72 Hours">
+    Continued but decreasing engagement
+  </Step>
+  <Step title="72+ Hours">
+    Long tail of opens from less active subscribers
+  </Step>
+</Steps>
+
+<Info>
+  Most campaigns receive 50-70% of total engagement within the first 24 hours.
+</Info>
+
+## Comparative Analysis
+
+Compare your campaign against:
+
+- **Previous campaigns** - Track improvement over time
+- **Industry benchmarks** - See how you stack up
+- **Audience segments** - Identify top-performing segments
+- **A/B test variants** - Determine winning variations
+
+## Export & Reporting
+
+<CardGroup cols={3}>
+  <Card title="CSV Export" icon="file-csv">
+    Download detailed recipient-level data
+  </Card>
+  <Card title="PDF Reports" icon="file-pdf">
+    Generate shareable performance reports
+  </Card>
+  <Card title="API Access" icon="code">
+    Integrate metrics into your analytics tools
+  </Card>
+</CardGroup>
+
+## Taking Action on Data
+
+### High Open Rate, Low Click Rate
+Your subject line is working, but content isn't engaging.
+
+**Actions:**
+- Review email content and CTAs
+- Ensure content matches subject line promise
+- Improve CTA visibility and copy
+- Test different content formats
+
+### Low Open Rate
+Recipients aren't motivated to open your emails.
+
+**Actions:**
+- Test different subject lines
+- Review sender name
+- Optimize send times
+- Clean inactive subscribers
+- Segment more precisely
+
+### High Bounce Rate
+Email list quality issues.
+
+**Actions:**
+- Remove invalid emails immediately
+- Implement double opt-in
+- Verify email addresses at signup
+- Clean list regularly
+
+### High Unsubscribe Rate
+Content or frequency mismatch with audience expectations.
+
+**Actions:**
+- Review email frequency
+- Segment audience for relevance
+- Survey unsubscribers
+- Improve content quality
+- Set clear expectations at signup
+
+## Next Steps
+
+<Card title="Optimize Your Next Campaign" icon="lightbulb" href="/creating-emails/overview">
+  Use insights from your campaign data to create even better emails
+</Card>

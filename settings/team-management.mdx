@@ -1,0 +1,298 @@
+---
+title: 'Team Management'
+description: 'Collaborate with your team in Migma'
+---
+
+## Team Collaboration
+
+Migma makes it easy to collaborate with your team on email campaigns. Invite team members, assign roles, and work together seamlessly.
+
+<Info>
+  Team features are available on Starter plans and above. Free plans are limited to single users.
+</Info>
+
+## Inviting Team Members
+
+<Steps>
+  <Step title="Access Team Settings">
+    Navigate to Settings → Team Management
+  </Step>
+  <Step title="Send Invitation">
+    Click "Invite Team Member" and enter their email address
+  </Step>
+  <Step title="Assign Role">
+    Choose their role (Admin, Editor, or Viewer)
+  </Step>
+  <Step title="Send Invite">
+    They'll receive an email invitation to join your team
+  </Step>
+</Steps>
+
+## Team Roles & Permissions
+
+<Tabs>
+  <Tab title="Admin">
+    **Full access** to all features and settings.
+
+    **Can:**
+    - Create, edit, and delete emails
+    - Send campaigns
+    - Manage audience and contacts
+    - Invite/remove team members
+    - Configure project settings
+    - Manage billing and subscription
+    - Access all integrations
+    - View all analytics
+
+    **Use for:** Project managers, account owners
+  </Tab>
+
+  <Tab title="Editor">
+    **Content creation and campaign management** access.
+
+    **Can:**
+    - Create and edit emails
+    - Send campaigns
+    - Manage audience and contacts
+    - View analytics
+    - Access configured integrations
+
+    **Cannot:**
+    - Invite/remove team members
+    - Change project settings
+    - Manage billing
+    - Remove integrations
+
+    **Use for:** Content creators, email marketers
+  </Tab>
+
+  <Tab title="Viewer">
+    **Read-only access** to view content and analytics.
+
+    **Can:**
+    - View emails and templates
+    - View campaigns
+    - View analytics and reports
+    - Export data
+
+    **Cannot:**
+    - Create or edit content
+    - Send campaigns
+    - Manage audiences
+    - Change any settings
+
+    **Use for:** Stakeholders, clients, reviewers
+  </Tab>
+</Tabs>
+
+## Permission Matrix
+
+| Feature | Admin | Editor | Viewer |
+|---------|-------|--------|--------|
+| View emails | ✅ | ✅ | ✅ |
+| Create/edit emails | ✅ | ✅ | ❌ |
+| Delete emails | ✅ | ✅ | ❌ |
+| Send campaigns | ✅ | ✅ | ❌ |
+| Manage contacts | ✅ | ✅ | ❌ |
+| View analytics | ✅ | ✅ | ✅ |
+| Invite team members | ✅ | ❌ | ❌ |
+| Project settings | ✅ | ❌ | ❌ |
+| Billing | ✅ | ❌ | ❌ |
+
+## Managing Team Members
+
+### View Team Members
+
+See all team members, their roles, and last active time:
+
+```javascript Team Member Example
+{
+  "members": [
+    {
+      "name": "John Doe",
+      "email": "john@company.com",
+      "role": "Admin",
+      "status": "Active",
+      "lastActive": "2 hours ago",
+      "joinedDate": "2024-01-15"
+    },
+    {
+      "name": "Jane Smith",
+      "email": "jane@company.com",
+      "role": "Editor",
+      "status": "Active",
+      "lastActive": "1 day ago",
+      "joinedDate": "2024-02-01"
+    }
+  ]
+}
+```
+
+### Change Member Roles
+
+<Warning>
+  Changing a member's role will immediately update their permissions. They may lose access to certain features.
+</Warning>
+
+1. Navigate to Team Management
+2. Click on the team member
+3. Select new role from dropdown
+4. Confirm the change
+
+### Remove Team Members
+
+Only Admins can remove team members from projects.
+
+<Steps>
+  <Step title="Select Member">
+    Find the team member in the team list
+  </Step>
+  <Step title="Remove Access">
+    Click "Remove" next to their name
+  </Step>
+  <Step title="Confirm">
+    Confirm removal - they'll immediately lose access
+  </Step>
+</Steps>
+
+<Note>
+  Removed team members will no longer have access to the project but can be re-invited later if needed.
+</Note>
+
+## Project-Specific Access
+
+Team members can have different roles across different projects:
+
+<CardGroup cols={2}>
+  <Card title="Cross-Project Access">
+    Jane can be an **Editor** in Project A but a **Viewer** in Project B
+  </Card>
+  <Card title="Flexible Collaboration">
+    Perfect for agencies managing multiple client projects
+  </Card>
+</CardGroup>
+
+## Team Activity Log
+
+Track what your team is working on:
+
+<AccordionGroup>
+  <Accordion title="Recent Activity">
+    See recent actions taken by team members:
+    - Emails created or modified
+    - Campaigns sent
+    - Settings changed
+    - Team members added/removed
+  </Accordion>
+
+  <Accordion title="Audit Trail">
+    Enterprise plans include detailed audit logs:
+    - Complete change history
+    - User attribution
+    - Timestamp tracking
+    - Export capabilities
+  </Accordion>
+</AccordionGroup>
+
+## Collaboration Features
+
+### Comments & Feedback
+
+Team members can collaborate on emails:
+
+<Tabs>
+  <Tab title="Email Comments">
+    - Leave comments on specific email sections
+    - Tag team members with @mentions
+    - Resolve conversations when complete
+    - Track discussion history
+  </Tab>
+
+  <Tab title="Approval Workflow">
+    **Pro and Enterprise plans:**
+    - Request approval before sending
+    - Multi-step approval chains
+    - Approval notifications
+    - Audit trail of approvals
+  </Tab>
+</Tabs>
+
+### Shared Assets
+
+All team members have access to shared resources:
+
+<CardGroup cols={2}>
+  <Card title="Template Library" icon="images">
+    Shared email templates for consistent branding
+  </Card>
+  <Card title="Image Library" icon="photo">
+    Common brand assets and images
+  </Card>
+  <Card title="Audience Lists" icon="users">
+    Shared contact lists and segments
+  </Card>
+  <Card title="Brand Guidelines" icon="book">
+    Centralized brand settings and styles
+  </Card>
+</CardGroup>
+
+## Team Limits
+
+<Note>
+  Team member limits vary by plan. Upgrade for larger teams.
+</Note>
+
+| Plan | Team Members | Projects per Member | Role Options |
+|------|--------------|---------------------|--------------|
+| Free | 1 | 1 | Owner only |
+| Starter | 3 | 3 | Admin, Editor, Viewer |
+| Pro | 10 | 10 | Admin, Editor, Viewer |
+| Enterprise | Unlimited | Unlimited | Custom roles available |
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Appropriate Roles">
+    Assign the minimum permissions needed for each team member's responsibilities. This reduces risk and keeps workflows clear.
+  </Accordion>
+
+  <Accordion title="Regular Access Reviews">
+    Periodically review team access and remove members who no longer need access to keep your team secure.
+  </Accordion>
+
+  <Accordion title="Clear Naming Conventions">
+    Establish clear naming conventions for emails, campaigns, and projects so team members can easily find what they need.
+  </Accordion>
+
+  <Accordion title="Use Comments for Feedback">
+    Keep all feedback and discussions within Migma instead of external tools for better context and history.
+  </Accordion>
+</AccordionGroup>
+
+## Security & Access Control
+
+<CardGroup cols={2}>
+  <Card title="SSO" icon="key">
+    **Enterprise:** Single Sign-On for enhanced security
+  </Card>
+  <Card title="2FA" icon="shield">
+    Two-factor authentication for all team members
+  </Card>
+  <Card title="IP Allowlisting" icon="lock">
+    **Enterprise:** Restrict access to specific IP ranges
+  </Card>
+  <Card title="Session Management" icon="clock">
+    Automatic logout after inactivity
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Projects" icon="folder" href="/settings/projects">
+    Learn about organizing work with projects
+  </Card>
+  <Card title="Account Settings" icon="user-cog" href="/settings/account-settings">
+    Configure your personal account settings
+  </Card>
+</CardGroup>

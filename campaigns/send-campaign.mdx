@@ -1,0 +1,172 @@
+---
+title: 'Send Campaign'
+description: 'Learn how to send email campaigns to your audience'
+---
+
+## Sending a Campaign
+
+Once you've created your email and selected your audience, you're ready to send your campaign.
+
+## Step-by-Step Guide
+
+### 1. Create or Select Your Email
+
+Navigate to your email in the Email Editor or create a new one using Migma's AI tools.
+
+<Steps>
+  <Step title="Choose Your Email">
+    Select an existing email from your templates or create a new one
+  </Step>
+  <Step title="Review Content">
+    Make sure all content, links, and images are correct
+  </Step>
+  <Step title="Run Email Preflight">
+    Use Email Preflight to check for spam triggers and rendering issues
+  </Step>
+</Steps>
+
+### 2. Select Your Audience
+
+Choose who will receive your campaign.
+
+<CodeGroup>
+```javascript Single List
+{
+  "campaign": {
+    "audienceType": "list",
+    "listId": "your-list-id"
+  }
+}
+```
+
+```javascript Multiple Lists
+{
+  "campaign": {
+    "audienceType": "multiple",
+    "listIds": ["list-1", "list-2", "list-3"]
+  }
+}
+```
+
+```javascript Segment
+{
+  "campaign": {
+    "audienceType": "segment",
+    "segmentId": "your-segment-id",
+    "filters": {
+      "openedLast30Days": true,
+      "tags": ["engaged"]
+    }
+  }
+}
+```
+</CodeGroup>
+
+### 3. Configure Campaign Settings
+
+<AccordionGroup>
+  <Accordion title="Subject Line">
+    Write a compelling subject line that encourages opens. Keep it under 50 characters for mobile optimization.
+  </Accordion>
+
+  <Accordion title="Sender Information">
+    Configure your "From" name and email address. Use a recognizable sender name to increase trust.
+  </Accordion>
+
+  <Accordion title="Reply-To Address">
+    Set where replies will be sent. This can be different from your sending address.
+  </Accordion>
+
+  <Accordion title="Tracking Settings">
+    Enable open tracking, click tracking, and conversion tracking as needed.
+  </Accordion>
+</AccordionGroup>
+
+### 4. Send Test Emails
+
+<Warning>
+  Always send test emails before launching a campaign to verify everything looks correct.
+</Warning>
+
+Send test emails to yourself and team members to verify:
+- Content displays correctly
+- Links work properly
+- Images load correctly
+- Personalization tokens populate
+- Mobile rendering looks good
+
+### 5. Schedule or Send
+
+You have two options:
+
+<Tabs>
+  <Tab title="Send Now">
+    Launch your campaign immediately. The email will be sent to your audience within minutes.
+
+    <Info>
+      Large campaigns (10,000+ recipients) may take longer to send completely.
+    </Info>
+  </Tab>
+
+  <Tab title="Schedule">
+    Schedule your campaign for a specific date and time.
+
+    **Benefits:**
+    - Send at optimal times for your audience
+    - Plan campaigns in advance
+    - Coordinate with other marketing activities
+
+    **Tip:** Schedule for Tuesday-Thursday, 10 AM - 2 PM in your audience's timezone for best results.
+  </Tab>
+</Tabs>
+
+## Monitoring Your Campaign
+
+Once sent, you can track your campaign's performance in real-time:
+
+<CardGroup cols={3}>
+  <Card title="Opens" icon="envelope-open">
+    Track how many recipients opened your email
+  </Card>
+  <Card title="Clicks" icon="mouse-pointer">
+    Monitor which links are getting the most engagement
+  </Card>
+  <Card title="Conversions" icon="bullseye">
+    Measure goal completions and ROI
+  </Card>
+</CardGroup>
+
+## Campaign Limits
+
+<Note>
+  Campaign sending limits depend on your plan and email service provider configuration.
+</Note>
+
+| Plan | Daily Limit | Monthly Limit |
+|------|-------------|---------------|
+| Free | 500 | 2,000 |
+| Starter | 10,000 | 50,000 |
+| Pro | 50,000 | 500,000 |
+| Enterprise | Custom | Custom |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Campaign Stuck in 'Sending' Status">
+    This is normal for large campaigns. Check back in 15-30 minutes. If still stuck after an hour, contact support.
+  </Accordion>
+
+  <Accordion title="Low Delivery Rate">
+    Check your sender reputation and ensure you're following email best practices. Use Email Preflight to identify potential issues.
+  </Accordion>
+
+  <Accordion title="Recipients Not Receiving Emails">
+    Verify your email service provider is properly configured and that recipient emails are valid in your contact list.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<Card title="Track Campaign Results" icon="chart-line" href="/campaigns/track-results">
+  Learn how to analyze your campaign performance and optimize future sends
+</Card>

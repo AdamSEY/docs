@@ -1,0 +1,382 @@
+---
+title: "Sending Emails"
+description: "Send campaigns to individual contacts, tags, or your entire audience"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="Sending Emails" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Send emails directly from Migma to individual contacts, tagged segments, or your entire subscriber list. Track sends, handle unsubscribes automatically, and maintain compliance.
+
+<CardGroup cols={3}>
+  <Card title="Individual Send" icon="user">
+    Send to single contacts
+  </Card>
+  <Card title="Bulk Send" icon="users">
+    Send to tags or entire list
+  </Card>
+  <Card title="Automatic Unsubscribe" icon="link">
+    Compliance links added automatically
+  </Card>
+</CardGroup>
+
+---
+
+## Prerequisites
+
+<Warning>
+**Email Service Provider Required** - Configure an ESP before sending emails
+</Warning>
+
+<Card title="Setup Email Provider" icon="server" href="/integrations/email-service-providers">
+  Connect Amazon SES, Resend, SendGrid, or Brevo
+</Card>
+
+**What you need:**
+- Connected email service provider (SES, Resend, SendGrid, Brevo)
+- Verified sender domain/email
+- At least one contact with status `subscribed`
+
+---
+
+## Send to Individual Contact
+
+Send an email to a single contact from the Contacts page.
+
+<Steps>
+  <Step title="Navigate to Contacts">
+    Go to **Contacts** in your project
+  </Step>
+
+  <Step title="Find Contact">
+    Search or filter to find the contact
+  </Step>
+
+  <Step title="Click Send Email">
+    Actions menu → **"Send Email"**
+  </Step>
+
+  <Step title="Select Email">
+    Choose an email from your library or create new
+  </Step>
+
+  <Step title="Review & Send">
+    - Preview the email
+    - Verify recipient email
+    - Click **"Send"**
+  </Step>
+</Steps>
+
+**Send confirmation:**
+- Success message displayed
+- Email added to send logs
+- Contact record updated with send timestamp
+
+---
+
+## Send to Tags (Bulk Send)
+
+Send emails to all contacts with specific tags.
+
+<Steps>
+  <Step title="Navigate to Send">
+    Go to **Send** or **Campaigns** in your project
+  </Step>
+
+  <Step title="Select Email">
+    Choose email from library or create new
+  </Step>
+
+  <Step title="Choose Recipients">
+    **Select by tag:**
+    - Choose one or multiple tags
+    - View recipient count
+    - Filters: Only `subscribed` contacts receive emails
+
+    **Send to all:**
+    - Select "All Subscribers" option
+    - Sends to all `subscribed` contacts
+  </Step>
+
+  <Step title="Configure Send">
+    **Email settings:**
+    - From name
+    - From email (must be verified)
+    - Reply-to email
+    - Subject line
+    - Preview text
+  </Step>
+
+  <Step title="Send Test (Recommended)">
+    Send test email to yourself first:
+    - Enter test email address
+    - Click **"Send Test"**
+    - Verify rendering and links
+  </Step>
+
+  <Step title="Send Campaign">
+    Review summary and click **"Send Campaign"**
+  </Step>
+</Steps>
+
+**Batch processing:**
+- Sends in batches (100-500 per batch)
+- Progress bar shows sending status
+- Handles rate limits automatically
+- Failed sends are logged
+
+---
+
+## Send Logs
+
+Track all emails sent from your project.
+
+**Navigate to:** `Send Logs` or `Campaign History`
+
+**Log information:**
+- **Recipient** - Email address
+- **Subject** - Email subject line
+- **Status** - Sent, Failed, Bounced
+- **Sent At** - Timestamp
+- **ESP** - Which provider was used
+- **Email** - Link to email template used
+
+**Filter logs by:**
+- Date range
+- Status (sent, failed, bounced)
+- Recipient email
+- Tag
+
+**Export logs:**
+- Download as CSV
+- API access available
+
+---
+
+## Test Emails
+
+Always send test emails before bulk campaigns.
+
+<Tabs>
+  <Tab title="Quick Test">
+    **From email editor:**
+    1. Click **"Send Test"** button
+    2. Enter test email address
+    3. Receive email in seconds
+  </Tab>
+
+  <Tab title="Campaign Test">
+    **During bulk send setup:**
+    1. Complete campaign configuration
+    2. Click **"Send Test"** before final send
+    3. Verify everything looks correct
+    4. Then send to full audience
+  </Tab>
+</Tabs>
+
+**What to check in tests:**
+- Email renders correctly
+- Images load properly
+- Links work (unsubscribe, CTAs, etc.)
+- Personalization/merge tags display correctly
+- Mobile vs desktop rendering
+
+---
+
+## Unsubscribe & Compliance
+
+**Automatic compliance:**
+
+<Check>Unsubscribe links added automatically to marketing emails</Check>
+<Check>Preference center URLs generated per contact</Check>
+<Check>Unsubscribes processed instantly</Check>
+<Check>CAN-SPAM and GDPR compliant</Check>
+
+**How it works:**
+
+1. **Unsubscribe link** added to email footer automatically
+2. Contact clicks link → taken to preference center
+3. Contact unsubscribes → status changed to `unsubscribed` immediately
+4. Unsubscribed contacts **cannot** receive marketing emails
+
+**Preference center features:**
+- Update email address
+- Change name
+- Manage subscriptions
+- One-click unsubscribe
+
+<Card title="Preference Center Setup" icon="sliders" href="/audience/preference-center">
+  Configure your preference center
+</Card>
+
+---
+
+## Email Templates
+
+Migma uses React Email for template rendering.
+
+**Template features:**
+- Mobile-responsive automatically
+- Dark mode support
+- Cross-client compatible (Gmail, Outlook, Apple Mail, etc.)
+- Inline CSS for maximum compatibility
+
+**Using templates:**
+1. Create email with Migma AI
+2. Save as template (optional)
+3. Reuse template for future campaigns
+4. Personalize with merge tags
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Always Send Tests" icon="flask">
+    **Before every bulk send:**
+    - Send test to yourself
+    - Check on mobile and desktop
+    - Verify all links work
+    - Test personalization/merge tags
+    - Review spam score
+  </Accordion>
+
+  <Accordion title="Segment Your Audience" icon="tags">
+    **Use tags for targeting:**
+    - Send relevant content to specific groups
+    - Don't spam entire list with irrelevant content
+    - Test campaigns on small segments first
+    - A/B test different approaches
+  </Accordion>
+
+  <Accordion title="Monitor Deliverability" icon="chart-line">
+    **Track key metrics:**
+    - Bounce rate (keep < 2%)
+    - Unsubscribe rate (keep < 0.5%)
+    - Spam complaints (keep < 0.1%)
+    - Open rate (industry avg: 15-25%)
+    - Click rate (industry avg: 2-5%)
+  </Accordion>
+
+  <Accordion title="Maintain List Hygiene" icon="broom">
+    **Keep lists clean:**
+    - Remove bounced emails promptly
+    - Honor unsubscribes immediately (automatic)
+    - Don't re-subscribe unsubscribed contacts
+    - Archive inactive subscribers (6+ months no opens)
+    - Validate emails before importing
+  </Accordion>
+
+  <Accordion title="Comply with Regulations" icon="shield-check">
+    **Legal requirements:**
+    - Always include unsubscribe link (automatic)
+    - Use verified sender email/domain
+    - Only send to opted-in contacts
+    - Include physical mailing address
+    - Honor unsubscribe requests immediately
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Send button is disabled" icon="ban">
+    **Possible causes:**
+    - No email service provider configured
+    - Sender email not verified
+    - No subscribed contacts in selected tags
+    - Missing required fields (subject, from email)
+
+    **Solution:** Verify ESP setup and sender verification
+  </Accordion>
+
+  <Accordion title="Emails not being received" icon="envelope">
+    **Check:**
+    - ESP send logs for delivery status
+    - Spam folder in recipient inbox
+    - Email deliverability/spam score
+    - Sender domain authentication (SPF, DKIM, DMARC)
+
+    **Solution:** Review ESP logs and check authentication
+  </Accordion>
+
+  <Accordion title="High bounce rate" icon="triangle-exclamation">
+    **Causes:**
+    - Invalid email addresses
+    - Old/outdated email list
+    - Purchased email list
+
+    **Solution:**
+    - Clean email list regularly
+    - Remove bounced emails
+    - Only import opted-in contacts
+    - Validate emails before importing
+  </Accordion>
+
+  <Accordion title="Slow sending speed" icon="hourglass">
+    **Causes:**
+    - ESP rate limits
+    - Large batch size
+    - ESP performance
+
+    **Solution:**
+    - Normal - sending happens in batches
+    - Check ESP rate limits
+    - Consider upgrading ESP plan
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Current Limitations
+
+<Note>
+**Known limitations:**
+- Scheduling not yet available (send immediately only)
+- A/B testing not yet available
+- Advanced segmentation limited to tags
+- Analytics limited to send logs
+
+These features are planned for future releases.
+</Note>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Setup ESP" icon="server" href="/integrations/email-service-providers">
+    Connect email service provider
+  </Card>
+  <Card title="Manage Contacts" icon="users" href="/audience/manage-contacts">
+    Organize your subscriber list
+  </Card>
+  <Card title="Preference Center" icon="sliders" href="/audience/preference-center">
+    Configure subscription management
+  </Card>
+  <Card title="Create Email" icon="wand-magic-sparkles" href="/get-started/create-first-email">
+    Create your first email
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Discord Community" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Get help from community
+  </Card>
+  <Card title="Video Tutorial" icon="video" href="https://youtube.com/updatelater">
+    Watch sending guide
+  </Card>
+  <Card title="Support Team" icon="life-ring" href="https://migma.ai/support">
+    Contact support
+  </Card>
+  <Card title="API Docs" icon="code" href="/api-reference/introduction">
+    Send via API
+  </Card>
+</CardGroup>

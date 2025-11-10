@@ -1,0 +1,352 @@
+---
+title: "Manage Contacts"
+description: "Add, edit, and organize your email subscribers with tags, custom fields, and flexible filtering"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="Contact Management" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Manage your subscriber list with Migma's contact management system. Add subscribers individually or through bulk CSV import, organize with tags, and maintain a healthy list.
+
+<CardGroup cols={3}>
+  <Card title="Add Subscribers" icon="user-plus">
+    Single or bulk CSV import
+  </Card>
+  <Card title="Custom Fields" icon="input-text">
+    Flexible key-value data storage
+  </Card>
+  <Card title="Smart Tagging" icon="tags">
+    Organize and segment with tags
+  </Card>
+</CardGroup>
+
+---
+
+## Viewing Contacts
+
+Navigate to `/contacts` in your project to view all subscribers in a sortable, filterable table.
+
+**Table columns:**
+- Email address (sortable)
+- Name (sortable)
+- Tags (colored badges, clickable to filter)
+- Status badge (subscribed, unsubscribed, non-subscribed, bounced)
+- Date added (sortable)
+- Actions menu (Edit, Send Email, Delete)
+
+**Quick actions:**
+- **Add Subscriber** - Add single contact
+- **Bulk Import** - Upload CSV file
+- **Search** - Find by email or name
+- **Filter** - By status and tags
+- **Sort** - By email, name, or date
+
+---
+
+## Search & Filter
+
+### Search
+
+Use the search box to find contacts by email or name:
+
+```
+john@example.com    → Find exact email
+@gmail.com          → All Gmail subscribers
+John                → Names or emails containing "John"
+```
+
+### Filter by Status
+
+<Tabs>
+  <Tab title="Subscribed">
+    **Active subscribers** - Can receive marketing emails
+
+    Set via: Signup forms, CSV import, manual add
+  </Tab>
+
+  <Tab title="Unsubscribed">
+    **Opted out** - Cannot receive marketing emails
+
+    Set via: Unsubscribe link, preference center, manual change
+
+    <Warning>CSV import respects unsubscribed status - won't re-subscribe</Warning>
+  </Tab>
+
+  <Tab title="Non-subscribed">
+    **Not opted in** - Added to database but not subscribed
+
+    Use for: Imported lists without consent, require explicit opt-in
+  </Tab>
+
+  <Tab title="Bounced">
+    **Invalid email** - Delivery failed, cannot receive emails
+
+    Causes: Invalid format, non-existent domain, disabled mailbox
+  </Tab>
+</Tabs>
+
+### Filter by Tags
+
+- Click tag badges to filter by that tag
+- Select multiple tags from dropdown (OR logic)
+- Clear individual tags or reset all filters
+
+---
+
+## Adding Contacts
+
+<Tabs>
+  <Tab title="Add Single Contact">
+    **Manual add:**
+
+    1. Click **"Add Subscriber"**
+    2. Enter email (required)
+    3. Add name, tags, custom fields (optional)
+    4. Set status (default: subscribed)
+    5. Click **"Add Contact"**
+
+    **Duplicate handling:** If email exists, shows error with option to view existing contact
+  </Tab>
+
+  <Tab title="Bulk CSV Import">
+    **Import multiple contacts:**
+
+    <Card title="CSV Upload Guide" icon="file-csv" href="/audience/csv-upload">
+      Complete guide to bulk importing contacts via CSV with field mapping
+    </Card>
+
+    **Quick summary:**
+    - Upload CSV with email column (required)
+    - Map columns to fields (email, name, tags, custom fields)
+    - Set default status for new contacts
+    - Duplicates are automatically skipped
+  </Tab>
+</Tabs>
+
+---
+
+## Editing Contacts
+
+Click **Edit** from the actions menu to update contact information:
+
+**Editable fields:**
+- Email address
+- First and last name
+- Tags (add/remove)
+- Custom fields (add/edit/remove)
+- Subscription status
+
+**Viewing details:** Click contact row to see full profile with creation date, update history, and all associated data
+
+---
+
+## Custom Fields
+
+Store additional data for each contact using key-value pairs.
+
+**Common use cases:**
+- Company name
+- Job title
+- Purchase history
+- User preferences
+- Account IDs
+- Custom attributes
+
+**Adding custom fields:**
+
+<Steps>
+  <Step title="During Add/Edit">
+    Click **"Add Custom Field"** when adding or editing a contact
+  </Step>
+  <Step title="Enter Key-Value">
+    - Key: `company`
+    - Value: `Acme Corp`
+  </Step>
+  <Step title="Save">
+    Custom fields are stored with the contact
+  </Step>
+</Steps>
+
+**Using in emails:**
+- Reference in email templates with merge tags
+- Segment by custom field values
+- Personalize content based on data
+
+---
+
+## Tags
+
+Organize contacts with tags for segmentation and filtering.
+
+**Tag features:**
+- Multiple tags per contact
+- Color-coded badges
+- Click to filter
+- Reusable across contacts
+
+**Example tags:**
+- `VIP` - High-value customers
+- `Newsletter` - Newsletter subscribers
+- `Trial` - Trial users
+- `Q4-2024` - Campaign-specific
+
+**Managing tags:**
+- Add during contact creation
+- Add/remove when editing
+- Filter by one or multiple tags
+- Tags auto-complete from existing tags
+
+---
+
+## Sending Emails
+
+<Card title="Send Email Campaigns" icon="paper-plane" href="/audience/sending-emails">
+  Learn how to send emails to contacts and segments
+</Card>
+
+**Quick send options:**
+- Send to individual contact (Actions menu → Send Email)
+- Send to filtered/tagged group
+- Send to entire list
+
+---
+
+## Preference Center
+
+<Card title="Preference Management" icon="sliders" href="/audience/preference-center">
+  Set up preference center for subscriber self-management
+</Card>
+
+**Generate preference URLs:**
+- Actions menu → **"Get Preference URL"**
+- Unique URL per contact
+- Allows subscribers to update info and unsubscribe
+
+---
+
+## Deleting Contacts
+
+**Delete individual contact:**
+1. Click Actions menu → **Delete**
+2. Confirm deletion
+3. Contact permanently removed
+
+**Bulk delete:**
+- Filter/search for contacts to delete
+- Select multiple (future feature)
+- Or delete individually
+
+<Warning>
+**Permanent deletion** - Cannot be undone. Consider tagging as inactive instead of deleting.
+</Warning>
+
+---
+
+## Duplicate Detection
+
+**Automatic duplicate prevention:**
+
+<Check>Email addresses are unique - cannot add duplicate emails</Check>
+<Check>During CSV import, duplicates are automatically skipped</Check>
+<Check>Existing contacts are not updated during import</Check>
+
+**When adding manually:**
+- System checks if email exists
+- Shows error if duplicate found
+- Offers link to view existing contact
+
+**During CSV import:**
+- Duplicate emails are counted and skipped
+- Import summary shows how many were skipped
+- Existing contact data is preserved
+
+---
+
+## Exporting Contacts
+
+**Export via API:**
+
+Export your contact list programmatically:
+
+```bash
+GET /api/contacts/export
+```
+
+Returns CSV with all contact data including custom fields and tags.
+
+<Card title="API Documentation" icon="code" href="/api-reference/introduction">
+  Full API reference for contact management
+</Card>
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Maintain List Hygiene" icon="broom">
+    - Remove bounced emails promptly
+    - Honor unsubscribes immediately
+    - Archive inactive subscribers (6+ months no opens)
+    - Never re-subscribe unsubscribed contacts
+  </Accordion>
+
+  <Accordion title="Use Tags Strategically" icon="tags">
+    - Create consistent tag naming convention
+    - Tag by: interest, engagement, source, campaign
+    - Remove outdated tags regularly
+    - Use tags for segmentation
+  </Accordion>
+
+  <Accordion title="Leverage Custom Fields" icon="database">
+    - Store data you'll use for personalization
+    - Keep keys consistent (e.g., `company`, not `Company Name` or `comp`)
+    - Don't store sensitive data (passwords, payment info)
+    - Use for segmentation and targeting
+  </Accordion>
+
+  <Accordion title="Regular Maintenance" icon="wrench">
+    - Review contact list monthly
+    - Clean up bounced emails
+    - Update tags and custom fields
+    - Export backups regularly
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="CSV Upload" icon="file-csv" href="/audience/csv-upload">
+    Bulk import contacts from CSV files
+  </Card>
+  <Card title="Send Emails" icon="paper-plane" href="/audience/sending-emails">
+    Send campaigns to your contacts
+  </Card>
+  <Card title="Preference Center" icon="sliders" href="/audience/preference-center">
+    Set up subscriber self-management
+  </Card>
+  <Card title="Audience Overview" icon="users" href="/audience/overview">
+    Back to audience management overview
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Discord Community" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Get help from community
+  </Card>
+  <Card title="Video Tutorials" icon="video" href="https://youtube.com/updatelater">
+    Watch step-by-step guides
+  </Card>
+  <Card title="Support Team" icon="life-ring" href="https://migma.ai/support">
+    Contact support
+  </Card>
+  <Card title="API Documentation" icon="code" href="/api-reference/introduction">
+    Integrate programmatically
+  </Card>
+</CardGroup>

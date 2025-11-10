@@ -1,0 +1,764 @@
+---
+title: "Shopify Integration"
+description: "Select products directly from your Shopify store and pull live data into your emails"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="Shopify Integration" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+The Shopify integration is one of Migma's most powerful features - **select products directly from your Shopify catalog** when creating emails. No more manual copying - Migma pulls product images, prices, and descriptions automatically.
+
+<Note>
+**Game Changer:** Instead of manually copying product information, Migma connects to your Shopify store and lets you browse and select products visually. All data is pulled live - always up-to-date with current prices and inventory!
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Visual Product Selection" icon="hand-pointer">
+    Browse and select products from your catalog
+  </Card>
+  <Card title="Live Data Sync" icon="rotate">
+    Auto-pull images, prices, and descriptions
+  </Card>
+  <Card title="Customer Sync" icon="users">
+    Personalize with customer data
+  </Card>
+  <Card title="Transactional Emails" icon="receipt">
+    Order confirmations and abandoned cart
+  </Card>
+</CardGroup>
+
+---
+
+## What You Can Do
+
+### Select Products Visually
+
+**Browse your Shopify catalog directly in Migma:**
+
+```text
+Prompt: "Create a product showcase email.
+
+Include these products from my Shopify store:
+- Wireless Headphones Pro
+- Smart Watch Series 5
+- Portable Charger Ultra
+
+Show images, prices, and Buy Now buttons."
+```
+
+**Migma automatically:**
+- ✅ Pulls high-resolution product images
+- ✅ Gets current prices (always up-to-date)
+- ✅ Fetches product titles and descriptions
+- ✅ Creates product URLs to your store
+- ✅ Includes variant info (sizes, colors)
+- ✅ Shows inventory status (optional)
+
+### Use Collections
+
+**Select entire collections:**
+
+```text
+Prompt: "Create new arrivals email featuring ALL products
+from my 'Spring Collection' Shopify collection.
+
+Display in 3-column grid with prices and CTAs."
+```
+
+### Smart Recommendations
+
+**AI-powered product selection:**
+
+```text
+Prompt: "Create personalized product recommendation email.
+
+Use Shopify data to recommend 4 products based on:
+- Customer's previous purchases
+- Related/complementary items
+- Current promotions"
+```
+
+---
+
+## Setup Shopify Connection
+
+<Steps>
+  <Step title="Install via Shopify App Store">
+    **Option 1: Shopify App Store (Recommended)**
+
+    1. Go to Shopify App Store
+    2. Search for **"Migma Email Designer"**
+    3. Click **"Add app"**
+    4. Click **"Install app"**
+    5. Authorize permissions
+
+    **Option 2: Direct Connection**
+
+    1. In Migma: **Settings → Integrations → E-commerce**
+    2. Click **"Connect Shopify"**
+    3. Enter your shop URL: `yourstore.myshopify.com`
+    4. Click **"Connect"**
+    5. Authorize in Shopify admin
+  </Step>
+
+  <Step title="Grant Permissions">
+    **Migma requests access to:**
+
+    <Check>**Read products** - Access product catalog</Check>
+    <Check>**Read customers** - For personalization</Check>
+    <Check>**Read orders** - For transactional emails</Check>
+    <Warning>**No write access** - Migma is read-only and won't modify your store</Warning>
+
+    Click **"Install app"** to grant permissions
+  </Step>
+
+  <Step title="Configure Sync Settings">
+    **Choose what to sync:**
+
+    - ☑ Product catalog (images, prices, descriptions)
+    - ☑ Collections
+    - ☑ Customer data (name, email, order history)
+    - ☑ Order information
+    - ☐ Draft products (usually disabled)
+
+    **Sync frequency:**
+    - ● Real-time (recommended)
+    - ○ Hourly
+    - ○ Daily
+  </Step>
+
+  <Step title="Test Connection">
+    **Verify sync is working:**
+
+    1. Check product count matches
+    2. View sample products in Migma
+    3. Verify images are loading
+    4. Test product selection in email creation
+
+    ✅ Connection successful when you can browse products
+  </Step>
+</Steps>
+
+---
+
+## Using Shopify Products in Emails
+
+### Method 1: Select Specific Products (Recommended)
+
+**Tell Migma which products to feature:**
+
+<Tabs>
+  <Tab title="By Product Name">
+    **Select products by name:**
+
+    ```text
+    Create a product showcase email.
+
+    Include these products from Shopify:
+    - "Premium Leather Wallet"
+    - "Canvas Tote Bag"
+    - "Wireless Charging Pad"
+
+    Show product images, current prices, and "Shop Now" buttons.
+    ```
+
+    Migma finds the products and pulls all data automatically.
+  </Tab>
+
+  <Tab title="By Collection">
+    **Use entire collections:**
+
+    ```text
+    Create new arrivals email featuring all products
+    from my "Spring Collection" Shopify collection.
+
+    Display in 3-column grid with:
+    - Product images
+    - Product names
+    - Current prices
+    - "Shop Now" CTAs
+
+    Include 12 products maximum.
+    ```
+
+    Perfect for seasonal campaigns!
+  </Tab>
+
+  <Tab title="By Tags">
+    **Select by product tags:**
+
+    ```text
+    Show products tagged "Best Seller" from Shopify.
+
+    Include top 6 items with:
+    - Images
+    - Current prices
+    - Customer ratings (if available)
+    ```
+
+    Great for curated selections.
+  </Tab>
+
+  <Tab title="By Criteria">
+    **Use smart filters:**
+
+    ```text
+    Show products from Shopify that match:
+    - Price range: $50-$100
+    - Collection: "Electronics"
+    - In stock: Yes
+    - Added in last 7 days: Yes
+
+    Display 8 products in 2x4 grid.
+    ```
+
+    Advanced product selection.
+  </Tab>
+</Tabs>
+
+### Method 2: Smart Recommendations
+
+**Let AI select products intelligently:**
+
+```text
+Create personalized product recommendation email.
+
+Use Shopify data to:
+1. Analyze customer's purchase history
+2. Find complementary products
+3. Check current inventory
+4. Select 4 relevant products
+
+Include personalized messaging like:
+"Based on your recent purchase of [previous product],
+we think you'll love these..."
+```
+
+**Migma automatically:**
+- Analyzes purchase patterns
+- Finds related products
+- Pulls current data
+- Creates personalized recommendations
+
+---
+
+## Product Data Available
+
+### What Migma Pulls from Shopify
+
+<AccordionGroup>
+  <Accordion title="Product Information" icon="box">
+    **Basic product data:**
+    - Product title
+    - Description (short and full)
+    - Product handle (URL slug)
+    - Product type
+    - Vendor
+    - Tags
+    - SKU
+    - Created/updated dates
+  </Accordion>
+
+  <Accordion title="Pricing" icon="dollar-sign">
+    **Live pricing data:**
+    - Current price
+    - Compare-at price (original price)
+    - Discount percentage (calculated)
+    - Currency
+    - Price variations by variant
+    - Sale status
+
+    **Always current** - prices update in real-time
+  </Accordion>
+
+  <Accordion title="Images" icon="image">
+    **High-quality images:**
+    - Featured product image
+    - All product images
+    - Variant-specific images
+    - Image alt text
+    - Multiple sizes available
+
+    **Optimized automatically** for email
+  </Accordion>
+
+  <Accordion title="Variants" icon="layer-group">
+    **Product variations:**
+    - Size options
+    - Color options
+    - Material options
+    - Variant-specific pricing
+    - Variant images
+    - Variant availability
+
+    **Example:** T-shirt in Small/Medium/Large, Red/Blue/Green
+  </Accordion>
+
+  <Accordion title="Inventory" icon="warehouse">
+    **Stock information:**
+    - In stock / Out of stock
+    - Inventory quantity (optional)
+    - Inventory tracking enabled
+    - Continue selling when out of stock
+
+    **Use for:** Back-in-stock emails, low stock alerts
+  </Accordion>
+
+  <Accordion title="Collections" icon="folder-tree">
+    **Organization:**
+    - Collection membership
+    - Collection title
+    - Collection handle
+    - Collection image
+    - Collection description
+
+    **Use for:** Collection-based emails
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Email Types
+
+### Product Showcases
+
+**Feature products in newsletters:**
+
+```text
+Create a weekly newsletter showcasing:
+- 6 products from "New Arrivals" collection
+- 3-column grid layout
+- Product images, names, prices
+- "Shop Now" buttons
+- On-brand design matching my Shopify store
+```
+
+### Abandoned Cart
+
+**Recover abandoned checkouts:**
+
+```text
+Create abandoned cart recovery email.
+
+Show products the customer left in cart:
+- Product images
+- Product names and prices
+- Total cart value
+- "Complete Purchase" button with cart URL
+
+Add urgency: "Items in your cart are selling fast!"
+Include discount: "Save 10% if you checkout today"
+```
+
+### Order Confirmation
+
+**Transactional order emails:**
+
+```text
+Create order confirmation email.
+
+Include:
+- Order number: {{ order.name }}
+- Products purchased (with images)
+- Order total: {{ order.total_price }}
+- Shipping address
+- Tracking link (when available)
+- Order date
+```
+
+### Back in Stock
+
+**Notify when products return:**
+
+```text
+Create back-in-stock notification email.
+
+Product: {{ product.title }}
+
+Include:
+- Product image
+- Current price
+- "Shop Now" button
+- Urgency: "Limited quantity available"
+```
+
+### Product Announcements
+
+**Launch new products:**
+
+```text
+Create product launch email for items tagged
+"New Arrival" added in the last week.
+
+Show 6 products in 2x3 grid with:
+- High-quality images
+- Product names
+- Launch prices
+- "Be the First to Buy" CTAs
+```
+
+---
+
+## Shopify Liquid Variables
+
+Use Shopify's Liquid templating for dynamic content:
+
+### Product Variables
+
+```liquid
+<!-- Product details -->
+{{ product.title }}                          → Product name
+{{ product.price | money }}                  → Formatted price
+{{ product.featured_image | img_url: 'large' }} → Product image
+{{ product.url }}                            → Product link
+{{ product.description }}                    → Description
+{{ product.vendor }}                         → Brand/vendor
+
+<!-- Variants -->
+{{ variant.title }}                          → Variant name
+{{ variant.price | money }}                  → Variant price
+{{ variant.available }}                      → In stock (true/false)
+```
+
+### Customer Variables
+
+```liquid
+<!-- Customer info -->
+{{ customer.first_name }}                    → First name
+{{ customer.last_name }}                     → Last name
+{{ customer.email }}                         → Email
+{{ customer.orders_count }}                  → Total orders
+{{ customer.total_spent | money }}           → Lifetime value
+```
+
+### Order Variables
+
+```liquid
+<!-- Order details -->
+{{ order.name }}                             → Order number (#1234)
+{{ order.total_price | money }}              → Order total
+{{ order.created_at | date: "%B %d, %Y" }}   → Order date
+{{ order.shipping_address }}                 → Shipping address
+{{ order.tracking_number }}                  → Tracking number
+{{ order.tracking_url }}                     → Tracking link
+```
+
+### Cart Variables
+
+```liquid
+<!-- Abandoned cart -->
+{{ cart.item_count }}                        → Number of items
+{{ cart.total_price | money }}               → Cart total
+{{ cart.checkout_url }}                      → Checkout link
+```
+
+---
+
+## Example Prompts
+
+### Basic Product Email
+
+```text
+Create a product showcase email.
+
+Use these products from Shopify:
+- "Wireless Headphones Pro"
+- "Smart Watch Series 5"
+- "Portable Speaker"
+
+Show:
+- Product images (large)
+- Product names
+- Current prices
+- "Buy Now" buttons linking to product pages
+
+Use a clean, modern design with my brand colors.
+```
+
+### Collection-Based Email
+
+```text
+Create email showcasing my "Summer Sale" collection from Shopify.
+
+Include:
+- All products in collection (up to 12)
+- Original prices and sale prices
+- Discount percentages
+- "Shop the Sale" CTAs
+- Urgency: "Sale ends in 3 days"
+
+Layout: 3-column grid on desktop, 1-column on mobile
+```
+
+### Personalized Recommendations
+
+```text
+Create personalized product recommendation email.
+
+Based on customer {{ customer.first_name }}'s purchase of
+{{ last_purchase.product.title }}:
+
+- Recommend 4 complementary products from Shopify
+- Show images and current prices
+- Explain why each product is recommended
+- Include "You might also like" messaging
+
+Make it feel personal, not automated.
+```
+
+### New Arrivals
+
+```text
+Create "New Arrivals" email.
+
+Show products tagged "New Arrival" added in last 7 days:
+- 8 products maximum
+- 2x4 grid layout
+- Product images, names, prices
+- "Just Added" badge on each product
+- "Shop New Arrivals" CTA button
+
+Hero section: "Fresh styles just dropped"
+```
+
+---
+
+## Advanced Features
+
+### Product Filtering
+
+**Use advanced filters when selecting products:**
+
+<AccordionGroup>
+  <Accordion title="By Price Range" icon="dollar-sign">
+    ```text
+    Show products from Shopify:
+    - Price: $50-$100
+    - Collection: "Electronics"
+    - In stock: Yes
+    ```
+  </Accordion>
+
+  <Accordion title="By Availability" icon="check-circle">
+    ```text
+    Show products that are:
+    - In stock
+    - Price under $50
+    - Added this month
+    - Has at least 5 reviews
+    ```
+  </Accordion>
+
+  <Accordion title="By Tags" icon="tags">
+    ```text
+    Show products with tags:
+    - "Best Seller" AND "Under $50"
+    - NOT "Seasonal"
+    - In "Electronics" collection
+    ```
+  </Accordion>
+
+  <Accordion title="By Vendor" icon="store">
+    ```text
+    Feature products from vendor "Premium Brands"
+    - Price above $100
+    - New arrivals only
+    - Show 6 products
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Dynamic Content
+
+**Personalize based on customer data:**
+
+```liquid
+{% if customer.orders_count > 5 %}
+  <!-- Loyal customer section -->
+  Hi {{ customer.first_name }},
+  Thanks for being a loyal customer!
+  Here are some VIP-exclusive products...
+{% else %}
+  <!-- New customer section -->
+  Welcome {{ customer.first_name }}!
+  Discover our best sellers...
+{% endif %}
+```
+
+### Variant Displays
+
+**Show product variants:**
+
+```text
+Create email showing product "Premium T-Shirt"
+with all variants:
+
+Display as:
+- Main product image
+- Color swatches (available colors)
+- Size options (S, M, L, XL)
+- Price for each variant
+- "Select Your Size" dropdown
+```
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Keep Products Updated" icon="rotate">
+    **Ensure data stays fresh:**
+
+    ✅ Enable real-time sync
+    ✅ Set up automatic daily syncs
+    ✅ Verify products before sending
+    ✅ Remove discontinued products
+    ✅ Update images seasonally
+
+    **Why:** Outdated prices or out-of-stock items frustrate customers
+  </Accordion>
+
+  <Accordion title="Use High-Quality Images" icon="image">
+    **Image best practices:**
+
+    ✅ Use images at least 800px wide
+    ✅ White or transparent backgrounds
+    ✅ Show products from best angle
+    ✅ Lifestyle photos for context
+    ✅ Optimize for email (< 1MB)
+
+    **Migma automatically optimizes images for email**
+  </Accordion>
+
+  <Accordion title="Personalize Product Selection" icon="user">
+    **Smart product recommendations:**
+
+    ✅ Based on purchase history
+    ✅ Related to browsing behavior
+    ✅ Complementary products
+    ✅ Similar price points
+    ✅ Same collection/category
+
+    **Higher engagement with personalized products**
+  </Accordion>
+
+  <Accordion title="Test Product Links" icon="link">
+    **Verify before sending:**
+
+    ✅ All product URLs work
+    ✅ Products are in stock
+    ✅ Prices are correct
+    ✅ Images load properly
+    ✅ Variants are available
+
+    **Send test email to yourself first**
+  </Accordion>
+
+  <Accordion title="Mobile Optimization" icon="mobile">
+    **Ensure mobile-friendly:**
+
+    ✅ Images scale properly
+    ✅ Text is readable
+    ✅ CTAs are tappable
+    ✅ Grid adapts (3-col → 1-col)
+    ✅ Load times are fast
+
+    **60%+ of emails are opened on mobile**
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Products Not Syncing" icon="rotate">
+    **Solutions:**
+
+    1. Check Shopify app is installed
+    2. Verify permissions are granted
+    3. Ensure products are published
+    4. Check sync settings in Migma
+    5. Force manual sync
+    6. Re-authenticate Shopify connection
+  </Accordion>
+
+  <Accordion title="Images Not Loading" icon="image">
+    **Solutions:**
+
+    1. Verify images exist in Shopify
+    2. Check image URLs are public
+    3. Ensure images are not too large
+    4. Try re-uploading images in Shopify
+    5. Clear Migma cache and re-sync
+  </Accordion>
+
+  <Accordion title="Wrong Prices Showing" icon="dollar-sign">
+    **Solutions:**
+
+    1. Force sync to get latest prices
+    2. Check currency settings
+    3. Verify Shopify prices are correct
+    4. Enable real-time sync
+    5. Check for sale price rules in Shopify
+  </Accordion>
+
+  <Accordion title="Can't Find Products" icon="magnifying-glass">
+    **Solutions:**
+
+    1. Verify products are published
+    2. Check product is in active sales channel
+    3. Ensure product isn't archived
+    4. Try searching by product handle
+    5. Force a full resync
+  </Accordion>
+
+  <Accordion title="Customer Data Missing" icon="user-xmark">
+    **Solutions:**
+
+    1. Check customer sync is enabled
+    2. Verify customer permissions granted
+    3. Ensure customer accounts exist in Shopify
+    4. Check sync frequency settings
+    5. Try manual customer sync
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Klaviyo Integration" icon="k" href="/integrations/klaviyo">
+    Combine Shopify + Klaviyo for powerful e-commerce emails
+  </Card>
+  <Card title="Email Service Providers" icon="server" href="/integrations/email-service-providers">
+    Setup sending infrastructure
+  </Card>
+  <Card title="Create Product Emails" icon="wand-magic-sparkles" href="/creating-emails/prompt-based-creation">
+    Start creating product emails
+  </Card>
+  <Card title="Audience Management" icon="users" href="/audience/overview">
+    Manage your email lists
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Watch Tutorial" icon="video" href="https://youtube.com/updatelater">
+    Shopify integration walkthrough
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Ask the community
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Get setup help
+  </Card>
+  <Card title="Shopify Docs" icon="book" href="https://shopify.dev/docs">
+    Shopify API documentation
+  </Card>
+</CardGroup>

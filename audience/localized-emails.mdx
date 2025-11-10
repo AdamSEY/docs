@@ -1,0 +1,535 @@
+---
+title: "Sending Localized Emails"
+description: "Send emails in multiple languages - Migma automatically matches the right language to each subscriber"
+---
+
+## Overview
+
+Send emails in your subscribers' preferred languages. Create multiple language versions of your email, and Migma automatically sends the correct version to each subscriber based on their language preference.
+
+<CardGroup cols={2}>
+  <Card title="Multiple Languages" icon="globe">
+    Create one email in English, Spanish, French, etc.
+  </Card>
+  <Card title="Automatic Matching" icon="wand-magic-sparkles">
+    Migma sends the right language to each subscriber
+  </Card>
+  <Card title="Language Detection" icon="map">
+    Detects language from subscriber settings or country
+  </Card>
+  <Card title="Fallback Support" icon="shield-check">
+    Defaults to primary language if no match found
+  </Card>
+</CardGroup>
+
+---
+
+## How It Works
+
+<Steps>
+  <Step title="Create Email in Multiple Languages">
+    Generate your email with language versions:
+
+    ```text
+    Create a product launch email.
+
+    Generate versions in:
+    - English
+    - Spanish
+    - French
+
+    Product: New Widget Pro
+    Key benefits: AI-powered, 10x faster, easy to use
+    CTA: Start Free Trial
+    ```
+
+    Migma creates separate versions for each language
+  </Step>
+
+  <Step title="Set Subscriber Languages">
+    Ensure your subscribers have language preferences set:
+
+    **Option 1: Manual Entry**
+    - Go to Audience → Manage Contacts
+    - Edit subscriber
+    - Set "Language" field (e.g., `en`, `es`, `fr`)
+
+    **Option 2: CSV Import**
+    - Include `language` column in CSV
+    - Values: `en`, `es`, `fr`, `de`, etc. (ISO 639-1 codes)
+
+    **Option 3: Auto-Detect from Country**
+    - Set subscriber's `country` field
+    - Migma automatically detects language (e.g., Mexico → Spanish)
+  </Step>
+
+  <Step title="Send to Audience">
+    When you send, Migma automatically:
+    1. Checks each subscriber's language preference
+    2. Sends the matching language version
+    3. Falls back to default language if no match
+  </Step>
+</Steps>
+
+---
+
+## Creating Multi-Language Emails
+
+### Method 1: Prompt for Multiple Languages
+
+**When generating, specify all languages:**
+
+```text
+Create welcome email in English, Spanish, and French.
+
+Subject: Welcome to [Company]!
+
+Content:
+- Thank you for joining
+- What to expect next
+- How to get started
+
+Keep tone friendly and welcoming in all languages.
+```
+
+**Migma generates:**
+- English version
+- Spanish version (Traducción nativa)
+- French version (Traduction native)
+
+### Method 2: Add Languages to Existing Email
+
+**Already have an email? Add more languages:**
+
+```text
+Take this email and create Spanish and French versions.
+Maintain the same structure and CTAs.
+Ensure cultural appropriateness for each market.
+```
+
+### Method 3: Generate Language at Send Time
+
+**Let Migma handle translation when sending:**
+- Create email in your primary language
+- Enable "Auto-translate" when sending
+- Migma translates to subscriber's language on-the-fly
+
+---
+
+## Language Codes
+
+Use standard ISO 639-1 language codes:
+
+| Language | Code | Example Countries |
+|----------|------|-------------------|
+| **English** | `en` | US, GB, CA, AU |
+| **Spanish** | `es` | ES, MX, AR, CO |
+| **French** | `fr` | FR, CA, BE, CH |
+| **German** | `de` | DE, AT, CH |
+| **Italian** | `it` | IT |
+| **Portuguese** | `pt` | PT, BR |
+| **Chinese** | `zh` | CN, TW, HK |
+| **Japanese** | `ja` | JP |
+| **Korean** | `ko` | KR |
+| **Arabic** | `ar` | SA, EG, AE |
+| **Russian** | `ru` | RU, BY, KZ |
+| **Hindi** | `hi` | IN |
+| **Dutch** | `nl` | NL |
+
+**Full list:** [ISO 639-1 Language Codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
+
+---
+
+## Setting Subscriber Languages
+
+### In Migma UI
+
+<Steps>
+  <Step title="Navigate to Subscribers">
+    Go to **Audience → Manage Contacts**
+  </Step>
+
+  <Step title="Edit Subscriber">
+    Click on any subscriber to edit
+  </Step>
+
+  <Step title="Set Language">
+    **Language field:**
+    - Enter 2-letter code: `en`, `es`, `fr`, etc.
+    - Or select from dropdown if available
+
+    **Or set Country:**
+    - Country field: `US`, `MX`, `FR`, etc.
+    - Migma auto-detects language from country
+  </Step>
+
+  <Step title="Save">
+    Click "Save" - language preference is now set
+  </Step>
+</Steps>
+
+### Via CSV Import
+
+**Include language column:**
+
+```csv
+email,name,language,country
+john@example.com,John Smith,en,US
+maria@example.com,Maria Garcia,es,MX
+pierre@example.com,Pierre Dubois,fr,FR
+```
+
+**Or just country (auto-detect):**
+
+```csv
+email,name,country
+john@example.com,John Smith,US
+maria@example.com,Maria Garcia,MX
+pierre@example.com,Pierre Dubois,FR
+```
+
+Migma automatically detects:
+- US → English (`en`)
+- MX → Spanish (`es`)
+- FR → French (`fr`)
+
+<Card title="CSV Import Guide" icon="file-csv" href="/audience/csv-upload">
+  Complete CSV import documentation
+</Card>
+
+---
+
+## Language Detection Priority
+
+**Migma determines subscriber language in this order:**
+
+1. **Subscriber's `language` field** (if set explicitly)
+   - Example: `language: "es"` → Spanish
+   - Highest priority - always used if present
+
+2. **Country-to-language mapping** (if `language` not set)
+   - Example: `country: "MX"` → Spanish
+   - Automatic detection based on country
+
+3. **Fallback to default** (if neither set)
+   - Uses your email's primary language (usually English)
+   - Ensures everyone receives some version
+
+**Example scenarios:**
+
+| Language Field | Country Field | Result |
+|----------------|---------------|--------|
+| `es` | `US` | Spanish (explicit preference) |
+| *(not set)* | `MX` | Spanish (detected from Mexico) |
+| *(not set)* | *(not set)* | English (fallback default) |
+| `en` | `MX` | English (explicit overrides country) |
+
+---
+
+## Country-to-Language Mapping
+
+**Migma automatically maps countries to languages:**
+
+**Spanish-speaking countries:**
+- 🇲🇽 Mexico, 🇪🇸 Spain, 🇦🇷 Argentina, 🇨🇴 Colombia, 🇵🇪 Peru, 🇻🇪 Venezuela, 🇨🇱 Chile, 🇪🇨 Ecuador, 🇬🇹 Guatemala, 🇨🇺 Cuba, and more
+
+**French-speaking countries:**
+- 🇫🇷 France, 🇨🇦 Canada, 🇧🇪 Belgium, 🇨🇭 Switzerland, 🇱🇺 Luxembourg, 🇲🇨 Monaco, and African countries
+
+**English-speaking countries:**
+- 🇺🇸 USA, 🇬🇧 UK, 🇨🇦 Canada, 🇦🇺 Australia, 🇳🇿 New Zealand, 🇮🇪 Ireland, 🇸🇬 Singapore, 🇮🇳 India, and more
+
+**100+ countries supported** - see [Language Mapping Service](https://github.com/anthropics/claude-code) for full list
+
+---
+
+## Sending Localized Emails
+
+### Send with Language Matching
+
+<Steps>
+  <Step title="Create Multi-Language Email">
+    Generate or have email versions ready in multiple languages
+  </Step>
+
+  <Step title="Click Send">
+    Navigate to **Audience → Send Emails**
+  </Step>
+
+  <Step title="Select Audience">
+    Choose who receives the email:
+    - All subscribers
+    - Specific tags
+    - CSV list
+  </Step>
+
+  <Step title="Migma Matches Languages">
+    **Automatic matching happens:**
+
+    For each subscriber, Migma:
+    1. Checks their `language` field
+    2. Falls back to country-detected language
+    3. Selects matching email version
+    4. Sends appropriate version
+  </Step>
+
+  <Step title="Send">
+    Click "Send" - emails go out in correct languages
+  </Step>
+</Steps>
+
+### Viewing Send Results
+
+**After sending, see language breakdown:**
+
+```
+Sent: 1,000 emails
+- English: 450 emails
+- Spanish: 320 emails
+- French: 180 emails
+- Default: 50 emails (no language match)
+```
+
+---
+
+## Best Practices
+
+<Check>**Always provide a default language** - Usually English as fallback</Check>
+
+<Check>**Use native speakers for translations** - Don't rely solely on AI translation for important campaigns</Check>
+
+<Check>**Keep content length similar** - Some languages are more verbose (German, French) than others</Check>
+
+<Check>**Test all language versions** - Preview each version before sending</Check>
+
+<Check>**Cultural adaptation** - Not just translation - adapt imagery, examples, humor for each culture</Check>
+
+<Check>**Set languages early** - Import or set subscriber languages before campaigns</Check>
+
+<Check>**Update language preferences** - Let subscribers choose their language in preference center</Check>
+
+---
+
+## Cultural Considerations
+
+### More Than Translation
+
+**Good localization includes:**
+
+**Content adaptation:**
+- Date formats (MM/DD/YYYY vs DD/MM/YYYY)
+- Currency symbols ($, €, £, ¥)
+- Time zones and scheduling
+- Holidays and seasonal references
+- Cultural references and idioms
+
+**Visual adaptation:**
+- Images appropriate for each market
+- Color meanings (red = luck in China, danger in West)
+- Reading direction (RTL for Arabic/Hebrew)
+- Product availability by region
+
+**Tone and formality:**
+- German/Japanese: More formal
+- Spanish/Italian: More warm and personal
+- French: Balance of formal and friendly
+- English: Casual and direct
+
+### Examples
+
+**Bad (literal translation):**
+```
+English: "Black Friday Sale - Don't miss out!"
+Spanish: "Venta de Viernes Negro - ¡No te pierdas!"
+```
+
+**Good (culturally adapted):**
+```
+English: "Black Friday Sale - Don't miss out!"
+Spanish: "Ofertas de Fin de Semana - ¡Aprovecha ahora!" (Weekend Deals)
+```
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Wrong language sent" icon="language">
+    **If subscribers receive wrong language:**
+
+    **Check:**
+    - Subscriber's `language` field is correct
+    - Country code is accurate (affects auto-detection)
+    - Language code uses correct format (`es` not `esp`)
+    - Email versions actually exist for that language
+
+    **Fix:**
+    - Update subscriber language field
+    - Re-import with correct language codes
+  </Accordion>
+
+  <Accordion title="No language match" icon="circle-xmark">
+    **If subscribers don't match any language:**
+
+    **Check:**
+    - Email has versions in required languages
+    - Subscriber has `language` or `country` set
+    - Language codes match exactly
+
+    **What happens:**
+    - Migma sends default/primary language version
+    - No emails are lost - fallback ensures delivery
+  </Accordion>
+
+  <Accordion title="Can't set subscriber language" icon="user-xmark">
+    **If language field not available:**
+
+    **Solutions:**
+    - Update via CSV with `language` column
+    - Use API to set language programmatically
+    - Set country field instead (auto-detects language)
+    - Contact support if field is missing
+  </Accordion>
+
+  <Accordion title="Translation quality issues" icon="spell-check">
+    **If AI translations aren't good enough:**
+
+    **Solutions:**
+    - Manually edit each language version
+    - Use professional translation service
+    - Have native speakers review
+    - Provide glossary/brand terms to AI
+    - Use "Generate in [language]" separately for each
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Example Workflows
+
+### Workflow 1: Newsletter to Global Audience
+
+**Scenario:** Send weekly newsletter in 3 languages
+
+<Steps>
+  <Step title="Create Newsletter">
+    ```
+    Create newsletter covering:
+    - This week's product updates
+    - Customer success story
+    - Upcoming webinar
+
+    Generate in English, Spanish, and French.
+    ```
+  </Step>
+
+  <Step title="Review Each Version">
+    - Check English version
+    - Review Spanish translation
+    - Verify French translation
+    - Make adjustments if needed
+  </Step>
+
+  <Step title="Send to All Subscribers">
+    - Audience: All subscribers
+    - Migma automatically sends:
+      - English speakers → English version
+      - Spanish speakers → Spanish version
+      - French speakers → French version
+  </Step>
+</Steps>
+
+### Workflow 2: Product Launch in Specific Markets
+
+**Scenario:** Launch product in US, Mexico, and Spain
+
+<Steps>
+  <Step title="Create Targeted Versions">
+    ```
+    Create product launch email for Widget Pro.
+
+    English (US market):
+    - Emphasis on productivity features
+    - Pricing in USD
+    - US-specific benefits
+
+    Spanish (Mexico market):
+    - Emphasis on value and ROI
+    - Pricing in MXN
+    - Local customer testimonial
+
+    Spanish (Spain market):
+    - Emphasis on European compliance
+    - Pricing in EUR
+    - EU-specific features
+    ```
+  </Step>
+
+  <Step title="Tag Audiences by Market">
+    - Tag: "US" → English version
+    - Tag: "Mexico" → Spanish (MX) version
+    - Tag: "Spain" → Spanish (ES) version
+  </Step>
+
+  <Step title="Send to Each Segment">
+    Send separately to each tag with appropriate version
+  </Step>
+</Steps>
+
+---
+
+## API Integration
+
+**Set subscriber language via API:**
+
+```javascript
+// Update subscriber language
+await fetch('https://api.migma.ai/v1/subscribers/{id}', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    language: 'es', // Spanish
+    country: 'MX'   // Mexico (optional, for additional context)
+  })
+});
+```
+
+**Create multi-language email via API:**
+
+```javascript
+// Generate email in multiple languages
+await fetch('https://api.migma.ai/v1/emails/generate', {
+  method: 'POST',
+  body: JSON.stringify({
+    prompt: "Create welcome email",
+    languages: ['en', 'es', 'fr'],
+    projectId: "your_project_id"
+  })
+});
+```
+
+<Card title="API Documentation" icon="code" href="/api-reference/introduction">
+  Complete API reference
+</Card>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Manage Contacts" icon="users" href="/audience/manage-contacts">
+    Set subscriber languages
+  </Card>
+  <Card title="CSV Import" icon="file-csv" href="/audience/csv-upload">
+    Import with language data
+  </Card>
+  <Card title="Send Emails" icon="paper-plane" href="/audience/sending-emails">
+    Send to your audience
+  </Card>
+  <Card title="Preference Center" icon="sliders" href="/audience/preference-center">
+    Let subscribers choose language
+  </Card>
+</CardGroup>

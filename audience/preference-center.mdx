@@ -1,0 +1,753 @@
+---
+title: "Preference Center & Unsubscribe"
+description: "On-brand subscription management with granular preference control"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="Preference Center" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Migma's Preference Center provides a beautiful, on-brand subscription management experience that **automatically inherits your brand colors, fonts, and logo**. Subscribers can manage their email preferences without needing to log in, using secure token-based access.
+
+<CardGroup cols={3}>
+  <Card title="Auto-Branded" icon="palette">
+    Inherits your brand styling automatically
+  </Card>
+  <Card title="Granular Control" icon="sliders">
+    Let subscribers choose what they receive
+  </Card>
+  <Card title="Token-Based Access" icon="key">
+    Secure, no login required
+  </Card>
+</CardGroup>
+
+---
+
+## Why Preference Centers Matter
+
+**Problem with standard unsubscribe:**
+- All-or-nothing: Lose subscribers forever
+- No way to reduce email frequency
+- Miss opportunity to retain partial engagement
+
+**Migma's Preference Center solution:**
+- Subscribers can choose specific email types
+- On-brand experience maintains trust
+- Retain subscribers who just want less email
+- Professional appearance
+
+---
+
+## Automatic Brand Inheritance
+
+<iframe width="100%" height="300" src="https://youtube.com/updatelater" title="On-Brand Preferences" frameborder="0" allowfullscreen></iframe>
+
+### What Gets Auto-Applied
+
+Your Preference Center automatically inherits brand styling from your project settings:
+
+**Brand Colors:**
+- Primary color → Buttons, links, checkboxes
+- Background colors → Page background, sections
+- Text colors → Headings and body text
+- Accent colors → Borders, highlights
+
+**Typography:**
+- Heading font → Page title, section headers
+- Body font → All text content
+- Font weights → Matches your email styling
+
+**Logo:**
+- Displayed at top of preference center
+- Automatically sized and positioned
+- Responsive on mobile devices
+
+**Result:** Professional, branded experience that matches your emails
+
+---
+
+## Preference Categories
+
+### How Preference Categories Work
+
+**Preference categories map to tags:**
+
+<Steps>
+  <Step title="Create Preference Category">
+    **Admin creates a category:**
+    - Name: "Weekly Newsletter"
+    - Description: "Our weekly roundup of news and tips"
+    - Mapped Tag: `newsletter` tag
+    - Active: Yes
+    - Display Order: 1
+  </Step>
+
+  <Step title="Subscriber Sees Category">
+    **On preference center page:**
+    ```
+    ☑ Weekly Newsletter
+      Our weekly roundup of news and tips
+    ```
+
+    Checkbox is checked if subscriber has `newsletter` tag
+  </Step>
+
+  <Step title="Subscriber Toggles Preference">
+    **Subscriber unchecks box:**
+    - `newsletter` tag removed from subscriber
+    - Subscriber no longer receives emails sent to newsletter tag
+    - Other tags/subscriptions remain active
+  </Step>
+
+  <Step title="Granular Control">
+    **Subscriber can:**
+    - Turn off Weekly Newsletter
+    - Keep Product Updates on
+    - Keep Special Offers on
+    - Only unsubscribes from specific types, not all emails
+  </Step>
+</Steps>
+
+**Key concept:** Each preference category represents one tag. Toggling a preference adds/removes that tag from the subscriber.
+
+---
+
+## Setup Your Preference Center
+
+<Steps>
+  <Step title="Configure Brand Settings">
+    **Navigate to Settings → Brand**
+
+    **Set your brand:**
+    - Upload logo
+    - Choose primary color
+    - Choose secondary colors
+    - Select fonts
+    - Add company name and address
+
+    **These settings auto-apply** to preference center
+  </Step>
+
+  <Step title="Create Preference Categories">
+    **Navigate to Preferences page (admin)**
+
+    **Add categories:**
+    1. Click "Add Category"
+    2. Name: "Weekly Newsletter"
+    3. Description: "Our weekly digest of news and tips"
+    4. Select mapped tag: `newsletter`
+    5. Active: Yes
+    6. Display Order: 1 (first in list)
+    7. Save
+
+    **Create multiple categories** for different email types
+  </Step>
+
+  <Step title="Map to Existing Tags">
+    **Use your existing tags:**
+    - Map "Product Updates" category to `product-updates` tag
+    - Map "Special Offers" category to `promotions` tag
+    - Map "Blog Posts" category to `blog` tag
+
+    **Subscribers with these tags** will see them as checked
+  </Step>
+
+  <Step title="Test Preference Center">
+    **Generate test URL:**
+    1. Go to Contacts
+    2. Select a subscriber
+    3. Click "Get Preference URL"
+    4. Copy URL and open in browser
+
+    **Verify:**
+    - ✅ Brand colors applied
+    - ✅ Logo displays
+    - ✅ All categories shown
+    - ✅ Correct checkboxes checked
+    - ✅ Toggles work
+  </Step>
+</Steps>
+
+---
+
+## How Subscribers Access Preferences
+
+### Via Unique Preference URL
+
+**Each subscriber gets a unique URL:**
+
+```
+https://migma.ai/preferences/abc123def456...
+```
+
+**URL contains:**
+- Permanent signed token
+- No expiration
+- Unique per subscriber
+- No login required
+
+**Access methods:**
+
+**1. From email footer:**
+- Include `{{preferenceUrl}}` variable in email template
+- Automatically replaced with subscriber's unique URL
+- Link text: "Manage your preferences" or similar
+
+**2. From unsubscribe flow:**
+- Subscriber clicks unsubscribe link
+- Shown simple confirmation
+- Can click to view full preferences instead
+
+**3. From your support:**
+- Generate URL in admin UI
+- Share with subscriber via support ticket
+- Actions: Edit subscriber → Get Preference URL
+
+---
+
+## Preference Center Features
+
+### What Subscribers Can Do
+
+**On the preference center page:**
+
+**View current subscriptions:**
+```
+Your Email Preferences
+
+☑ Weekly Newsletter
+  Our weekly digest of news and tips
+
+☑ Product Updates
+  New features and improvements
+
+☐ Special Offers
+  Exclusive deals and promotions
+```
+
+**Toggle preferences:**
+- Click checkbox to unsubscribe from that type
+- Click again to resubscribe
+- Changes save immediately
+- Confirmation message shown
+
+**Update profile (if enabled):**
+- Name
+- Email (view only, cannot change)
+- Custom fields (if configured)
+
+**Result:**
+- Subscriber remains in database
+- Only specified tags removed/added
+- Still subscribed to other email types
+- Better than complete unsubscribe
+
+---
+
+## Unsubscribe Functionality
+
+### Simple Unsubscribe Page
+
+**Unsubscribe URL format:**
+```
+https://migma.ai/unsubscribe/abc123def456...
+```
+
+**What happens:**
+
+<Steps>
+  <Step title="Click Unsubscribe Link">
+    Subscriber clicks unsubscribe link in email
+  </Step>
+
+  <Step title="Simple Confirmation Page">
+    **Shows:**
+    ```
+    You've been unsubscribed
+
+    Your email address has been removed from our mailing list.
+
+    [View Preference Center]
+    ```
+
+    **Page is intentionally simple** - confirms action quickly
+  </Step>
+
+  <Step title="Status Updated">
+    **Backend updates:**
+    - Subscriber status → `unsubscribed`
+    - `unsubscribedAt` timestamp set
+    - All tags remain (for record keeping)
+    - Cannot receive marketing emails
+  </Step>
+
+  <Step title="Optional: View Preferences">
+    **Link to preference center:**
+    - Subscriber can click to see full preference center
+    - Can resubscribe if they change their mind
+    - Can manage granular preferences instead
+  </Step>
+</Steps>
+
+**Note:** Unsubscribe page is not branded - simple, fast confirmation only
+
+### Tag-Specific Unsubscribe
+
+**Hidden feature:**
+
+**URL format:**
+```
+https://migma.ai/unsubscribe/TOKEN?tagId=TAG_ID
+```
+
+**What happens:**
+- Only removes that specific tag from subscriber
+- Subscriber remains subscribed to other emails
+- If last tag removed → status becomes `unsubscribed`
+- Otherwise → still active with remaining tags
+
+**Use case:**
+- Unsubscribe from newsletter but keep product updates
+- Bulk email sends can include tag-specific unsubscribe
+
+---
+
+## Technical Implementation
+
+### Token-Based Security
+
+**How tokens work:**
+
+**Token generation:**
+- Permanent signed token created per subscriber
+- Stored as `unsubscribeToken` on subscriber record
+- 32-character random string
+- Unique per subscriber per project
+
+**Token validation:**
+- URL contains token in path: `/preferences/TOKEN`
+- Backend verifies token exists
+- Looks up subscriber by token
+- No expiration - works forever
+
+**Security:**
+- Tokens are long and random (hard to guess)
+- One token per subscriber (not per email send)
+- No sensitive data in token
+- HTTPS required for security
+
+### Fast URL Generation
+
+**Two methods for generating preference URLs:**
+
+**Method 1: Standard (with DB lookup)**
+```typescript
+// Looks up subscriber, returns full URL
+GET /api/subscribers/:id/preference-url
+```
+
+**Method 2: Bulk (no DB lookup)**
+```typescript
+// Generates URLs for many subscribers at once
+// No DB queries - uses existing token
+POST /api/preferences/bulk-urls
+{
+  subscribers: [
+    { email, unsubscribeToken },
+    ...
+  ]
+}
+```
+
+**Use bulk method** when sending to many subscribers - much faster
+
+---
+
+## Available Endpoints
+
+### Admin Endpoints (Auth Required)
+
+**Preference Category Management:**
+```
+GET    /api/preferences/categories           List all categories
+POST   /api/preferences/categories           Create category
+PUT    /api/preferences/categories/:id       Update category
+DELETE /api/preferences/categories/:id       Delete category
+GET    /api/preferences/categories/:id       Get one category
+```
+
+**Subscriber Preference URLs:**
+```
+GET    /api/subscribers/:id/preference-url   Get preference URL for one subscriber
+POST   /api/preferences/bulk-urls            Generate URLs for many subscribers
+```
+
+### Public Endpoints (No Auth)
+
+**Subscriber Preference Management:**
+```
+GET    /api/preferences/public/:token        Get subscriber preferences by token
+PUT    /api/preferences/public/:token        Update subscriber preferences
+GET    /api/preferences/unsubscribe/:token   Unsubscribe (with optional ?tagId=)
+```
+
+---
+
+## Compliance Features
+
+### CAN-SPAM Compliance
+
+**What Migma provides:**
+
+<Check>**Unsubscribe link** - Unique per subscriber, works immediately</Check>
+<Check>**Physical address** - Added to emails from brand settings</Check>
+<Check>**Instant processing** - Unsubscribes process immediately</Check>
+<Check>**30-day link validity** - Links never expire (exceeds requirement)</Check>
+<Check>**No login required** - Token-based access</Check>
+
+**Your responsibilities:**
+- Provide valid physical address in brand settings
+- Include unsubscribe link in every marketing email
+- Use `{{unsubscribeUrl}}` or `{{preferenceUrl}}` variables
+- Process unsubscribes (Migma does this automatically)
+
+### GDPR Considerations
+
+**What Migma tracks:**
+- Subscription date (`createdAt`)
+- Unsubscribe date (`unsubscribedAt`)
+- Current subscription status
+- Preference category selections (via tags)
+
+**Data export:**
+- Admins can export subscriber data via CSV
+- Includes all fields, tags, custom fields
+- Available via Contacts page export
+
+**Data deletion:**
+- Admins can delete subscribers manually
+- Permanent deletion from database
+- Use with caution - no recovery
+
+**What's NOT implemented:**
+- Self-service data download (subscriber-initiated)
+- Self-service account deletion (subscriber-initiated)
+- Consent history logging
+- GDPR-specific compliance tools
+
+**Recommendation:** For full GDPR compliance, you may need additional processes beyond Migma's built-in features.
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Create Meaningful Categories" icon="tags">
+    **Good category names:**
+    ```
+    ✅ Weekly Newsletter
+    ✅ Product Updates
+    ✅ Special Offers
+    ✅ Event Invitations
+    ✅ Blog Posts
+    ```
+
+    **Poor category names:**
+    ```
+    ❌ Emails
+    ❌ Updates
+    ❌ Tag 1
+    ❌ Newsletter Tag
+    ```
+
+    **Why:**
+    - Clear names help subscribers understand what they're (un)subscribing from
+    - Descriptive helps reduce confusion
+    - Professional appearance
+  </Accordion>
+
+  <Accordion title="Add Helpful Descriptions" icon="message">
+    **Good descriptions:**
+    ```
+    Weekly Newsletter
+    → Our weekly roundup of the latest news, tips, and insights
+
+    Product Updates
+    → Announcements about new features and improvements
+
+    Special Offers
+    → Exclusive deals and promotions (1-2 per month)
+    ```
+
+    **Why:**
+    - Helps subscribers make informed choices
+    - Sets expectations (frequency, content type)
+    - Reduces unwanted unsubscribes
+  </Accordion>
+
+  <Accordion title="Use Display Order Wisely" icon="arrow-down-1-9">
+    **Recommended order:**
+
+    **Most important first:**
+    1. Product/service updates (critical)
+    2. Newsletter (regular content)
+    3. Educational content
+    4. Promotional offers (least critical)
+
+    **Why:**
+    - Most engaged subscribers see important options first
+    - De-emphasize promotional content
+    - Increase retention of key subscriptions
+  </Accordion>
+
+  <Accordion title="Test Regularly" icon="vial">
+    **Monthly testing checklist:**
+
+    **Test unsubscribe:**
+    - ☑ Send test email
+    - ☑ Click unsubscribe link
+    - ☑ Verify confirmation page loads
+    - ☑ Check subscriber status updated
+    - ☑ Verify no longer in tag
+
+    **Test preference center:**
+    - ☑ Generate preference URL
+    - ☑ Open in browser
+    - ☑ Verify brand applied correctly
+    - ☑ Toggle preferences
+    - ☑ Verify changes saved
+    - ☑ Check tags updated
+
+    **Why:**
+    - Catch broken links
+    - Verify branding still applies
+    - Ensure compliance
+    - Maintain trust
+  </Accordion>
+
+  <Accordion title="Include in Every Email" icon="envelope">
+    **Required in all marketing emails:**
+
+    **Email footer should include:**
+    ```html
+    <a href="{{preferenceUrl}}">Manage Preferences</a>
+    |
+    <a href="{{unsubscribeUrl}}">Unsubscribe</a>
+    ```
+
+    **Or simpler:**
+    ```html
+    <a href="{{unsubscribeUrl}}">Unsubscribe</a>
+    ```
+
+    **Why:**
+    - Legal requirement (CAN-SPAM)
+    - Reduces spam complaints
+    - Maintains trust
+    - Better deliverability
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Common Use Cases
+
+### Newsletter with Multiple Topics
+
+**Setup:**
+```
+Preference Categories:
+☑ Weekly Digest
+  Our main newsletter (every Monday)
+
+☑ Breaking News
+  Important updates as they happen
+
+☑ Community Spotlights
+  Featured member stories (monthly)
+```
+
+**Result:** Subscribers can get digest without breaking news alerts
+
+### SaaS Product Communications
+
+**Setup:**
+```
+Preference Categories:
+☑ Product Updates
+  New features and improvements
+
+☑ Educational Content
+  Tips, tutorials, and best practices
+
+☑ System Notifications
+  Important alerts about your account
+
+☑ Company News
+  Blog posts and announcements
+```
+
+**Result:** Users can get product updates without marketing content
+
+### E-commerce Store
+
+**Setup:**
+```
+Preference Categories:
+☑ New Arrivals
+  Latest products added to store
+
+☑ Sales & Promotions
+  Exclusive deals and discounts
+
+☑ Back in Stock
+  Notifications when items return
+
+☑ Order Updates
+  Shipping and delivery notifications
+```
+
+**Result:** Customers can control promotional emails while keeping order updates
+
+---
+
+## Limitations
+
+### Current Limitations
+
+**Features NOT currently available:**
+
+<Warning>**Feedback collection** - Cannot ask why subscriber is unsubscribing</Warning>
+<Warning>**GDPR self-service** - No subscriber-initiated data download or account deletion</Warning>
+<Warning>**Analytics** - No tracking of preference changes or retention metrics</Warning>
+<Warning>**One-click unsubscribe headers** - No RFC 8058 List-Unsubscribe headers</Warning>
+<Warning>**Frequency preferences** - Cannot let subscribers choose email frequency</Warning>
+<Warning>**Multi-brand** - Single brand per project only</Warning>
+
+**What works:**
+- ✅ Granular preference categories
+- ✅ On-brand design with auto-inheritance
+- ✅ Token-based secure access
+- ✅ Instant unsubscribe
+- ✅ Tag-specific unsubscribe
+- ✅ No login required
+- ✅ Mobile responsive
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Preference URL Not Working" icon="link-slash">
+    **Problem:** Link returns error or doesn't load
+
+    **Check:**
+    1. Token is valid (32 characters)
+    2. Subscriber exists in database
+    3. URL format correct: `/preferences/TOKEN`
+    4. HTTPS (not HTTP)
+
+    **Test:**
+    - Generate new URL from admin UI
+    - Try in different browser
+    - Check subscriber still exists
+  </Accordion>
+
+  <Accordion title="Brand Not Applied" icon="palette">
+    **Problem:** Preference center uses default colors
+
+    **Check:**
+    1. Brand settings configured (Settings → Brand)
+    2. Logo uploaded
+    3. Primary color selected
+    4. Fonts chosen
+    5. Clear browser cache
+
+    **Note:** Brand changes take effect immediately
+  </Accordion>
+
+  <Accordion title="Preferences Not Saving" icon="floppy-disk">
+    **Problem:** Subscriber toggles preference but change doesn't stick
+
+    **Check:**
+    1. Browser JavaScript enabled
+    2. No console errors (F12 developer tools)
+    3. Subscriber record exists
+    4. Tag exists in project
+    5. Preference category is active
+
+    **Debug:**
+    - Check network tab for API errors
+    - Verify tag mapping correct
+    - Test with different subscriber
+  </Accordion>
+
+  <Accordion title="Category Not Showing" icon="eye-slash">
+    **Problem:** Preference category doesn't appear on preference center
+
+    **Check:**
+    1. Category is **Active** (not inactive)
+    2. Mapped tag exists
+    3. Display order set
+    4. Category saved properly
+
+    **Fix:**
+    - Edit category, verify all fields
+    - Toggle Active off and on
+    - Save again
+    - Refresh preference center page
+  </Accordion>
+
+  <Accordion title="Unsubscribe Not Working" icon="ban">
+    **Problem:** Click unsubscribe but still receiving emails
+
+    **Check:**
+    1. Unsubscribe link clicked successfully
+    2. Subscriber status changed to `unsubscribed`
+    3. Check send logs - should show "skipped"
+    4. Not using different email address
+
+    **Remember:**
+    - Unsubscribe is immediate
+    - Emails in flight may still deliver
+    - Check correct subscriber record
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Manage Contacts" icon="users" href="/audience/manage-contacts">
+    Add and organize subscribers
+  </Card>
+  <Card title="Sending Emails" icon="paper-plane" href="/audience/sending-emails">
+    Send to your audience
+  </Card>
+  <Card title="CSV Upload" icon="file-csv" href="/audience/csv-upload">
+    Bulk import subscribers
+  </Card>
+  <Card title="Audience Overview" icon="chart-line" href="/audience/overview">
+    Subscriber management overview
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Watch Tutorial" icon="video" href="https://youtube.com/updatelater">
+    Preference center setup guide
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Get help with compliance
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Preference center questions
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/subscribers">
+    Subscriber API documentation
+  </Card>
+</CardGroup>

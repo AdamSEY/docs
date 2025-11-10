@@ -1,0 +1,706 @@
+---
+title: "Email Service Providers (ESPs)"
+description: "Connect Amazon SES, Resend, SendGrid, or Brevo to send emails directly from Migma"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="ESP Integration" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Connect your Email Service Provider (ESP) to send emails directly from Migma. We support the most popular sending platforms, from cost-effective options like Amazon SES to feature-rich platforms like SendGrid and developer-friendly services like Resend.
+
+<CardGroup cols={2}>
+  <Card title="Amazon SES" icon="aws">
+    Cost-effective high-volume sending
+  </Card>
+  <Card title="Resend" icon="paper-plane">
+    Modern developer-first platform
+  </Card>
+  <Card title="SendGrid" icon="send">
+    Advanced analytics and deliverability
+  </Card>
+  <Card title="Brevo (Sendinblue)" icon="envelope">
+    All-in-one marketing platform
+  </Card>
+</CardGroup>
+
+---
+
+## Comparison Table
+
+Choose the right ESP for your needs:
+
+| Feature | Amazon SES | Resend | SendGrid | Brevo |
+|---------|-----------|--------|----------|-------|
+| **Pricing** | $0.10/1,000 | $20/mo | $19.95/mo | Free-$25/mo |
+| **Free Tier** | 62,000/month | 3,000/month | 100/day | 300/day |
+| **Best For** | High volume | Developers | Analytics | Small business |
+| **Deliverability** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Setup Difficulty** | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Analytics** | Basic | Good | Advanced | Advanced |
+| **Support** | AWS Support | Email | 24/7 | Email |
+| **SMTP Support** | ✅ | ✅ | ✅ | ✅ |
+| **API Support** | ✅ | ✅ | ✅ | ✅ |
+
+---
+
+## Amazon SES (Simple Email Service)
+
+**Best for:** High-volume sending, cost-effectiveness, AWS integration
+
+### Features
+
+<Check>**Extremely cost-effective** - $0.10 per 1,000 emails</Check>
+<Check>**Free tier** - 62,000 emails/month when sending from EC2</Check>
+<Check>**Scalable** - Send millions of emails</Check>
+<Check>**AWS integration** - Works with other AWS services</Check>
+<Check>**Reliable** - Built on AWS infrastructure</Check>
+
+### Setup Amazon SES
+
+<Steps>
+  <Step title="Create AWS Account">
+    1. Go to [aws.amazon.com](https://aws.amazon.com)
+    2. Click "Create an AWS Account"
+    3. Complete registration
+  </Step>
+
+  <Step title="Verify Domain">
+    **In AWS SES Console:**
+    1. Navigate to **Verified Identities**
+    2. Click **"Create identity"**
+    3. Select **"Domain"**
+    4. Enter your domain: `example.com`
+    5. **Add DNS records** provided by AWS:
+
+    **Required DNS Records:**
+    ```
+    Type: TXT
+    Name: _amazonses.example.com
+    Value: [verification code from AWS]
+
+    Type: CNAME (DKIM - 3 records)
+    Name: [unique]._domainkey.example.com
+    Value: [unique].dkim.amazonses.com
+    ```
+
+    Wait 5-10 minutes for DNS propagation
+  </Step>
+
+  <Step title="Request Production Access">
+    **By default, SES starts in sandbox mode:**
+    - ❌ Can only send to verified emails
+    - ❌ Limited to 200 emails/day
+    - ❌ Can't send to real customers
+
+    **Request production access:**
+    1. SES Console → **Account dashboard**
+    2. Click **"Request production access"**
+    3. Fill out the form:
+       - Use case: "Transactional and marketing emails"
+       - Website URL
+       - Describe email types
+       - Expected volume
+    4. Submit request
+
+    ⏱️ Approval typically within 24 hours
+  </Step>
+
+  <Step title="Create IAM Credentials">
+    **Create API keys for Migma:**
+    1. Go to **IAM → Users**
+    2. Click **"Create user"**
+    3. Username: `migma-ses-sender`
+    4. Click **"Next"**
+    5. Select **"Attach policies directly"**
+    6. Search and select: **`AmazonSESFullAccess`**
+    7. Click **"Next"** → **"Create user"**
+    8. Click on the user
+    9. Go to **"Security credentials"**
+    10. Click **"Create access key"**
+    11. Select **"Third-party service"**
+    12. Copy:
+        - **Access Key ID**
+        - **Secret Access Key**
+
+    <Warning>
+    Save the Secret Access Key - it's shown only once!
+    </Warning>
+  </Step>
+
+  <Step title="Configure in Migma">
+    **In Migma:**
+    1. Go to **Settings → Integrations → Email Providers**
+    2. Select **"Amazon SES"**
+    3. Enter:
+       - AWS Access Key ID
+       - AWS Secret Access Key
+       - AWS Region (e.g., `us-east-1`, `eu-west-1`)
+       - Verified sender email/domain
+    4. Click **"Connect"**
+  </Step>
+
+  <Step title="Test Sending">
+    Send a test email to verify:
+    - ✅ Connection successful
+    - ✅ Email delivered
+    - ✅ DKIM signed
+    - ✅ SPF passing
+  </Step>
+</Steps>
+
+### SES Pricing
+
+**Extremely cost-effective:**
+
+| Volume | Cost |
+|--------|------|
+| First 62,000/month (from EC2) | **FREE** |
+| After free tier | **$0.10 per 1,000 emails** |
+| Attachments | $0.12 per GB |
+| Dedicated IPs | $24.95/month |
+
+**Example monthly costs:**
+- 10,000 emails: $0.00 (free tier)
+- 100,000 emails: $3.80
+- 500,000 emails: $50.00
+- 1,000,000 emails: $100.00
+
+### Best Practices
+
+<AccordionGroup>
+  <Accordion title="Domain Authentication" icon="shield-check">
+    **Always verify your domain:**
+    - ✅ Add SPF record
+    - ✅ Enable DKIM signing (3 CNAME records)
+    - ✅ Set up DMARC policy
+    - ✅ Use custom MAIL FROM domain
+
+    Better deliverability and sender reputation
+  </Accordion>
+
+  <Accordion title="Warm Up Your IP" icon="fire">
+    **Start slow and increase gradually:**
+
+    - Day 1: 50 emails
+    - Day 2: 100 emails
+    - Day 3: 200 emails
+    - Week 2: 1,000/day
+    - Week 3: 5,000/day
+    - Week 4+: Full volume
+
+    Prevents spam filtering and reputation issues
+  </Accordion>
+
+  <Accordion title="Monitor Bounce Rates" icon="chart-line">
+    **Keep bounce rate under 5%:**
+    - Remove hard bounces immediately
+    - Monitor complaint rate (< 0.1%)
+    - Set up SNS notifications
+    - Review bounce reports regularly
+
+    High bounce rates can pause your account
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Resend
+
+**Best for:** Developers, modern stack, React Email support, simplicity
+
+### Features
+
+<Check>**Developer-friendly** - Clean API, great docs</Check>
+<Check>**React Email native** - Perfect for Migma's output</Check>
+<Check>**Simple pricing** - Transparent, no hidden fees</Check>
+<Check>**Great deliverability** - High inbox placement</Check>
+<Check>**Modern dashboard** - Beautiful UI/UX</Check>
+
+### Setup Resend
+
+<Steps>
+  <Step title="Create Account">
+    1. Go to [resend.com](https://resend.com)
+    2. Click **"Get Started"**
+    3. Sign up with email or GitHub
+
+    **Pricing:**
+    - Free: 3,000 emails/month, 100/day
+    - Pro: $20/month for 50,000 emails
+  </Step>
+
+  <Step title="Add Domain">
+    **Verify your domain:**
+    1. Click **"Domains" → "Add Domain"**
+    2. Enter: `example.com`
+    3. Add DNS records:
+
+    ```
+    Type: TXT
+    Name: @
+    Value: resend-verification-code
+
+    Type: MX
+    Name: @
+    Value: feedback-smtp.resend.com
+    Priority: 10
+
+    Type: TXT (SPF)
+    Name: @
+    Value: v=spf1 include:amazonses.com ~all
+
+    Type: CNAME (DKIM)
+    Name: resend._domainkey
+    Value: resend.dkim.amazonses.com
+    ```
+
+    4. Click **"Verify"**
+
+    ⏱️ Verification usually takes 5 minutes
+  </Step>
+
+  <Step title="Create API Key">
+    1. Go to **API Keys → Create API Key**
+    2. Name: `Migma Integration`
+    3. Permission: **"Sending access"**
+    4. Domain: Select your verified domain
+    5. Click **"Add"**
+    6. Copy the API key
+
+    <Warning>
+    Save the API key - it's only shown once!
+    </Warning>
+  </Step>
+
+  <Step title="Connect to Migma">
+    **In Migma:**
+    1. Go to **Settings → Integrations → Email Providers**
+    2. Select **"Resend"**
+    3. Enter API key
+    4. Select verified domain
+    5. Click **"Connect"**
+  </Step>
+
+  <Step title="Test Sending">
+    Send a test email to verify everything works
+  </Step>
+</Steps>
+
+### Why Resend + Migma?
+
+**Perfect combination:**
+
+1. **Migma generates React Email components**
+2. **Resend natively supports React Email**
+3. **No HTML conversion needed**
+4. **Seamless export workflow**
+
+```
+Migma AI generates email
+  ↓
+React Email components
+  ↓
+Resend API
+  ↓
+Delivered beautifully
+```
+
+### Resend Pricing
+
+| Plan | Emails/Month | Price | Daily Limit |
+|------|--------------|-------|-------------|
+| **Free** | 3,000 | $0 | 100 |
+| **Pro** | 50,000 | $20 | 1,000 |
+| **Business** | 100,000 | $50 | 10,000 |
+| **Enterprise** | Custom | Custom | Custom |
+
+---
+
+## SendGrid
+
+**Best for:** Advanced analytics, deliverability features, enterprise needs
+
+### Features
+
+<Check>**Industry-leading deliverability** - Dedicated IPs, reputation monitoring</Check>
+<Check>**Advanced analytics** - Detailed reporting and insights</Check>
+<Check>**Marketing features** - Automation, A/B testing, segmentation</Check>
+<Check>**Global infrastructure** - Fast delivery worldwide</Check>
+<Check>**24/7 support** - Phone and email support</Check>
+
+### Setup SendGrid
+
+<Steps>
+  <Step title="Create Account">
+    1. Go to [sendgrid.com](https://sendgrid.com)
+    2. Click **"Start for Free"**
+    3. Complete registration
+
+    **Plans:**
+    - Free: 100 emails/day forever
+    - Essentials: $19.95/month (50K emails)
+    - Pro: $89.95/month (100K emails)
+  </Step>
+
+  <Step title="Verify Sender">
+    **Option 1: Single Sender (Quick)**
+    1. **Settings → Sender Authentication**
+    2. Click **"Verify Single Sender"**
+    3. Enter email address
+    4. Check email for verification link
+    5. Click link to verify
+
+    **Option 2: Domain Authentication (Recommended)**
+    1. **Settings → Sender Authentication**
+    2. Click **"Authenticate Your Domain"**
+    3. Select DNS host
+    4. Enter domain
+    5. Add DNS records:
+
+    ```
+    Type: CNAME (3 records for DKIM)
+    Type: CNAME (1 record for verification)
+    ```
+
+    Better deliverability with domain authentication
+  </Step>
+
+  <Step title="Create API Key">
+    1. Go to **Settings → API Keys**
+    2. Click **"Create API Key"**
+    3. Name: `Migma Integration`
+    4. Permissions:
+       - **Full Access** (easiest)
+       - Or **Mail Send** only (more secure)
+    5. Click **"Create & View"**
+    6. Copy the API key
+
+    <Warning>
+    API key is shown only once - save it securely!
+    </Warning>
+  </Step>
+
+  <Step title="Connect to Migma">
+    **In Migma:**
+    1. **Settings → Integrations → Email Providers**
+    2. Select **"SendGrid"**
+    3. Paste API key
+    4. Enter verified sender email
+    5. Click **"Connect"**
+  </Step>
+
+  <Step title="Test Connection">
+    Send a test email to verify setup
+  </Step>
+</Steps>
+
+### SendGrid Features in Migma
+
+<Check>**Email validation** - Check addresses before sending</Check>
+<Check>**Bounce tracking** - Automatic list cleaning</Check>
+<Check>**Click tracking** - Monitor link engagement</Check>
+<Check>**Open tracking** - See who opens emails</Check>
+<Check>**Unsubscribe groups** - Manage preferences</Check>
+<Check>**Template storage** - Save in SendGrid</Check>
+
+### SendGrid Pricing
+
+| Plan | Emails/Month | Price | Features |
+|------|--------------|-------|----------|
+| **Free** | 100/day | $0 | Basic sending |
+| **Essentials** | 50,000 | $19.95 | Email API, 3 days support |
+| **Pro** | 100,000 | $89.95 | Full features, 24/7 support |
+| **Premier** | Custom | Custom | Dedicated IP, custom volume |
+
+---
+
+## Brevo (formerly Sendinblue)
+
+**Best for:** Small businesses, all-in-one platform, SMS + email
+
+### Features
+
+<Check>**All-in-one platform** - Email, SMS, chat, CRM</Check>
+<Check>**Generous free tier** - 300 emails/day free forever</Check>
+<Check>**Marketing automation** - Workflows and segmentation</Check>
+<Check>**Transactional + Marketing** - One platform for both</Check>
+<Check>**SMS integration** - Multi-channel campaigns</Check>
+
+### Setup Brevo
+
+<Steps>
+  <Step title="Create Account">
+    1. Go to [brevo.com](https://brevo.com)
+    2. Click **"Sign Up Free"**
+    3. Complete registration
+
+    **Plans:**
+    - Free: 300 emails/day
+    - Starter: $25/month (20K emails)
+    - Business: $65/month (Custom)
+  </Step>
+
+  <Step title="Verify Sender">
+    1. **Senders & IP → Senders**
+    2. Click **"Add a Sender"**
+    3. Enter email address
+    4. Check email for verification
+  </Step>
+
+  <Step title="Authenticate Domain (Optional but Recommended)">
+    1. **Senders & IP → Domains**
+    2. Click **"Add a Domain"**
+    3. Enter domain
+    4. Add DNS records
+  </Step>
+
+  <Step title="Create API Key">
+    1. **SMTP & API → API Keys**
+    2. Click **"Generate a new API key"**
+    3. Name: `Migma`
+    4. Copy the key
+  </Step>
+
+  <Step title="Connect to Migma">
+    1. **Migma → Settings → Integrations**
+    2. Select **"Brevo"**
+    3. Enter API key
+    4. Select sender email
+    5. Click **"Connect"**
+  </Step>
+</Steps>
+
+### Brevo Pricing
+
+| Plan | Emails/Month | Price | SMS Credits |
+|------|--------------|-------|-------------|
+| **Free** | 300/day | $0 | - |
+| **Starter** | 20,000 | $25 | $20 free |
+| **Business** | 20,000 | $65 | $20 free |
+| **Enterprise** | Custom | Custom | Custom |
+
+---
+
+## Sending from Migma
+
+Once connected, send emails directly from Migma:
+
+<Steps>
+  <Step title="Create Email">
+    Design your email in Migma
+  </Step>
+
+  <Step title="Select Recipients">
+    - Upload CSV
+    - Use Migma audience
+    - Sync from marketing platform
+  </Step>
+
+  <Step title="Choose ESP">
+    Select your connected ESP:
+    - Amazon SES
+    - Resend
+    - SendGrid
+    - Brevo
+  </Step>
+
+  <Step title="Configure Send">
+    - Subject line
+    - Preview text
+    - From name and email
+    - Reply-to address
+  </Step>
+
+  <Step title="Send or Schedule">
+    - Send immediately
+    - Schedule for later
+    - Send test first
+  </Step>
+
+  <Step title="Track Results">
+    Monitor:
+    - Delivery rate
+    - Open rate
+    - Click rate
+    - Bounces
+    - Complaints
+  </Step>
+</Steps>
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Authentication is Critical" icon="shield-check">
+    **Always authenticate your domain:**
+
+    **Required:**
+    - ✅ SPF record
+    - ✅ DKIM signing
+    - ✅ DMARC policy
+
+    **Benefits:**
+    - Better deliverability
+    - Builds sender reputation
+    - Prevents spoofing
+    - Required by Gmail/Yahoo (2024+)
+  </Accordion>
+
+  <Accordion title="Warm Up New Domains" icon="fire">
+    **Start slow, increase gradually:**
+
+    | Week | Daily Volume |
+    |------|--------------|
+    | 1 | 50-100 |
+    | 2 | 500 |
+    | 3 | 2,000 |
+    | 4 | 5,000 |
+    | 5+ | Full volume |
+
+    Prevents spam filtering
+  </Accordion>
+
+  <Accordion title="Monitor Metrics" icon="chart-line">
+    **Key metrics to watch:**
+
+    - **Delivery rate:** Should be > 99%
+    - **Bounce rate:** Should be < 2%
+    - **Complaint rate:** Should be < 0.1%
+    - **Open rate:** Industry avg 15-25%
+    - **Click rate:** Industry avg 2-5%
+
+    **Red flags:**
+    - Sudden delivery drop
+    - High bounce rate spike
+    - Complaint increase
+  </Accordion>
+
+  <Accordion title="List Hygiene" icon="broom">
+    **Keep lists clean:**
+
+    ✅ Remove hard bounces immediately
+    ✅ Remove soft bounces after 3 attempts
+    ✅ Sunset unengaged (6+ months no opens)
+    ✅ Honor unsubscribes instantly
+    ✅ Validate emails before adding
+
+    **Why:**
+    - Better deliverability
+    - Lower costs
+    - Maintain reputation
+    - Comply with regulations
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connection Failed" icon="link-slash">
+    **Solutions:**
+    1. Verify API key is correct (no spaces)
+    2. Check API key has proper permissions
+    3. Ensure domain is verified
+    4. Test credentials in ESP dashboard
+    5. Check for typos in configuration
+  </Accordion>
+
+  <Accordion title="Emails Not Delivering" icon="envelope-circle-check">
+    **Check:**
+    1. Domain authentication (SPF, DKIM, DMARC)
+    2. Sender reputation
+    3. ESP bounce logs
+    4. Recipient spam folders
+    5. Content spam triggers
+
+    **Common issues:**
+    - Missing DNS records
+    - Sending too fast
+    - High bounce rate
+    - IP reputation problems
+  </Accordion>
+
+  <Accordion title="High Bounce Rate" icon="triangle-exclamation">
+    **Solutions:**
+    1. Validate email addresses before sending
+    2. Remove hard bounces immediately
+    3. Check list quality/source
+    4. Use double opt-in
+    5. Clean old lists
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Which ESP Should You Choose?
+
+<CardGroup cols={2}>
+  <Card title="Choose Amazon SES if..." icon="aws">
+    - You send **high volumes** (100K+ emails/month)
+    - **Cost** is a primary concern
+    - You're comfortable with **AWS**
+    - You need maximum **scalability**
+  </Card>
+
+  <Card title="Choose Resend if..." icon="paper-plane">
+    - You're a **developer**
+    - You want **simplicity**
+    - You value **modern tools**
+    - You use **React Email**
+  </Card>
+
+  <Card title="Choose SendGrid if..." icon="send">
+    - You need **advanced analytics**
+    - **Deliverability** is critical
+    - You want **enterprise features**
+    - You need **24/7 support**
+  </Card>
+
+  <Card title="Choose Brevo if..." icon="envelope">
+    - You're a **small business**
+    - You want **all-in-one** (email + SMS + CRM)
+    - You need a **generous free tier**
+    - You want **simplicity**
+  </Card>
+</CardGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Klaviyo Integration" icon="k" href="/integrations/klaviyo">
+    Export to Klaviyo
+  </Card>
+  <Card title="Mailchimp Integration" icon="mailchimp" href="/integrations/mailchimp">
+    Export to Mailchimp
+  </Card>
+  <Card title="Sending Emails" icon="paper-plane" href="/audience/sending-emails">
+    Send to your audience
+  </Card>
+  <Card title="Audience Management" icon="users" href="/audience/overview">
+    Manage contacts
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Watch Tutorials" icon="video" href="https://youtube.com/updatelater">
+    ESP setup guides
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Get community help
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Setup assistance
+  </Card>
+  <Card title="Email Deliverability Guide" icon="book" href="/email-editor/email-preflight">
+    Improve inbox placement
+  </Card>
+</CardGroup>

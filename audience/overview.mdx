@@ -1,0 +1,745 @@
+---
+title: "Audience Management"
+description: "Manage subscribers, tags, and segments in Migma's built-in contact management system"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="Audience Management" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Migma includes a complete audience management system for managing subscribers, creating tags for organization, building dynamic segments, and tracking engagement. Manage everything from the **Contacts** page or **Audience** page in your project dashboard.
+
+<CardGroup cols={3}>
+  <Card title="Manage Subscribers" icon="users">
+    Store and organize contact information with custom fields
+  </Card>
+  <Card title="Tag-Based Organization" icon="tags">
+    Create tags to categorize and segment your audience
+  </Card>
+  <Card title="Analytics & Stats" icon="chart-line">
+    Track subscriber growth and engagement
+  </Card>
+</CardGroup>
+
+---
+
+## Key Features
+
+### Subscriber Management
+
+<Tabs>
+  <Tab title="Contact Database">
+    **Store subscriber information:**
+
+    **Standard fields:**
+    - Email (required, unique per project)
+    - Name
+    - Country (ISO codes: US, CA, GB, etc.)
+    - Language (ISO codes: en, en-US, es, fr, etc.)
+    - Company
+    - Role/Job title
+
+    **Custom fields:**
+    - Flexible object storage
+    - Any additional data you need
+    - Searchable and filterable
+  </Tab>
+
+  <Tab title="Subscription Status">
+    **Track subscriber state:**
+
+    **Statuses:**
+    - **subscribed** - Active, can receive emails
+    - **unsubscribed** - Opted out, cannot receive marketing emails
+    - **non-subscribed** - Added but not confirmed
+    - **bounced** - Email address invalid or delivery failed
+
+    **Automatic tracking:**
+    - Subscribe date
+    - Unsubscribe date
+    - Status changes logged
+  </Tab>
+
+  <Tab title="Tags & Organization">
+    **Flexible tagging system:**
+
+    **Tag features:**
+    - Unlimited tags per project
+    - Color coding for visual organization
+    - Descriptions for team clarity
+    - Subscriber count per tag
+    - Multiple tags per subscriber
+
+    **Use tags for:**
+    - Segmentation (VIP, Lead, Customer)
+    - Interests (JavaScript, Python, Marketing)
+    - Behaviors (Engaged, At-risk, Inactive)
+    - Campaigns (Webinar, Newsletter, Product)
+  </Tab>
+
+  <Tab title="Dynamic Audiences">
+    **Create saved segments:**
+
+    **Audience filters:**
+    - By tags (has all, has any, does not have)
+    - By status (subscribed, unsubscribed, etc.)
+    - By custom fields (any value comparison)
+    - Combined filters with AND/OR logic
+
+    **Auto-updating:**
+    - Audiences update automatically
+    - No manual maintenance needed
+    - Always current subscriber count
+  </Tab>
+</Tabs>
+
+---
+
+## Accessing Audience Features
+
+### Contacts Page
+
+**Navigate to: `/contacts` in your project**
+
+The main contact management interface with:
+- **Subscriber table** - Sortable, searchable, filterable
+- **Add subscriber** - Single contact add
+- **Bulk import** - CSV file upload
+- **Tag management** - Create, edit, view tags
+- **Export** - Download contacts as CSV
+- **Analytics** - Subscriber growth and stats
+
+### Audience Page
+
+**Alternative interface at: `/audience`**
+
+Tab-based organization:
+- **Subscribers tab** - Data table with all contacts
+- **Tags tab** - Grid view of all tags
+- **Segments tab** - Saved dynamic audiences
+- Send email to segments
+- Import/export functionality
+
+**Both pages access the same data** - choose your preferred interface!
+
+---
+
+## Subscriber Statistics
+
+<iframe width="100%" height="300" src="https://youtube.com/updatelater" title="Audience Analytics" frameborder="0" allowfullscreen></iframe>
+
+### Dashboard Metrics
+
+**View at-a-glance stats:**
+
+```
+Total Subscribers: 1,247
+
+By Status:
+├─ Subscribed: 1,189 (95.3%)
+├─ Unsubscribed: 45 (3.6%)
+├─ Non-subscribed: 10 (0.8%)
+└─ Bounced: 3 (0.2%)
+
+Growth (Last 30 Days):
+├─ New subscribers: +142
+├─ Unsubscribed: -45
+└─ Net growth: +97 (+8.4%)
+
+Email Activity (Last 30 Days):
+└─ Emails sent: 3,456
+```
+
+### Analytics by Period
+
+**Track trends over time:**
+
+**Available periods:**
+- **Day** - Last 24 hours
+- **Week** - Last 7 days
+- **Month** - Last 30 days
+
+**Metrics tracked:**
+- New subscribers added
+- Unsubscribe count
+- Bounced/cleaned count
+- Total emails sent
+- Subscriber growth trend
+
+---
+
+## Tag System
+
+### Creating & Managing Tags
+
+**Tags help organize your audience:**
+
+<Steps>
+  <Step title="Create Tag">
+    **On Contacts or Audience page:**
+    1. Click "Tags" section
+    2. Click "Create Tag"
+    3. Enter tag details:
+       - Name (e.g., "VIP", "Newsletter", "Product Launch")
+       - Color (visual identification)
+       - Description (team reference)
+  </Step>
+
+  <Step title="Apply to Subscribers">
+    **Add tags to contacts:**
+
+    **Single subscriber:**
+    - Edit subscriber
+    - Select tags from dropdown
+    - Save
+
+    **Multiple subscribers:**
+    - Select contacts (checkboxes)
+    - Bulk action → Add tag
+    - Choose tag to apply
+  </Step>
+
+  <Step title="View by Tag">
+    **Filter subscribers by tag:**
+    - Click tag in filter sidebar
+    - Or search by tag name
+    - See all subscribers with that tag
+    - Shows subscriber count per tag
+  </Step>
+
+  <Step title="Manage Tags">
+    **Edit or delete tags:**
+    - Click tag in Tags section
+    - Edit name, color, description
+    - Delete tag (removes from all subscribers)
+    - View subscriber count
+  </Step>
+</Steps>
+
+### Tag Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Consistent Naming" icon="font">
+    **Create naming conventions:**
+
+    **Examples:**
+    ```
+    source-website
+    source-webinar
+    source-referral
+
+    status-lead
+    status-customer
+    status-churned
+
+    interest-javascript
+    interest-python
+    interest-devops
+    ```
+
+    **Prefix categories** for easy organization
+  </Accordion>
+
+  <Accordion title="Color Code by Type" icon="palette">
+    **Visual organization with colors:**
+
+    - **Blue** - Source tags (website, webinar, etc.)
+    - **Green** - Status tags (active, customer, etc.)
+    - **Purple** - Interest tags (topics, products, etc.)
+    - **Red** - Action tags (at-risk, bounced, etc.)
+
+    **Quick visual identification** in subscriber lists
+  </Accordion>
+
+  <Accordion title="Add Descriptions" icon="message">
+    **Document tag purpose:**
+
+    **Example:**
+    ```
+    Tag: webinar-2024-q1
+    Description: Attended our Q1 2024 product webinar
+    Use: Send webinar follow-up sequence, product launch emails
+    ```
+
+    **Helps team understand** tag meaning and usage
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Dynamic Audiences (Segments)
+
+### Creating Audiences
+
+**Build filtered subscriber groups:**
+
+<Steps>
+  <Step title="Navigate to Audiences">
+    Go to **Audience page → Segments tab**
+  </Step>
+
+  <Step title="Create Audience">
+    Click **"Create Audience"**
+
+    **Provide:**
+    - Name (e.g., "Engaged VIP Customers")
+    - Description (optional)
+  </Step>
+
+  <Step title="Define Filters">
+    **Add filter conditions:**
+
+    **By Tags:**
+    ```
+    Has ALL tags: [VIP, Customer]
+    Does NOT have tag: [Churned]
+    ```
+
+    **By Status:**
+    ```
+    Status: subscribed
+    ```
+
+    **By Custom Fields:**
+    ```
+    Company Size greater than 100
+    Industry = "SaaS"
+    ```
+
+    **Combine with AND/OR logic**
+  </Step>
+
+  <Step title="Preview Count">
+    **See how many subscribers match:**
+
+    ```
+    This audience contains: 47 subscribers
+    ```
+
+    **Updates automatically** as you adjust filters
+  </Step>
+
+  <Step title="Save Audience">
+    Save for reuse in email campaigns
+
+    **Auto-updating:** Subscriber count updates as contacts match/unmatch criteria
+  </Step>
+</Steps>
+
+### Using Audiences
+
+**Send emails to saved audiences:**
+
+1. Create or select email
+2. Choose "Send to Audience"
+3. Select saved audience
+4. Send to all subscribers in that segment
+
+**Benefits:**
+- No manual list updates needed
+- Always current subscribers
+- Reusable for recurring campaigns
+- Clear targeting criteria
+
+---
+
+## Preference Categories
+
+**Map tags to user-facing preferences:**
+
+### Setup Preference Center
+
+**Create preference categories:**
+
+<Steps>
+  <Step title="Define Categories">
+    Create preference categories that map to tags:
+
+    **Example categories:**
+    - "Weekly Newsletter" → maps to tag `newsletter`
+    - "Product Updates" → maps to tag `product-updates`
+    - "Promotional Emails" → maps to tag `promotions`
+  </Step>
+
+  <Step title="Configure Display">
+    **For each category:**
+    - Name (user-facing)
+    - Description
+    - Associated tag
+    - Active/inactive status
+    - Display order
+  </Step>
+
+  <Step title="Subscribers Choose">
+    When subscribers visit their preference center:
+    - See all categories
+    - Toggle on/off per category
+    - Updates their tags automatically
+  </Step>
+</Steps>
+
+**Learn more:** [Preference Center Guide →](/audience/preference-center)
+
+---
+
+## Data Validation
+
+### Email Validation
+
+**Automatic validation on import and API:**
+
+<Check>**Format validation** - RFC compliant email format</Check>
+<Check>**Lowercase normalization** - All emails stored lowercase</Check>
+<Check>**Duplicate detection** - Unique per project</Check>
+<Check>**Bounce tracking** - Invalid addresses marked</Check>
+
+### Country & Language Codes
+
+**Supported standards:**
+
+**Countries:**
+- ISO 3166-1 alpha-2 codes
+- Examples: US, CA, GB, DE, FR, JP, AU
+- Validation on input
+
+**Languages:**
+- ISO 639-1 language codes
+- BCP 47 language tags supported
+- Examples: en, en-US, es, es-MX, fr, de, ja
+- Validation on input
+
+---
+
+## Search & Filtering
+
+### Search Capabilities
+
+**Find subscribers quickly:**
+
+**Search by:**
+- Email address (exact or partial)
+- Name (first or last)
+- Company
+- Custom field values
+
+**Examples:**
+```
+@gmail.com          → All Gmail users
+john                → All "john" in name or email
+Acme Corp           → Company name match
+California          → Custom field "state" value
+```
+
+### Advanced Filtering
+
+**Combine multiple filters:**
+
+<Tabs>
+  <Tab title="By Status">
+    ```
+    Status = subscribed
+    → Shows only active subscribers
+    ```
+  </Tab>
+
+  <Tab title="By Tag">
+    ```
+    Has tag: VIP
+    AND Has tag: Customer
+    AND Does NOT have tag: Unengaged
+    → Engaged VIP customers
+    ```
+  </Tab>
+
+  <Tab title="By Custom Field">
+    ```
+    Company Size greater than 100
+    AND Industry = "Technology"
+    → Enterprise tech companies
+    ```
+  </Tab>
+
+  <Tab title="Combined">
+    ```
+    Status = subscribed
+    AND Has tag: Newsletter
+    AND Country = US
+    AND Language starts with "en"
+    → Active US English newsletter subscribers
+    ```
+  </Tab>
+</Tabs>
+
+---
+
+## Import & Export
+
+### CSV Import
+
+**Bulk import subscribers:**
+
+**Supported format:**
+```csv
+email,name,country,language,company,role
+john@example.com,John Doe,US,en,Acme Corp,CEO
+jane@example.com,Jane Smith,CA,en,Tech Inc,CTO
+```
+
+**Features:**
+- Drag & drop or paste CSV
+- Auto-tag imported contacts
+- Set status (subscribed/unsubscribed)
+- Custom field mapping
+- Error reporting
+
+[Full CSV Import Guide →](/audience/csv-upload)
+
+### Export Subscribers
+
+**Download contacts:**
+
+**Export formats:**
+- CSV (spreadsheet-compatible)
+- JSON (API/developer-friendly)
+
+**Export options:**
+- All subscribers
+- Filtered subset
+- Selected subscribers only
+
+**Includes:**
+- All standard fields
+- Tags
+- Custom fields
+- Preference URLs (optional)
+
+---
+
+## Compliance Features
+
+### Unsubscribe Management
+
+**Automatic handling:**
+
+<Check>**Token-based unsubscribe** - Unique URL per subscriber</Check>
+<Check>**Instant processing** - Immediately marked unsubscribed</Check>
+<Check>**Cannot re-subscribe** - Without explicit consent</Check>
+<Check>**Timestamp tracking** - When they unsubscribed</Check>
+<Check>**Respects preferences** - Tag-specific or global unsubscribe</Check>
+
+### Preference Center
+
+**Public subscriber management:**
+
+- **No login required** - Token-based access
+- **View subscription status** - Per preference category
+- **Update preferences** - Toggle on/off
+- **Unsubscribe options** - Specific categories or all
+- **Privacy** - Secure token access
+
+[Learn more →](/audience/preference-center)
+
+---
+
+## API Access
+
+### Programmatic Management
+
+**Automate subscriber operations:**
+
+```javascript
+// Add subscriber via API
+POST /api/v1/subscribers
+{
+  "email": "user@example.com",
+  "name": "John Doe",
+  "tags": ["newsletter", "vip"],
+  "customFields": {
+    "company": "Acme Corp",
+    "industry": "SaaS"
+  }
+}
+
+// List subscribers with filters
+GET /api/v1/subscribers?tags=newsletter&status=subscribed&limit=100
+
+// Update subscriber
+PATCH /api/subscribers/:id
+{
+  "tags": ["newsletter", "vip", "engaged"]
+}
+
+// Unsubscribe
+POST /api/v1/subscribers/unsubscribe
+{
+  "email": "user@example.com"
+}
+```
+
+**Full API documentation:** [API Reference →](/api-reference/introduction)
+
+---
+
+## Getting Started Checklist
+
+<Steps>
+  <Step title="Navigate to Contacts">
+    Go to `/contacts` in your project dashboard
+  </Step>
+
+  <Step title="Import Initial Subscribers">
+    **If you have existing contacts:**
+    - Click "Import CSV"
+    - Upload or paste CSV data
+    - Map columns and import
+
+    **Or add manually:**
+    - Click "Add Subscriber"
+    - Enter email and details
+    - Save
+  </Step>
+
+  <Step title="Create Tags">
+    **Organize your audience:**
+    - Create 3-5 initial tags
+    - Examples: Newsletter, VIP, Lead, Customer
+    - Apply to subscribers
+  </Step>
+
+  <Step title="Set Up Preference Categories">
+    **Map tags to preferences:**
+    - Create preference categories
+    - Link to tags
+    - Enable subscriber self-management
+  </Step>
+
+  <Step title="Create First Audience">
+    **Build a saved segment:**
+    - Create audience with filters
+    - Test subscriber count
+    - Save for email campaigns
+  </Step>
+
+  <Step title="Send Test Email">
+    **Verify everything works:**
+    - Send email to small audience
+    - Check delivery
+    - Review analytics
+  </Step>
+</Steps>
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Keep Lists Clean" icon="broom">
+    **Regular maintenance:**
+
+    **Monthly:**
+    - Review bounced addresses
+    - Check unsubscribe reasons
+    - Remove invalid emails
+
+    **Quarterly:**
+    - Tag inactive subscribers
+    - Re-engagement campaign
+    - Clean non-responsive contacts
+
+    **Benefits:**
+    - Better deliverability
+    - Lower costs
+    - Accurate metrics
+  </Accordion>
+
+  <Accordion title="Use Tags Strategically" icon="tags">
+    **Effective tagging:**
+
+    **Do:**
+    - Consistent naming conventions
+    - Prefix categories (source-, status-, interest-)
+    - Document tag purposes
+    - Color code by type
+
+    **Don't:**
+    - Too many tags (creates confusion)
+    - Overlapping tag meanings
+    - Single-use tags (use audiences instead)
+
+    **Keep it simple and organized**
+  </Accordion>
+
+  <Accordion title="Respect Privacy" icon="shield">
+    **GDPR and compliance:**
+
+    **Always:**
+    - Get clear consent before adding
+    - Honor unsubscribe requests immediately
+    - Provide easy preference management
+    - Secure subscriber data
+    - Allow data export on request
+
+    **Never:**
+    - Add contacts without permission
+    - Re-subscribe unsubscribed users
+    - Share/sell subscriber data
+    - Ignore privacy requests
+
+    [Compliance Guide →](/security/compliance)
+  </Accordion>
+
+  <Accordion title="Segment for Relevance" icon="filter">
+    **Better targeting = better results:**
+
+    **Segment by:**
+    - Engagement level (active vs inactive)
+    - Lifecycle stage (lead, customer, advocate)
+    - Interests (product categories, topics)
+    - Demographics (location, industry, company size)
+    - Behavior (opened, clicked, purchased)
+
+    **Benefits:**
+    - Higher open rates
+    - Better click rates
+    - Lower unsubscribes
+    - More conversions
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Manage Contacts" icon="users" href="/audience/manage-contacts">
+    Add and organize subscribers
+  </Card>
+  <Card title="CSV Upload" icon="file-csv" href="/audience/csv-upload">
+    Bulk import contacts
+  </Card>
+  <Card title="Send Emails" icon="paper-plane" href="/audience/sending-emails">
+    Send to your audience
+  </Card>
+  <Card title="Preference Center" icon="sliders" href="/audience/preference-center">
+    Subscription management
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Watch Tutorial" icon="video" href="https://youtube.com/updatelater">
+    Audience management walkthrough
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Get audience building tips
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Help with audience setup
+  </Card>
+  <Card title="API Docs" icon="code" href="/api-reference/introduction">
+    Subscriber API reference
+  </Card>
+</CardGroup>

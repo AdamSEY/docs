@@ -1,0 +1,1015 @@
+---
+title: "MCP Server Integration"
+description: "Connect 26+ tools via Model Context Protocol to pull data and automate email creation"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="MCP Server Integration" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Connect your favorite tools and platforms directly to Migma using Model Context Protocol (MCP). Pull content automatically from Notion, Shopify, Linear, Stripe, and 20+ other services to generate data-driven, personalized emails.
+
+<CardGroup cols={3}>
+  <Card title="26+ Integrations" icon="puzzle-piece">
+    Connect e-commerce, CRM, databases, and more
+  </Card>
+  <Card title="Pull Live Data" icon="arrows-rotate">
+    Access real-time data from connected tools
+  </Card>
+  <Card title="Automate Emails" icon="robot">
+    Generate emails from your existing workflows
+  </Card>
+</CardGroup>
+
+---
+
+## What is MCP?
+
+**Model Context Protocol (MCP)** is an open standard that allows AI systems to securely access external tools and data sources. Migma uses MCP to connect with your productivity tools and pull content for email generation.
+
+**Key Benefits:**
+- **No manual data entry** - Pull content directly from your tools
+- **Always up-to-date** - Access live data when generating emails
+- **Secure connections** - OAuth 2.0 authentication for all integrations
+- **Read-only access** - Migma can view but not modify your data
+
+---
+
+## Available MCP Servers
+
+Migma supports **26 MCP servers** across different categories:
+
+### E-commerce & Sales (7 servers)
+
+<AccordionGroup>
+  <Accordion title="Shopify" icon="shopping-bag">
+    **Access:**
+    - Product catalog and inventory
+    - Customer information
+    - Order history and analytics
+    - Store metrics
+
+    **Use cases:**
+    - Product launch emails with live inventory
+    - Order confirmation emails
+    - Customer win-back campaigns
+    - Sales performance reports
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Klaviyo" icon="envelope">
+    **Access:**
+    - Email marketing data
+    - Subscriber profiles and segments
+    - Campaign performance metrics
+    - Email templates and flows
+
+    **Use cases:**
+    - Import existing email templates
+    - Sync subscriber segments
+    - Analyze campaign performance
+    - Migrate email content
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="PayPal" icon="paypal">
+    **Access:**
+    - Products and invoices
+    - Transaction history
+    - Payment details and refunds
+    - Subscription management
+    - Dispute information
+    - Shipment tracking
+
+    **Use cases:**
+    - Payment confirmation emails
+    - Invoice reminders
+    - Transaction summaries
+    - Refund notifications
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Square" icon="square">
+    **Access:**
+    - Transaction data
+    - Customer profiles
+    - Inventory tracking
+    - Payment processing
+    - Sales analytics
+
+    **Use cases:**
+    - Receipt emails
+    - Customer loyalty campaigns
+    - Sales reports
+    - Inventory alerts
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Stripe" icon="stripe">
+    **Access:**
+    - Customer data
+    - Payment intents and invoices
+    - Products and prices
+    - Subscriptions and billing
+    - Disputes and refunds
+    - Balance information
+
+    **Use cases:**
+    - Payment confirmations
+    - Subscription updates
+    - Invoice notifications
+    - Failed payment recovery
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Wix" icon="w">
+    **Access:**
+    - Website content
+    - E-commerce products
+    - Site analytics
+    - Booking data
+
+    **Use cases:**
+    - Website update announcements
+    - Product promotional emails
+    - Booking confirmations
+    - Site analytics reports
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Salesforce" icon="cloud">
+    **Access:**
+    - Lead and opportunity data
+    - Contact information
+    - Campaign metrics
+    - Sales reports
+
+    **Use cases:**
+    - Lead nurture emails
+    - Sales pipeline updates
+    - CRM-driven campaigns
+    - Account-based marketing
+
+    **Authentication:** OAuth 2.0
+    **Setup:** Requires mcpverse.dev configuration
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Productivity & Collaboration (5 servers)
+
+<AccordionGroup>
+  <Accordion title="Notion" icon="book">
+    **Access:**
+    - Pages and databases
+    - Notes and documentation
+    - Content calendars
+    - Team wikis
+
+    **Use cases:**
+    - Newsletter from content calendar
+    - Product updates from roadmap
+    - Team updates from Notion docs
+    - Documentation-based emails
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Atlassian (Jira & Confluence)" icon="atlassian">
+    **Access:**
+    - Jira issues and projects
+    - Confluence pages and spaces
+    - Comments and discussions
+    - Project metadata
+
+    **Use cases:**
+    - Sprint recap emails
+    - Release notes from Jira
+    - Documentation updates
+    - Team status reports
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Linear" icon="linear">
+    **Access:**
+    - Issues and projects
+    - Team workflows and cycles
+    - Project documentation
+    - Issue statuses and labels
+
+    **Use cases:**
+    - Sprint updates
+    - Bug fix announcements
+    - Feature release emails
+    - Project milestone reports
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Slack" icon="slack">
+    **Access:**
+    - Channel messages
+    - User information
+    - Message search
+    - Workflow data
+
+    **Use cases:**
+    - Channel digest emails
+    - Team communication summaries
+    - Important message highlights
+    - Slack-to-email notifications
+
+    **Authentication:** OAuth 2.0
+    **Setup:** Requires mcpverse.dev configuration
+  </Accordion>
+
+  <Accordion title="Todoist" icon="check">
+    **Access:**
+    - Tasks and projects
+    - Labels and filters
+    - Project hierarchy
+    - Task metadata
+
+    **Use cases:**
+    - Task reminder emails
+    - Project progress reports
+    - Weekly task summaries
+    - Team task assignments
+
+    **Authentication:** OAuth 2.0
+    **Setup:** Requires mcpverse.dev configuration
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Development & Code (3 servers)
+
+<AccordionGroup>
+  <Accordion title="GitHub" icon="github">
+    **Access:**
+    - Repositories and code
+    - Issues and pull requests
+    - Commits and branches
+    - Code search
+
+    **Use cases:**
+    - Release announcement emails
+    - Code review summaries
+    - Issue digests
+    - Changelog emails
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Sentry" icon="bug">
+    **Access:**
+    - Error and issue tracking
+    - Project information
+    - Release data
+    - Event details and attachments
+    - Root cause analysis
+
+    **Use cases:**
+    - Bug report emails
+    - Error digest summaries
+    - Incident notifications
+    - Release stability reports
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Figma" icon="figma">
+    **Access:**
+    - Design files and projects
+    - Asset exports
+    - Design comments
+    - Project collaboration data
+
+    **Use cases:**
+    - Design review emails
+    - Asset delivery notifications
+    - Design update announcements
+    - Feedback compilation
+
+    **Authentication:** OAuth 2.0
+    **Setup:** Requires mcpverse.dev configuration
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Design & Creative (2 servers)
+
+<AccordionGroup>
+  <Accordion title="Canva" icon="palette">
+    **Access:**
+    - Design search and browsing
+    - Design pages and content
+    - Folder management
+    - Design generation
+    - Export capabilities
+
+    **Use cases:**
+    - Email with Canva-generated images
+    - Design approval workflows
+    - Brand asset emails
+    - Creative collaboration
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Webflow" icon="webflow">
+    **Access:**
+    - Site management
+    - CMS content
+    - Form submissions
+    - Site analytics
+
+    **Use cases:**
+    - Website update emails
+    - Form submission notifications
+    - CMS content emails
+    - Site analytics reports
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Databases (6 servers)
+
+<AccordionGroup>
+  <Accordion title="PostgreSQL" icon="database">
+    **Access:**
+    - Database queries
+    - Table management
+    - Schema information
+    - Query optimization
+
+    **Use cases:**
+    - Data-driven email campaigns
+    - Customer data emails
+    - Report generation
+    - Analytics emails
+
+    **Authentication:** Database credentials
+    **Setup:** Requires mcpverse.dev configuration
+  </Accordion>
+
+  <Accordion title="MySQL" icon="database">
+    **Access:**
+    - SQL query execution
+    - Table operations
+    - Database backup
+    - Performance optimization
+
+    **Use cases:**
+    - Customer data extraction
+    - Sales reports
+    - Database-driven campaigns
+    - Analytics summaries
+
+    **Authentication:** Database credentials
+    **Setup:** Requires mcpverse.dev configuration
+  </Accordion>
+
+  <Accordion title="Airtable" icon="table">
+    **Access:**
+    - Base and record data
+    - Table searches
+    - Field values
+    - Record relationships
+
+    **Use cases:**
+    - CRM-based emails
+    - Content calendar emails
+    - Project status updates
+    - Data-driven newsletters
+
+    **Authentication:** OAuth 2.0
+    **Setup:** Requires mcpverse.dev configuration
+  </Accordion>
+
+  <Accordion title="Neon" icon="bolt">
+    **Access:**
+    - Serverless PostgreSQL database
+    - Query execution
+    - Database branching
+    - Performance metrics
+    - Backup data
+
+    **Use cases:**
+    - Modern app data emails
+    - Analytics reports
+    - User data campaigns
+    - Performance notifications
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="Pinecone" icon="vector-square">
+    **Access:**
+    - Vector database queries
+    - Semantic search
+    - Similarity matching
+    - Collection management
+    - Index statistics
+
+    **Use cases:**
+    - AI-powered recommendations
+    - Similar product emails
+    - Content discovery
+    - Personalized suggestions
+
+    **Authentication:** API key
+    **Setup:** Requires mcpverse.dev configuration
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Customer Support & Communication (1 server)
+
+<AccordionGroup>
+  <Accordion title="Intercom" icon="messages">
+    **Access:**
+    - Customer conversations
+    - Support tickets
+    - User profiles and data
+    - Conversation search
+
+    **Use cases:**
+    - Support digest emails
+    - Customer feedback summaries
+    - Ticket status updates
+    - Customer insight reports
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Data & Analytics (2 servers)
+
+<AccordionGroup>
+  <Accordion title="CoinGecko" icon="bitcoin">
+    **Access:**
+    - Real-time crypto prices
+    - Market data and trading volume
+    - Trending coins
+    - Exchange information
+    - NFT data
+
+    **Use cases:**
+    - Crypto price alerts
+    - Market update emails
+    - Portfolio reports
+    - Trading insights
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+
+  <Accordion title="DeepWiki" icon="brain">
+    **Access:**
+    - Knowledge base search
+    - Information extraction
+    - Documentation queries
+    - Insight generation
+
+    **Use cases:**
+    - Knowledge base emails
+    - Documentation digests
+    - Research summaries
+    - Information reports
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Infrastructure (1 server)
+
+<AccordionGroup>
+  <Accordion title="EdgeOne Pages" icon="server">
+    **Access:**
+    - Static site management
+    - Edge functions
+    - CDN analytics
+    - Domain configuration
+
+    **Use cases:**
+    - Deployment notifications
+    - Performance reports
+    - Site status emails
+    - Analytics summaries
+
+    **Authentication:** OAuth 2.0
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Setup MCP Connections
+
+<iframe width="100%" height="300" src="https://youtube.com/updatelater" title="MCP Setup Process" frameborder="0" allowfullscreen></iframe>
+
+### Standard OAuth Setup (Most Servers)
+
+Most MCP servers use direct OAuth 2.0 authentication:
+
+<Steps>
+  <Step title="Navigate to Integrations">
+    Go to **Settings → Integrations → MCP Servers**
+  </Step>
+
+  <Step title="Select Server">
+    Click **"Connect"** button for your desired server
+  </Step>
+
+  <Step title="Authorize Access">
+    Sign in to the service and authorize Migma to access:
+    - Specific workspaces/accounts
+    - Read-only permissions
+    - Required data scopes
+
+    **Permissions are minimal** - Migma requests only what's needed
+  </Step>
+
+  <Step title="Configure Scope">
+    Choose what Migma can access:
+    - All data
+    - Specific projects/folders
+    - Selected resources only
+  </Step>
+
+  <Step title="Test Connection">
+    Click **"Test Connection"** to verify setup works
+  </Step>
+
+  <Step title="Start Using">
+    Data now available when creating emails
+  </Step>
+</Steps>
+
+### MCPverse.dev Setup (Some Servers)
+
+Some servers require additional configuration through **mcpverse.dev**:
+
+**Servers requiring mcpverse.dev:**
+- Slack
+- PostgreSQL
+- MySQL
+- Airtable
+- Salesforce
+- Figma
+- Todoist
+- Pinecone
+
+<Steps>
+  <Step title="Create MCPverse Account">
+    Visit **[mcpverse.dev](https://mcpverse.dev)** and sign up
+  </Step>
+
+  <Step title="Add Server">
+    Select the server you want to connect (e.g., Slack, PostgreSQL)
+  </Step>
+
+  <Step title="Configure Credentials">
+    Enter required credentials:
+    - API keys
+    - Database connection strings
+    - OAuth tokens
+    - Server endpoints
+  </Step>
+
+  <Step title="Get MCP URL">
+    MCPverse generates a hosted MCP server URL
+  </Step>
+
+  <Step title="Connect to Migma">
+    In Migma Settings → Integrations → MCP Servers:
+    - Click "Add Custom Server"
+    - Paste the MCPverse URL
+    - Test connection
+  </Step>
+</Steps>
+
+---
+
+## Using MCP in Email Creation
+
+### Method 1: Direct Reference
+
+Reference specific resources directly in prompts:
+
+<Tabs>
+  <Tab title="Notion">
+    ```text
+    Create a newsletter from my Notion page:
+    notion://page/abc123-notion-page-id
+
+    Extract:
+    - Main headlines
+    - Key updates
+    - Action items
+
+    Format as professional email newsletter
+    ```
+  </Tab>
+
+  <Tab title="Shopify">
+    ```text
+    Create product launch email for my new arrivals
+
+    Pull products from Shopify tagged "New Arrival"
+    from the last 7 days
+
+    Include:
+    - Product images
+    - Prices
+    - "Shop Now" CTAs
+    ```
+  </Tab>
+
+  <Tab title="Linear">
+    ```text
+    Create sprint recap email from Linear
+
+    Project: "Mobile App"
+    Cycle: Current sprint
+    Include:
+    - Completed issues
+    - In progress items
+    - Blockers
+    ```
+  </Tab>
+
+  <Tab title="Stripe">
+    ```text
+    Create monthly revenue report email
+
+    Pull from Stripe:
+    - Total revenue this month
+    - Top 10 customers
+    - Subscription metrics
+    - Growth vs last month
+    ```
+  </Tab>
+</Tabs>
+
+### Method 2: Search and Pull
+
+Let Migma search your connected tools:
+
+```text
+Search my Notion workspace for "Q4 Product Updates"
+and create a product announcement email from that content
+```
+
+```text
+Find Linear issues completed in the last week
+and generate a "What We Shipped" email
+```
+
+```text
+Get my top 10 selling Shopify products this month
+and create a "Bestsellers" promotional email
+```
+
+### Method 3: Database Queries
+
+Pull structured data from databases and tools:
+
+```text
+Query my Notion "Blog Posts" database for posts tagged "Featured"
+published in the last 30 days, and create a newsletter
+highlighting these articles with summaries
+```
+
+```text
+From Airtable "Customer Feedback" base,
+get all 5-star reviews from this month
+and create a testimonial email
+```
+
+---
+
+## Real-World Workflows
+
+### Newsletter from Notion Content Calendar
+
+**Notion Setup:**
+- Database: "Content Calendar"
+- Properties: Title, Status, Publish Date, Category
+
+**Migma Prompt:**
+```text
+Create newsletter from my Notion "Content Calendar" database
+
+Include articles from the last week marked as "Published"
+Group by category
+Add brief summary for each article
+Include "Read More" links
+Professional, engaging tone
+```
+
+**Result:** Automated weekly newsletter from Notion content
+
+---
+
+### Product Launch Email from Shopify
+
+**Shopify:**
+- Products tagged "Launch Q1 2024"
+
+**Migma Prompt:**
+```text
+Create product launch email for Q1 2024 collection
+
+Pull from Shopify:
+- Products tagged "Launch Q1 2024"
+- Include product images
+- Show pricing
+- Add inventory status
+
+Exciting, premium brand voice
+Include "Shop Now" CTAs
+```
+
+---
+
+### Sprint Update from Linear
+
+**Linear:**
+- Current sprint in "Engineering" team
+
+**Migma Prompt:**
+```text
+Create sprint update email from Linear
+
+Team: Engineering
+Cycle: Current sprint
+
+Sections:
+1. What We Shipped (completed issues)
+2. In Progress (active issues)
+3. Coming Next (planned issues)
+
+Include issue titles and descriptions
+Internal team tone
+```
+
+---
+
+### Payment Failed Email from Stripe
+
+**Stripe:**
+- Failed payment intents
+
+**Migma Prompt:**
+```text
+Create payment retry email for failed subscription
+
+Customer: [customer_id]
+Subscription: [subscription_id]
+
+Include:
+- Amount that failed
+- Retry instructions
+- Update payment method link
+- Support contact
+
+Helpful, non-alarming tone
+```
+
+---
+
+## Advanced MCP Features
+
+### Multi-Source Content
+
+Combine data from multiple MCP servers:
+
+```text
+Create quarterly update email using:
+
+1. Notion page: "Q4 Summary" - Company highlights
+2. Shopify: Sales data for Q4
+3. Linear: Engineering milestones completed
+4. Stripe: Revenue growth metrics
+
+Synthesize into cohesive quarterly update
+Executive audience
+Professional tone
+```
+
+### Conditional Logic
+
+Use smart queries with conditions:
+
+```text
+From Shopify, get products where:
+- Inventory less than 10 units
+- Price over $100
+- Category = "Premium"
+
+Create "Last Chance" email for these low-stock premium items
+```
+
+---
+
+## Security & Permissions
+
+### Permission Management
+
+<AccordionGroup>
+  <Accordion title="OAuth Scopes" icon="shield-check">
+    **Migma requests minimal permissions:**
+
+    **Read-Only Access:**
+    - View content and data
+    - Search and query
+    - Access metadata
+
+    **Cannot:**
+    - Modify files or data
+    - Delete content
+    - Share with others
+    - Change settings
+  </Accordion>
+
+  <Accordion title="Data Privacy" icon="lock">
+    **How Migma handles your data:**
+
+    - Content pulled only when requested
+    - No permanent storage of source data
+    - Used only for email generation
+    - Not shared with third parties
+    - Deleted after email creation
+    - Encrypted in transit (HTTPS)
+
+    **Your data stays yours**
+  </Accordion>
+
+  <Accordion title="Revoke Access Anytime" icon="ban">
+    **To disconnect MCP servers:**
+
+    1. Go to Settings → Integrations → MCP Servers
+    2. Find connected server
+    3. Click "Disconnect"
+    4. Confirm disconnection
+
+    **Also revoke in source service:**
+    - Check service's connected apps settings
+    - Remove Migma authorization
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Best Practices
+
+<Check>**Connect only what you need** - Only link necessary accounts and folders</Check>
+<Check>**Use specific IDs** - Reference exact page/resource IDs for reliability</Check>
+<Check>**Test connections regularly** - Ensure OAuth tokens remain valid</Check>
+<Check>**Be specific in prompts** - Clear instructions get better results</Check>
+<Check>**Review before sending** - Always review MCP-generated content</Check>
+<Check>**Refresh stale data** - Migma caches for 5 minutes; refresh if needed</Check>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connection failed" icon="link-slash">
+    **Problem:** MCP server won't connect
+
+    **Solutions:**
+    1. Re-authorize OAuth connection
+    2. Check permissions granted
+    3. Verify correct account selected
+    4. Try disconnecting and reconnecting
+    5. Check service status (not down)
+  </Accordion>
+
+  <Accordion title="Content not found" icon="magnifying-glass">
+    **Problem:** Migma can't find resource
+
+    **Solutions:**
+    - Verify resource exists in connected account
+    - Check sharing permissions
+    - Use direct resource ID instead of search
+    - Ensure not deleted or archived
+    - Verify correct workspace/project
+  </Accordion>
+
+  <Accordion title="Outdated content" icon="clock-rotate-left">
+    **Problem:** Email shows old data
+
+    **Solutions:**
+    - Migma caches for 5 minutes
+    - Click "Refresh" before generating
+    - Wait a few minutes after updating source
+    - Clear connection and reconnect
+  </Accordion>
+
+  <Accordion title="Permission denied" icon="ban">
+    **Problem:** Access denied to specific resources
+
+    **Solutions:**
+    - Grant Migma access in source service
+    - Check workspace-level permissions
+    - Verify OAuth scopes granted
+    - Re-authorize with broader permissions
+  </Accordion>
+
+  <Accordion title="MCPverse.dev setup issues" icon="server">
+    **Problem:** Can't configure server through mcpverse.dev
+
+    **Solutions:**
+    - Verify account created on mcpverse.dev
+    - Check credentials are correct
+    - Test connection in mcpverse.dev first
+    - Ensure server URL is correct
+    - Contact mcpverse.dev support
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## API Access
+
+Automate MCP workflows via Migma API:
+
+```javascript
+// Generate email from Notion page
+const response = await fetch('https://api.migma.ai/v1/emails/generate', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    prompt: "Create newsletter from Notion page",
+    mcpSources: [{
+      type: "notion",
+      pageId: "abc123-page-id"
+    }],
+    projectId: "your_project_id"
+  })
+});
+```
+
+<Card title="API Documentation" icon="code" href="/api-reference/introduction">
+  Complete MCP API reference
+</Card>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Connect Your First Server" icon="plug" href="/integrations/mcp-servers#setup-mcp-connections">
+    Start with Notion, Shopify, or Linear
+  </Card>
+  <Card title="Browse All Integrations" icon="grid" href="/integrations/platform-integrations">
+    See all available integrations
+  </Card>
+  <Card title="Email Automation" icon="robot" href="/advanced-features/automation">
+    Automate MCP email workflows
+  </Card>
+  <Card title="API Integration" icon="code" href="/api-reference/introduction">
+    Use MCP via API
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Watch Tutorial" icon="video" href="https://youtube.com/updatelater">
+    MCP integration walkthrough
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Share your MCP workflows
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Get help with MCP setup
+  </Card>
+  <Card title="MCP Documentation" icon="book" href="https://modelcontextprotocol.io">
+    Learn more about MCP standard
+  </Card>
+</CardGroup>

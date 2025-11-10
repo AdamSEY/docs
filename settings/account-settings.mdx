@@ -1,0 +1,404 @@
+---
+title: 'Account Settings'
+description: 'Manage your personal Migma account settings'
+---
+
+## Account Overview
+
+Manage your personal account settings, preferences, and subscription details.
+
+## Personal Information
+
+<CardGroup cols={2}>
+  <Card title="Profile" icon="user">
+    Update your name, email, and profile picture
+  </Card>
+  <Card title="Password" icon="lock">
+    Change your password and security settings
+  </Card>
+  <Card title="Notifications" icon="bell">
+    Configure email and in-app notifications
+  </Card>
+  <Card title="Preferences" icon="sliders">
+    Set your personal preferences and defaults
+  </Card>
+</CardGroup>
+
+## Update Profile
+
+Keep your profile information current:
+
+```javascript Profile Settings
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@company.com",
+  "companyName": "Acme Corp",
+  "role": "Marketing Manager",
+  "timezone": "America/New_York",
+  "language": "en"
+}
+```
+
+<Warning>
+  Changing your email address requires verification. You'll receive a confirmation email to verify the new address.
+</Warning>
+
+## Security Settings
+
+### Change Password
+
+<Steps>
+  <Step title="Current Password">
+    Enter your current password for verification
+  </Step>
+  <Step title="New Password">
+    Create a strong new password (min. 8 characters)
+  </Step>
+  <Step title="Confirm">
+    Re-enter your new password to confirm
+  </Step>
+  <Step title="Update">
+    Save changes - you'll be logged out and need to sign in again
+  </Step>
+</Steps>
+
+**Password requirements:**
+- Minimum 8 characters
+- At least one uppercase letter
+- At least one number
+- At least one special character
+
+### Two-Factor Authentication (2FA)
+
+Add an extra layer of security to your account:
+
+<Tabs>
+  <Tab title="Enable 2FA">
+    1. Navigate to Security Settings
+    2. Click "Enable Two-Factor Authentication"
+    3. Scan QR code with authenticator app
+    4. Enter verification code
+    5. Save backup codes in a secure location
+
+    **Recommended authenticator apps:**
+    - Google Authenticator
+    - Authy
+    - 1Password
+    - Microsoft Authenticator
+  </Tab>
+
+  <Tab title="Backup Codes">
+    When enabling 2FA, you'll receive 10 backup codes.
+
+    <Warning>
+      Save these codes in a secure location. You'll need them if you lose access to your authenticator app.
+    </Warning>
+
+    **Each code can be used once** to sign in without your authenticator app.
+  </Tab>
+</Tabs>
+
+### Active Sessions
+
+View and manage devices where you're currently signed in:
+
+<AccordionGroup>
+  <Accordion title="Current Sessions">
+    See all active login sessions:
+    - Device type and browser
+    - Location (approximate)
+    - Last activity time
+    - IP address
+  </Accordion>
+
+  <Accordion title="Sign Out Remotely">
+    If you see an unfamiliar session, you can sign out remotely:
+    1. Find the suspicious session
+    2. Click "Sign Out"
+    3. Change your password immediately
+  </Accordion>
+</AccordionGroup>
+
+## Notification Preferences
+
+Customize how and when you receive notifications:
+
+### Email Notifications
+
+<Tabs>
+  <Tab title="Campaign Updates">
+    Receive emails about your campaign performance:
+    - ✅ Campaign sent successfully
+    - ✅ Campaign milestones (10% opened, 50% opened, etc.)
+    - ✅ Campaign completed
+    - ❌ Low engagement warnings
+  </Tab>
+
+  <Tab title="Team Activity">
+    Get notified about team member actions:
+    - ✅ New team member joins
+    - ✅ Email approved/rejected
+    - ❌ Comments on your emails
+    - ❌ Mentions in comments
+  </Tab>
+
+  <Tab title="System Notifications">
+    Important account and system updates:
+    - ✅ Security alerts
+    - ✅ Billing notifications
+    - ✅ Service updates
+    - ✅ New features
+
+    <Note>
+      Security and billing notifications cannot be disabled.
+    </Note>
+  </Tab>
+
+  <Tab title="Marketing">
+    Promotional emails and updates:
+    - ❌ Product updates
+    - ❌ Tips and best practices
+    - ❌ Webinar invitations
+    - ❌ Special offers
+  </Tab>
+</Tabs>
+
+### In-App Notifications
+
+Control notifications within the Migma app:
+
+| Notification Type | Description | Default |
+|------------------|-------------|---------|
+| Campaign sent | When a campaign is sent | On |
+| Campaign milestone | Performance updates | On |
+| Team mentions | When someone @mentions you | On |
+| Approval requests | When approval is needed | On |
+| Comments | New comments on your emails | Off |
+
+## Subscription & Billing
+
+<CardGroup cols={2}>
+  <Card title="Current Plan" icon="credit-card">
+    View your current subscription plan and usage
+  </Card>
+  <Card title="Billing History" icon="receipt">
+    Access past invoices and payment history
+  </Card>
+  <Card title="Payment Method" icon="wallet">
+    Update credit card and payment information
+  </Card>
+  <Card title="Upgrade" icon="arrow-up">
+    Upgrade to access more features
+  </Card>
+</CardGroup>
+
+### Plan Details
+
+View your current plan limits and usage:
+
+```javascript Subscription Example
+{
+  "plan": "Pro",
+  "status": "active",
+  "billingCycle": "monthly",
+  "nextBillingDate": "2024-02-01",
+  "usage": {
+    "emails": {
+      "sent": 8450,
+      "limit": 50000,
+      "percentage": 17
+    },
+    "contacts": {
+      "total": 12500,
+      "limit": 50000,
+      "percentage": 25
+    },
+    "teamMembers": {
+      "active": 5,
+      "limit": 10,
+      "percentage": 50
+    }
+  }
+}
+```
+
+### Upgrade or Downgrade
+
+<Tabs>
+  <Tab title="Upgrade">
+    Get access to more features and higher limits:
+
+    1. Navigate to Subscription Settings
+    2. Click "Upgrade Plan"
+    3. Select your new plan
+    4. Confirm payment
+
+    **You'll be charged:**
+    - Prorated amount for current billing period
+    - New rate starting next billing cycle
+  </Tab>
+
+  <Tab title="Downgrade">
+    Switch to a lower-tier plan:
+
+    <Warning>
+      Downgrading may result in loss of features and data. Review what will be affected before confirming.
+    </Warning>
+
+    1. Navigate to Subscription Settings
+    2. Click "Change Plan"
+    3. Select lower tier
+    4. Review what you'll lose
+    5. Confirm downgrade
+
+    **Changes take effect** at the end of your current billing period.
+  </Tab>
+
+  <Tab title="Cancel">
+    Cancel your subscription:
+
+    1. Navigate to Subscription Settings
+    2. Click "Cancel Subscription"
+    3. Provide cancellation reason (optional)
+    4. Confirm cancellation
+
+    **After cancellation:**
+    - Access continues until end of billing period
+    - Account converts to Free plan
+    - Data is retained for 90 days
+  </Tab>
+</Tabs>
+
+### Payment Methods
+
+Update your payment information:
+
+<Steps>
+  <Step title="Add Payment Method">
+    Navigate to Billing → Payment Methods
+  </Step>
+  <Step title="Enter Card Details">
+    Securely enter credit card information
+  </Step>
+  <Step title="Set as Default">
+    Choose whether to make it your default payment method
+  </Step>
+  <Step title="Save">
+    Your payment information is encrypted and stored securely
+  </Step>
+</Steps>
+
+<Info>
+  Migma uses Stripe for secure payment processing. We never store your full credit card number.
+</Info>
+
+## API Keys
+
+Generate and manage API keys for programmatic access:
+
+<CardGroup cols={2}>
+  <Card title="Create API Key" icon="key">
+    Generate new API keys for integrations
+  </Card>
+  <Card title="Manage Keys" icon="list">
+    View, rotate, and revoke existing keys
+  </Card>
+</CardGroup>
+
+### Creating an API Key
+
+<Steps>
+  <Step title="Navigate to API Keys">
+    Go to Settings → Account → API Keys
+  </Step>
+  <Step title="Create New Key">
+    Click "Generate New API Key"
+  </Step>
+  <Step title="Set Permissions">
+    Choose what the key can access (read-only vs full access)
+  </Step>
+  <Step title="Save Key">
+    Copy and securely store your API key - it won't be shown again!
+  </Step>
+</Steps>
+
+<Warning>
+  Treat API keys like passwords. Never share them publicly or commit them to version control.
+</Warning>
+
+## Data & Privacy
+
+<AccordionGroup>
+  <Accordion title="Export Your Data">
+    Download all your data in standard formats:
+    - Emails (HTML, JSON)
+    - Contacts (CSV)
+    - Campaigns (CSV)
+    - Analytics (CSV)
+
+    **Processing time:** 1-24 hours depending on data volume
+  </Accordion>
+
+  <Accordion title="Delete Account">
+    Permanently delete your Migma account:
+
+    <Warning>
+      This action is irreversible. All your data will be permanently deleted after 30 days.
+    </Warning>
+
+    **What gets deleted:**
+    - All projects and emails
+    - All contacts and audiences
+    - All campaign history
+    - All integrations
+    - Account information
+
+    **Before deleting:**
+    - Export any data you want to keep
+    - Cancel active subscriptions
+    - Remove team members from projects
+  </Accordion>
+
+  <Accordion title="Privacy Controls">
+    Control how your data is used:
+    - Analytics and usage data
+    - Product improvement feedback
+    - Marketing communications
+    - Third-party data sharing (none by default)
+  </Accordion>
+</AccordionGroup>
+
+## Preferences
+
+Customize your Migma experience:
+
+### Interface Preferences
+
+| Setting | Options | Default |
+|---------|---------|---------|
+| Theme | Light / Dark / Auto | Auto |
+| Email Editor | Visual / Code / Split | Visual |
+| Default View | Grid / List | Grid |
+| Keyboard Shortcuts | Enabled / Disabled | Enabled |
+
+### Email Defaults
+
+Set default values for new emails:
+
+- Default font family
+- Default font size
+- Default color scheme
+- Default template
+- Default sender information
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Projects" icon="folder" href="/settings/projects">
+    Organize your work with projects
+  </Card>
+  <Card title="Team Management" icon="users" href="/settings/team-management">
+    Invite and manage team members
+  </Card>
+</CardGroup>

@@ -1,0 +1,547 @@
+---
+title: "Klaviyo Integration"
+description: "Export emails to Klaviyo with one-click API integration and automatic merge tag support"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="Klaviyo Integration" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+The Klaviyo integration allows you to **export emails directly from Migma to Klaviyo with a single click**. All Liquid merge tags are automatically preserved, and emails can be used in campaigns, flows, and templates.
+
+<Note>
+**One-Click Export:** Create beautiful emails in Migma, then export them to Klaviyo instantly via API. No manual copying, no broken formatting, and merge tags are automatically preserved.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Campaign Export" icon="paper-plane">
+    Push campaigns directly to Klaviyo
+  </Card>
+  <Card title="Template Library" icon="layer-group">
+    Save to Klaviyo template library
+  </Card>
+  <Card title="Merge Tags" icon="tags">
+    Liquid variables automatically preserved
+  </Card>
+  <Card title="Flow Integration" icon="diagram-project">
+    Use in automated flows and sequences
+  </Card>
+</CardGroup>
+
+---
+
+## Setup Klaviyo Connection
+
+<Steps>
+  <Step title="Get Klaviyo API Key">
+    **In Klaviyo:**
+    1. Go to **Account → Settings → API Keys**
+    2. Click **"Create Private API Key"**
+    3. Give it a name like "Migma Integration"
+    4. Grant **Full Access** permissions:
+       - Lists & Segments: Read/Write
+       - Templates: Read/Write
+       - Campaigns: Read/Write
+    5. Copy your **API Key**
+
+    <Warning>
+    Keep your API key secure - it grants full access to your Klaviyo account
+    </Warning>
+  </Step>
+
+  <Step title="Connect in Migma">
+    **In Migma:**
+    1. Navigate to **Settings → Integrations → Marketing Platforms**
+    2. Click **"Connect Klaviyo"**
+    3. Paste your API Key
+    4. Click **"Authorize"**
+
+    You'll see a success message when connected.
+  </Step>
+
+  <Step title="Select Lists">
+    **Choose which Klaviyo lists to sync:**
+
+    Select the lists you want to access from Migma:
+    - ☑ Main Newsletter List
+    - ☑ VIP Customers
+    - ☑ Abandoned Cart Segment
+    - ☐ Test List
+
+    You can change these settings anytime.
+  </Step>
+
+  <Step title="Map Properties">
+    **Map Migma fields to Klaviyo properties:**
+
+    | Migma Field | Klaviyo Property |
+    |-------------|------------------|
+    | Email | `email` |
+    | First Name | `$first_name` |
+    | Last Name | `$last_name` |
+    | Phone | `$phone_number` |
+    | Custom Fields | Auto-detected |
+
+    Migma automatically detects custom properties and maps them.
+  </Step>
+
+  <Step title="Test Connection">
+    Click **"Test Connection"** to verify:
+    - ✅ API authentication successful
+    - ✅ Lists accessible
+    - ✅ Properties mapped correctly
+  </Step>
+</Steps>
+
+---
+
+## One-Click Export to Klaviyo
+
+### Export as Campaign
+
+**Create a campaign directly in Klaviyo:**
+
+<Steps>
+  <Step title="Create Email in Migma">
+    Design and finalize your email using Migma's AI or visual editor
+  </Step>
+
+  <Step title="Click Export">
+    In the email editor, click **"Export" → "Klaviyo Campaign"**
+  </Step>
+
+  <Step title="Configure Campaign Settings">
+    **In the export dialog:**
+
+    ```
+    Campaign Name: "Summer Sale 2024"
+    List/Segment: Main Newsletter List
+    Subject Line: "50% Off Summer Collection"
+    Preview Text: "Limited time offer - shop now"
+    From Name: "Your Store"
+    From Email: hello@yourstore.com
+    ```
+  </Step>
+
+  <Step title="Export via API">
+    Click **"Export to Klaviyo"**
+
+    **Migma automatically:**
+    - ✅ Creates campaign in Klaviyo via API
+    - ✅ Uploads email HTML
+    - ✅ Preserves all Liquid merge tags
+    - ✅ Hosts images on CDN
+    - ✅ Sets campaign as draft
+  </Step>
+
+  <Step title="Finish in Klaviyo">
+    Go to Klaviyo to:
+    - Review the campaign
+    - Schedule send time
+    - Send test emails
+    - Launch campaign
+  </Step>
+</Steps>
+
+### Export as Template
+
+**Save to Klaviyo template library for reuse:**
+
+<Steps>
+  <Step title="Export as Template">
+    Click **"Export" → "Klaviyo Template"**
+  </Step>
+
+  <Step title="Template Settings">
+    **Configure:**
+    - Template name: "Product Showcase Template"
+    - Category: "Newsletter"
+    - Tags: "product", "seasonal"
+    - Description: "Reusable product showcase layout"
+  </Step>
+
+  <Step title="API Upload">
+    Migma uploads the template via Klaviyo API
+
+    Template appears in:
+    **Klaviyo → Templates → Saved Templates**
+  </Step>
+
+  <Step title="Use in Campaigns and Flows">
+    **Use the template for:**
+    - New campaigns
+    - Automated flows
+    - A/B testing
+    - Quick email creation
+  </Step>
+</Steps>
+
+---
+
+## Merge Tags & Liquid Variables
+
+Migma **automatically preserves** Klaviyo's Liquid templating syntax. Use merge tags in your prompts, and they'll work perfectly in Klaviyo.
+
+### Profile Properties
+
+```liquid
+<!-- Basic profile fields -->
+{{ first_name }}              → First name
+{{ last_name }}               → Last name
+{{ email }}                   → Email address
+{{ phone_number }}            → Phone number
+
+<!-- Custom profile properties -->
+{{ person.company }}          → Company name
+{{ person.job_title }}        → Job title
+{{ person.favorite_category }} → Custom field
+```
+
+### Event Properties
+
+```liquid
+<!-- Product events -->
+{{ event.product_name }}      → Product name
+{{ event.product_price }}     → Product price
+{{ event.product_image_url }} → Product image
+{{ event.product_url }}       → Product link
+
+<!-- Order events -->
+{{ event.order_total }}       → Order total
+{{ event.order_id }}          → Order ID
+{{ event.shipping_address }}  → Shipping address
+```
+
+### Conditional Logic
+
+```liquid
+<!-- VIP customer check -->
+{% if person.vip_status == true %}
+  <h2>Exclusive VIP Offer!</h2>
+  <p>Save 25% with your VIP status</p>
+{% else %}
+  <h2>Special Offer</h2>
+  <p>Save 15% today</p>
+{% endif %}
+
+<!-- Purchase history -->
+{% if person.total_orders > 5 %}
+  Thanks for being a loyal customer!
+{% endif %}
+```
+
+### Default Values
+
+```liquid
+<!-- Fallback values -->
+{{ first_name|default:"Friend" }}
+{{ person.company|default:"your company" }}
+
+<!-- Example in greeting -->
+Hi {{ first_name|default:"there" }},
+```
+
+---
+
+## Using Merge Tags in Migma
+
+### In Prompts
+
+Tell Migma to include merge tags in your prompt:
+
+```text
+Create a welcome email with:
+- Greeting: "Hi {{ first_name }}!"
+- Personalized content based on {{ person.company }}
+- Product recommendations using {{ event.product_name }}
+```
+
+Migma will generate the email with merge tags intact.
+
+### Visual Editor
+
+When editing in Migma's visual editor, you can:
+1. Type merge tags directly: `{{ first_name }}`
+2. They'll be preserved when exporting to Klaviyo
+3. Preview shows placeholder values
+
+### Common Examples
+
+**Abandoned Cart Email:**
+```liquid
+Hi {{ first_name }},
+
+You left {{ event.product_name }} in your cart!
+
+Regular price: ${{ event.item_price }}
+Your price: ${{ event.sale_price }}
+
+Complete your purchase: {{ event.checkout_url }}
+```
+
+**Post-Purchase:**
+```liquid
+Thanks {{ first_name }}!
+
+Order #{{ event.order_id }} is confirmed.
+Total: ${{ event.order_total }}
+
+Track your shipment: {{ event.tracking_url }}
+```
+
+**Product Recommendation:**
+```liquid
+Hi {{ first_name }},
+
+Based on your interest in {{ event.viewed_product_category }},
+we think you'll love these:
+
+{% for product in recommended_products %}
+  - {{ product.name }}: ${{ product.price }}
+{% endfor %}
+```
+
+---
+
+## Flow Integration
+
+Use Migma templates in Klaviyo automated flows:
+
+### Setup Flow Template
+
+<Steps>
+  <Step title="Export Template">
+    Export your email as a template to Klaviyo
+  </Step>
+
+  <Step title="Create/Edit Flow">
+    In Klaviyo, create or edit an automated flow:
+    - Welcome series
+    - Abandoned cart
+    - Post-purchase
+    - Win-back campaign
+  </Step>
+
+  <Step title="Add Email Action">
+    1. Add an "Email" action to your flow
+    2. Click "Select Template"
+    3. Choose your Migma template
+  </Step>
+
+  <Step title="Configure Triggers">
+    Set up flow triggers and timing:
+    - Trigger: When someone joins a list
+    - Delay: Immediate or timed
+    - Filters: Segment conditions
+  </Step>
+</Steps>
+
+### Common Flow Use Cases
+
+<AccordionGroup>
+  <Accordion title="Welcome Series" icon="hand-wave">
+    **Email 1:** Welcome + brand introduction
+    - Trigger: List signup
+    - Delay: Immediate
+    - Merge tags: `{{ first_name }}`, `{{ person.signup_source }}`
+
+    **Email 2:** Product showcase
+    - Delay: 2 days after Email 1
+    - Merge tags: `{{ event.browsed_category }}`
+
+    **Email 3:** Special offer
+    - Delay: 5 days after Email 2
+    - Conditional: `{% if person.purchase_count == 0 %}`
+  </Accordion>
+
+  <Accordion title="Abandoned Cart" icon="cart-shopping">
+    **Email 1:** Cart reminder
+    - Trigger: Started checkout, didn't complete
+    - Delay: 1 hour
+    - Merge tags: `{{ event.product_name }}`, `{{ event.checkout_url }}`
+
+    **Email 2:** Discount incentive
+    - Delay: 24 hours
+    - Conditional discount code
+
+    **Email 3:** Last chance
+    - Delay: 48 hours
+    - Urgency messaging
+  </Accordion>
+
+  <Accordion title="Post-Purchase" icon="box">
+    **Email 1:** Order confirmation
+    - Trigger: Placed order
+    - Delay: Immediate
+    - Merge tags: `{{ event.order_id }}`, `{{ event.order_total }}`
+
+    **Email 2:** Shipping notification
+    - Trigger: Order fulfilled
+    - Merge tags: `{{ event.tracking_url }}`
+
+    **Email 3:** Review request
+    - Delay: 7 days after delivery
+    - Merge tags: `{{ event.purchased_products }}`
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## List & Segment Sync
+
+### Sync Audiences
+
+**Bidirectional sync between Migma and Klaviyo:**
+
+<Check>Export subscribers from Migma to Klaviyo lists</Check>
+<Check>Import Klaviyo lists into Migma</Check>
+<Check>Automatic field mapping</Check>
+<Check>Custom property sync</Check>
+
+### Configure Sync
+
+1. **Settings → Integrations → Klaviyo**
+2. Click **"Manage Lists"**
+3. Select sync direction:
+   - ○ Migma → Klaviyo only
+   - ● Bidirectional (recommended)
+   - ○ Klaviyo → Migma only
+4. Choose sync frequency:
+   - Real-time (instant sync)
+   - Hourly batch
+   - Daily batch
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Merge Tags Strategically" icon="bullseye">
+    **Do:**
+    - ✅ Personalize greetings: `Hi {{ first_name }}`
+    - ✅ Show relevant products: `{{ event.product_name }}`
+    - ✅ Add urgency: `{{ event.cart_expires_at }}`
+    - ✅ Provide fallbacks: `{{ first_name|default:"there" }}`
+
+    **Don't:**
+    - ❌ Over-personalize (creepy factor)
+    - ❌ Use merge tags without defaults
+    - ❌ Forget to test with real data
+  </Accordion>
+
+  <Accordion title="Test Before Sending" icon="flask">
+    **Always test with real data:**
+    1. Export template to Klaviyo
+    2. Create test campaign
+    3. Send to test profiles with:
+       - Complete data
+       - Missing data (test defaults)
+       - Edge cases
+    4. Check rendering across devices
+    5. Verify links and merge tags work
+  </Accordion>
+
+  <Accordion title="Template Organization" icon="folder-tree">
+    **Keep templates organized:**
+    - Use clear naming: "Abandoned Cart - v2"
+    - Add categories: Newsletter, Transactional, Promotional
+    - Tag by season/campaign: "holiday-2024", "summer-sale"
+    - Document merge tag requirements
+  </Accordion>
+
+  <Accordion title="Monitor Performance" icon="chart-line">
+    **Track template performance:**
+    - Compare AI-generated vs manual emails
+    - A/B test different designs
+    - Monitor open/click rates
+    - Iterate based on data
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connection Failed" icon="plug-circle-xmark">
+    **Problem:** Can't connect Klaviyo to Migma
+
+    **Solutions:**
+    1. Verify API key is correct (no extra spaces)
+    2. Check API key has Full Access permissions
+    3. Ensure API key hasn't been revoked
+    4. Try creating a new API key
+    5. Contact support if issue persists
+  </Accordion>
+
+  <Accordion title="Merge Tags Not Working" icon="tags">
+    **Problem:** Merge tags showing as `{{ first_name }}` instead of names
+
+    **Solutions:**
+    1. Check syntax: Use `{{ first_name }}` not `{first_name}`
+    2. Verify property exists in Klaviyo profiles
+    3. Test with profiles that have complete data
+    4. Add default values: `{{ first_name|default:"Friend" }}`
+    5. Check Klaviyo preview in their dashboard
+  </Accordion>
+
+  <Accordion title="Export Failed" icon="circle-exclamation">
+    **Problem:** Export to Klaviyo fails
+
+    **Solutions:**
+    1. Check API connection is active
+    2. Verify you have permission to create campaigns/templates
+    3. Ensure list/segment exists in Klaviyo
+    4. Check for special characters in campaign name
+    5. Try exporting as template first
+  </Accordion>
+
+  <Accordion title="Images Not Loading" icon="image">
+    **Problem:** Images broken in Klaviyo
+
+    **Solutions:**
+    1. Verify images uploaded to Migma CDN
+    2. Check image URLs are public
+    3. Ensure Klaviyo can access external images
+    4. Try re-uploading images in Migma
+    5. Check image file sizes (< 1MB recommended)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Email Service Providers" icon="server" href="/integrations/email-service-providers">
+    Setup SES, Resend, or SendGrid
+  </Card>
+  <Card title="Mailchimp Integration" icon="mailchimp" href="/integrations/mailchimp">
+    Export to Mailchimp
+  </Card>
+  <Card title="Sending Emails" icon="paper-plane" href="/audience/sending-emails">
+    Send to your audience
+  </Card>
+  <Card title="Export Options" icon="download" href="/email-editor/export-options">
+    All export formats
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Watch Tutorial" icon="video" href="https://youtube.com/updatelater">
+    Klaviyo integration guide
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Get help from the community
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Integration assistance
+  </Card>
+  <Card title="Klaviyo Docs" icon="book" href="https://developers.klaviyo.com">
+    Klaviyo API documentation
+  </Card>
+</CardGroup>

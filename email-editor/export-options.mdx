@@ -1,0 +1,808 @@
+---
+title: "Export Options & ESP Compatibility"
+description: "Export to HTML, React Email, MJML with dynamic variables for any email service provider"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="Export Options" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Migma creates emails compatible with ALL email service providers through intelligent code generation and dynamic variable support. Export to HTML, React Email, or MJML with ESP-specific variables preserved.
+
+<CardGroup cols={3}>
+  <Card title="No Vendor Lock-In" icon="unlock">
+    Export to any format, use anywhere
+  </Card>
+  <Card title="ESP Variables" icon="code">
+    HubL, Liquid, Mustache, and more preserved
+  </Card>
+  <Card title="Universal Compatibility" icon="check-double">
+    Works with 30+ email clients
+  </Card>
+</CardGroup>
+
+---
+
+## Export Formats
+
+### 1. HTML (Email-Safe)
+
+**Standard HTML with inline CSS** - works everywhere
+
+<Tabs>
+  <Tab title="Features">
+    **Includes:**
+    - Inline CSS styles
+    - Table-based layout (Outlook compatible)
+    - Email-safe HTML tags only
+    - Responsive media queries
+    - Dark mode support
+    - Proper DOCTYPE for email clients
+
+    **Perfect for:**
+    - Direct ESP upload
+    - Maximum compatibility
+    - Simple workflows
+  </Tab>
+
+  <Tab title="Compatibility">
+    **Works with:**
+    - ✅ Gmail (Web, App, Mobile)
+    - ✅ Outlook (2021, 2019, 2016, 365)
+    - ✅ Apple Mail (macOS, iOS)
+    - ✅ Yahoo Mail
+    - ✅ AOL Mail
+    - ✅ Samsung Email
+    - ✅ Thunderbird
+    - ✅ ProtonMail
+    - ✅ All other major clients
+
+    **Rendering:** 100% compatible
+  </Tab>
+
+  <Tab title="Technical Details">
+    ```html
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <style type="text/css">
+        /* Responsive styles */
+      </style>
+    </head>
+    <body style="margin:0;padding:0;">
+      <table role="presentation" style="width:100%;">
+        <!-- Email content -->
+      </table>
+    </body>
+    </html>
+    ```
+
+    **Inline styles:** All CSS inlined for maximum compatibility
+    **Tables:** Used for layout (Outlook requirement)
+    **Media queries:** In `<style>` tag for responsive design
+  </Tab>
+</Tabs>
+
+### 2. React Email
+
+**React components** for modern email workflows
+
+<Tabs>
+  <Tab title="Features">
+    **Migma generates:**
+    - Clean JSX components
+    - Tailwind CSS classes
+    - TypeScript support (optional)
+    - Reusable components
+    - Props for customization
+
+    **Perfect for:**
+    - Next.js applications
+    - Developer workflows
+    - Version control (Git)
+    - Component reusability
+    - Programmatic email generation
+  </Tab>
+
+  <Tab title="Example Output">
+    ```jsx
+    import {
+      Body,
+      Container,
+      Head,
+      Heading,
+      Html,
+      Preview,
+      Section,
+      Text,
+      Button,
+    } from '@react-email/components';
+
+    export default function WelcomeEmail() {
+      return (
+        <Html>
+          <Head />
+          <Preview>Welcome to Migma!</Preview>
+          <Body style={{ backgroundColor: '#f6f9fc' }}>
+            <Container>
+              <Heading>Welcome to Migma</Heading>
+              <Text>
+                Thanks for signing up. Here's what you can do next:
+              </Text>
+              <Button
+                href="https://migma.ai/dashboard"
+                style={{ background: '#6D28D9', color: '#fff' }}
+              >
+                Get Started
+              </Button>
+            </Container>
+          </Body>
+        </Html>
+      );
+    }
+    ```
+  </Tab>
+
+  <Tab title="Integration">
+    **Use with:**
+    - Next.js
+    - Remix
+    - Astro
+    - Any React framework
+
+    **Build step:**
+    ```bash
+    npm install @react-email/components
+    # Migma components work out-of-the-box
+    ```
+
+    **Render to HTML:**
+    ```javascript
+    import { render } from '@react-email/render';
+    import WelcomeEmail from './emails/welcome';
+
+    const html = render(<WelcomeEmail />);
+    // Send via any ESP
+    ```
+  </Tab>
+</Tabs>
+
+### 3. MJML
+
+**Responsive email framework** markup
+
+<Tabs>
+  <Tab title="Features">
+    **MJML output includes:**
+    - Semantic MJML tags
+    - Automatic responsiveness
+    - Clean code structure
+    - ESP compatibility built-in
+
+    **Perfect for:**
+    - MJML-based workflows
+    - Marketing teams using MJML
+    - Framework flexibility
+  </Tab>
+
+  <Tab title="Example Output">
+    ```xml
+    <mjml>
+      <mj-head>
+        <mj-title>Welcome Email</mj-title>
+        <mj-preview>Welcome to Migma!</mj-preview>
+        <mj-attributes>
+          <mj-all font-family="Arial, sans-serif" />
+        </mj-attributes>
+      </mj-head>
+      <mj-body background-color="#f6f9fc">
+        <mj-section>
+          <mj-column>
+            <mj-text font-size="24px" font-weight="bold">
+              Welcome to Migma
+            </mj-text>
+            <mj-text font-size="16px">
+              Thanks for signing up. Here's what you can do next:
+            </mj-text>
+            <mj-button background-color="#6D28D9" href="https://migma.ai">
+              Get Started
+            </mj-button>
+          </mj-column>
+        </mj-section>
+      </mj-body>
+    </mjml>
+    ```
+  </Tab>
+
+  <Tab title="Compile">
+    **Convert MJML to HTML:**
+    ```bash
+    npm install mjml
+    mjml email.mjml -o email.html
+    ```
+
+    **Result:** Production-ready HTML compatible with all email clients
+  </Tab>
+</Tabs>
+
+---
+
+## ESP-Specific Variables
+
+<iframe width="100%" height="300" src="https://youtube.com/updatelater" title="ESP Variables in Migma" frameborder="0" allowfullscreen></iframe>
+
+### How Migma Handles Dynamic Variables
+
+Migma **preserves** ESP variables during export. You can use any template language:
+
+<AccordionGroup>
+  <Accordion title="HubSpot (HubL)" icon="hubspot">
+    **Syntax:** `{{ variable_name }}`
+
+    **Example in Migma:**
+    ```html
+    Hello {{ contact.firstname }}!
+
+    Your order #{{ content.order_number }} has shipped.
+
+    {% if contact.vip_status %}
+    Thanks for being a VIP member!
+    {% endif %}
+    ```
+
+    **Migma preserves:**
+    - Variables: `{{ contact.* }}`
+    - Conditionals: `{% if %}...{% endif %}`
+    - Loops: `{% for %}...{% endfor %}`
+    - Filters: `{{ variable|upper }}`
+
+    **Export:** Variables remain intact in HTML
+  </Accordion>
+
+  <Accordion title="Mailchimp (Merge Tags)" icon="mailchimp">
+    **Syntax:** `*|VARIABLE|*`
+
+    **Example in Migma:**
+    ```html
+    Hi *|FNAME|*,
+
+    This email was sent to *|EMAIL|*.
+
+    *|IF:INTERESTED_IN_CATEGORY=technology|*
+    Check out our latest tech products!
+    *|END:IF|*
+
+    *|HTML:CUSTOM_CONTENT|*
+    ```
+
+    **Migma preserves:**
+    - Merge tags: `*|FNAME|*`, `*|LNAME|*`
+    - Conditional content: `*|IF:|*...*|END:IF|*`
+    - Custom HTML: `*|HTML:...|*`
+  </Accordion>
+
+  <Accordion title="Klaviyo (Liquid)" icon="database">
+    **Syntax:** `{{ variable }}` and `{% tag %}`
+
+    **Example in Migma:**
+    ```liquid
+    Hello {{ person.first_name | default: 'there' }}!
+
+    {% if event.ProductName %}
+    You viewed: {{ event.ProductName }}
+    Price: {{ event.ProductPrice | money }}
+    {% endif %}
+
+    {% for item in event.Items %}
+    - {{ item.ProductName }}: ${{ item.Price }}
+    {% endfor %}
+    ```
+
+    **Migma preserves:**
+    - Variables with filters
+    - Conditionals
+    - Loops
+    - Custom properties
+  </Accordion>
+
+  <Accordion title="SendGrid (Handlebars)" icon="paper-plane">
+    **Syntax:** `{{variable}}` and `{{#if}}...{{/if}}`
+
+    **Example in Migma:**
+    ```handlebars
+    Hi {{firstName}},
+
+    {{#if isPremium}}
+    Premium features are now available!
+    {{else}}
+    Upgrade to unlock premium features.
+    {{/if}}
+
+    {{#each products}}
+    - {{this.name}}: ${{this.price}}
+    {{/each}}
+    ```
+
+    **Migma preserves:**
+    - Variables
+    - Conditionals
+    - Loops
+    - Helpers
+  </Accordion>
+
+  <Accordion title="Amazon SES (Mustache)" icon="aws">
+    **Syntax:** `{{variable}}`
+
+    **Example in Migma:**
+    ```mustache
+    Hello {{name}},
+
+    Your subscription expires on {{expirationDate}}.
+
+    {{#items}}
+    - {{productName}}: {{price}}
+    {{/items}}
+    ```
+
+    **Migma preserves:**
+    - Simple variables
+    - Sections (loops)
+    - Inverted sections
+  </Accordion>
+
+  <Accordion title="Custom Variables" icon="code">
+    **Any syntax supported!**
+
+    Tell Migma which variables to preserve:
+
+    ```text
+    Create welcome email with these variables:
+    - %%FIRSTNAME%%
+    - %%SIGNUP_DATE%%
+    - %%PLAN_NAME%%
+
+    Use my ESP's %% syntax
+    ```
+
+    Migma recognizes and preserves your custom format
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## How to Use ESP Variables
+
+### During Email Creation
+
+**In your prompts:**
+```text
+Create order confirmation email
+
+Include:
+- Customer name: {{ customer.name }}
+- Order number: {{ order.number }}
+- Order total: {{ order.total | currency }}
+- Order items loop: {% for item in order.items %}
+
+Use HubSpot HubL syntax
+```
+
+**Migma will:**
+1. Generate email structure
+2. Insert variables in correct locations
+3. Preserve exact variable syntax
+4. Export with variables intact
+
+### In Visual Editor
+
+**Add variables manually:**
+
+1. Click text element
+2. Type variable syntax directly: `Hello {{ firstname }}!`
+3. Variables highlighted in editor
+4. Preserved on export
+
+**Or use variable inserter:**
+1. Click "Insert Variable" button
+2. Select ESP type (HubSpot, Mailchimp, etc.)
+3. Choose variable from list
+4. Inserted with correct syntax
+
+---
+
+## Export Process
+
+<iframe width="100%" height="300" src="https://youtube.com/updatelater" title="Exporting Emails from Migma" frameborder="0" allowfullscreen></iframe>
+
+<Steps>
+  <Step title="Finalize Email">
+    Complete your email in Migma chat or visual editor
+  </Step>
+
+  <Step title="Click Export">
+    Click **"Export"** button in toolbar
+  </Step>
+
+  <Step title="Choose Format">
+    Select export format:
+    - HTML (email-safe)
+    - React Email (JSX)
+    - MJML
+  </Step>
+
+  <Step title="Configure ESP Settings">
+    **If using ESP variables:**
+    - Select your ESP from dropdown
+    - Verify variable syntax
+    - Enable/disable features
+
+    **Options:**
+    - Include unsubscribe link
+    - Add tracking pixels
+    - Preserve ESP comments
+  </Step>
+
+  <Step title="Download or Copy">
+    **Download:** Get .html, .jsx, or .mjml file
+    **Copy:** Copy code to clipboard
+    **Direct export:** Send to integrated ESP
+  </Step>
+
+  <Step title="Upload to ESP">
+    Paste/upload to your email service provider
+  </Step>
+</Steps>
+
+---
+
+## Direct ESP Export
+
+Export directly to integrated platforms:
+
+<CardGroup cols={2}>
+  <Card title="Mailchimp" icon="mailchimp">
+    **One-click export:**
+    1. Click "Export to Mailchimp"
+    2. Select campaign or template
+    3. Authorize (first time)
+    4. Email uploads automatically
+  </Card>
+
+  <Card title="Klaviyo" icon="database">
+    **Direct integration:**
+    1. Click "Export to Klaviyo"
+    2. Choose template or campaign
+    3. Authenticate
+    4. Syncs to Klaviyo account
+  </Card>
+
+  <Card title="HubSpot" icon="hubspot">
+    **Push to HubSpot:**
+    1. Export to HubSpot
+    2. Select email type
+    3. OAuth authorization
+    4. Creates draft in HubSpot
+  </Card>
+
+  <Card title="Custom Webhook" icon="webhook">
+    **Send via webhook:**
+    1. Configure webhook URL
+    2. Map email fields
+    3. Set authentication
+    4. POST email HTML/JSON
+  </Card>
+</CardGroup>
+
+<Card title="Platform Integrations" icon="plug" href="/integrations/platform-integrations">
+  Complete guide to ESP integrations
+</Card>
+
+---
+
+## Email Client Compatibility
+
+### How Migma Ensures Compatibility
+
+<AccordionGroup>
+  <Accordion title="Inline CSS" icon="paintbrush">
+    **All styles inlined** for email clients that strip `<style>` tags
+
+    **Before:**
+    ```html
+    <style>.button { background: blue; }</style>
+    <a class="button">Click</a>
+    ```
+
+    **After export:**
+    ```html
+    <a style="background: blue; padding: 12px 24px; border-radius: 4px;">Click</a>
+    ```
+  </Accordion>
+
+  <Accordion title="Table-Based Layouts" icon="table-columns">
+    **Outlook compatibility** requires table layouts
+
+    Migma uses:
+    ```html
+    <table role="presentation" cellpadding="0" cellspacing="0">
+      <tr>
+        <td><!-- Content --></td>
+      </tr>
+    </table>
+    ```
+
+    **Why:** Outlook uses Word rendering engine (doesn't support modern CSS)
+  </Accordion>
+
+  <Accordion title="Conditional Comments" icon="code">
+    **Outlook-specific fixes:**
+
+    ```html
+    <!--[if mso]>
+    <table><tr><td width="600">
+    <![endif]-->
+
+    <div style="max-width:600px;">
+      <!-- Content -->
+    </div>
+
+    <!--[if mso]>
+    </td></tr></table>
+    <![endif]-->
+    ```
+
+    **Only Outlook sees** table wrapper
+  </Accordion>
+
+  <Accordion title="Web Fonts with Fallbacks" icon="font">
+    **Google Fonts + fallbacks:**
+
+    ```html
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+    <p style="font-family: 'Open Sans', Arial, sans-serif;">
+      Text content
+    </p>
+    ```
+
+    **If font fails:** Falls back to Arial, then sans-serif
+  </Accordion>
+
+  <Accordion title="Dark Mode Support" icon="moon">
+    **Automatic dark mode styles:**
+
+    ```html
+    <style>
+    @media (prefers-color-scheme: dark) {
+      .dark-text { color: #ffffff !important; }
+      .dark-bg { background-color: #1a1a1a !important; }
+    }
+    </style>
+    ```
+
+    **Works in:** Apple Mail, Gmail, Outlook (iOS)
+  </Accordion>
+
+  <Accordion title="Responsive Design" icon="mobile">
+    **Media queries for mobile:**
+
+    ```html
+    <style>
+    @media only screen and (max-width: 600px) {
+      .mobile-full-width { width: 100% !important; }
+      .mobile-hide { display: none !important; }
+      .mobile-stack { display: block !important; width: 100% !important; }
+    }
+    </style>
+    ```
+
+    **Columns stack** on mobile automatically
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Download Options
+
+### File Formats
+
+<Tabs>
+  <Tab title=".html">
+    **Single HTML file**
+    - Complete, standalone email
+    - Inline CSS
+    - Base64-encoded images (optional)
+    - Ready to upload anywhere
+  </Tab>
+
+  <Tab title=".jsx / .tsx">
+    **React Email component**
+    - JSX or TypeScript
+    - Includes imports
+    - Props for customization
+    - Use in Next.js/React apps
+  </Tab>
+
+  <Tab title=".mjml">
+    **MJML template**
+    - Semantic markup
+    - Compile to HTML when ready
+    - Framework-agnostic
+  </Tab>
+
+  <Tab title=".zip">
+    **Complete package:**
+    - HTML file
+    - Separate CSS file
+    - Images folder
+    - README with instructions
+
+    **Perfect for handoff to developers**
+  </Tab>
+</Tabs>
+
+---
+
+## Copy Options
+
+**Quick copy to clipboard:**
+
+<CardGroup cols={3}>
+  <Card title="Copy HTML" icon="code">
+    Copies complete HTML code
+  </Card>
+  <Card title="Copy Inline" icon="paintbrush">
+    HTML with all CSS inlined
+  </Card>
+  <Card title="Copy Preview" icon="eye">
+    Text-only preview version
+  </Card>
+</CardGroup>
+
+**Keyboard shortcut:** `Ctrl/Cmd + Shift + C`
+
+---
+
+## Advanced Export Features
+
+### Custom Code Injection
+
+**Add tracking pixels, analytics, etc.:**
+
+<Steps>
+  <Step title="Open Export Settings">
+    Click "Advanced" in export dialog
+  </Step>
+
+  <Step title="Inject Head Code">
+    ```html
+    <!-- Google Analytics -->
+    <meta property="og:image" content="preview.jpg">
+    ```
+  </Step>
+
+  <Step title="Inject Body Code">
+    ```html
+    <!-- Tracking pixel -->
+    <img src="https://track.example.com/open?id=123" width="1" height="1">
+    ```
+  </Step>
+
+  <Step title="Export">
+    Code injected in correct locations
+  </Step>
+</Steps>
+
+### Batch Export
+
+**Export multiple emails:**
+
+1. Select emails to export (checkbox)
+2. Click "Batch Export"
+3. Choose format
+4. Download as .zip with all emails
+
+**Perfect for:** Template libraries, campaign series
+
+---
+
+## Testing Exports
+
+### Before Upload
+
+**Always test exports:**
+
+<Check>Send test email to yourself</Check>
+<Check>Check on mobile device</Check>
+<Check>Test in primary email clients</Check>
+<Check>Verify links work</Check>
+<Check>Check ESP variables render correctly</Check>
+
+<Card title="Email Preflight" icon="clipboard-check" href="/email-editor/email-preflight">
+  Test on 30+ devices before export
+</Card>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Variables not working in ESP" icon="code">
+    **Problem:** ESP doesn't recognize variables
+
+    **Solutions:**
+    - Verify correct syntax for your ESP
+    - Check variable names match ESP fields
+    - Ensure variables not accidentally encoded
+    - Test with simple variable first
+  </Accordion>
+
+  <Accordion title="Layout broken in Outlook" icon="envelope-open-text">
+    **Problem:** Email looks wrong in Outlook
+
+    **Solutions:**
+    - Re-export with "Outlook optimization" enabled
+    - Ensure table-based layout
+    - Check conditional comments intact
+    - Avoid flexbox/grid CSS
+  </Accordion>
+
+  <Accordion title="Images not displaying" icon="image-slash">
+    **Problem:** Images broken after upload
+
+    **Solutions:**
+    - Use absolute URLs (not relative)
+    - Host images on CDN
+    - Check image URLs accessible
+    - Use Migma's CDN (automatic)
+  </Accordion>
+
+  <Accordion title="Dark mode issues" icon="moon">
+    **Problem:** Unreadable in dark mode
+
+    **Solutions:**
+    - Enable "Dark mode styles" in export
+    - Test with Email Preflight
+    - Use dark-mode-safe colors
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Platform Integrations" icon="plug" href="/integrations/platform-integrations">
+    Setup ESP integrations
+  </Card>
+  <Card title="Email Preflight" icon="clipboard-check" href="/email-editor/email-preflight">
+    Test before export
+  </Card>
+  <Card title="Sending Emails" icon="paper-plane" href="/audience/sending-emails">
+    Send directly from Migma
+  </Card>
+  <Card title="API Export" icon="code" href="/api-reference/introduction">
+    Automate exports via API
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Watch Tutorial" icon="video" href="https://youtube.com/updatelater">
+    Export walkthrough video
+  </Card>
+  <Card title="ESP Guides" icon="book" href="/integrations/platform-integrations">
+    Platform-specific guides
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Get export help
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Expert export assistance
+  </Card>
+</CardGroup>

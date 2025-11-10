@@ -1,0 +1,397 @@
+---
+title: "Platform & ESP Integrations"
+description: "Select Shopify products directly in emails, connect Mailchimp, Klaviyo, and email service providers"
+---
+
+## Overview
+
+Connect Migma with your existing marketing platforms and email service providers. **Select products directly from your Shopify store** when creating emails, export to Mailchimp, sync with Klaviyo, or send directly via Amazon SES, SendGrid, or Resend.
+
+<Info>
+**🛍️ Shopify Highlight:** With the Shopify integration, you can **browse and select products from your store** right in Migma. Product images, prices, and descriptions are pulled automatically - no manual copying required!
+</Info>
+
+<CardGroup cols={3}>
+  <Card title="Marketing Platforms" icon="envelope-open-text">
+    Mailchimp, Klaviyo, HubSpot integrations
+  </Card>
+  <Card title="E-commerce ⭐" icon="cart-shopping">
+    Select Shopify products directly - live data pulled automatically
+  </Card>
+  <Card title="Direct Sending" icon="paper-plane">
+    SES, SendGrid, Resend for email delivery
+  </Card>
+</CardGroup>
+
+---
+
+## Marketing Platform Integrations
+
+### Quick Setup (All Platforms)
+
+All marketing platforms follow the same basic setup:
+
+<Steps>
+  <Step title="Get API Key">
+    Get API key from your platform:
+    - **Mailchimp:** Account → Extras → API keys
+    - **Klaviyo:** Account → Settings → API Keys (need private key)
+    - **HubSpot:** Settings → Integrations → API Key
+  </Step>
+
+  <Step title="Connect in Migma">
+    Settings → Integrations → Marketing Platforms → Connect → Paste API key
+  </Step>
+
+  <Step title="Configure">
+    Select audiences/lists to sync and map custom fields
+  </Step>
+</Steps>
+
+### Mailchimp
+
+**What you can do:**
+- Export emails as Mailchimp campaigns or templates
+- Sync subscriber lists bidirectionally
+- Use Mailchimp merge tags: `*|FNAME|*`, `*|EMAIL|*`, `*|UNSUB|*`
+
+**Export:** Create email in Migma → Export → Mailchimp Campaign → Configure → Push to Mailchimp as draft
+
+### Klaviyo
+
+**What you can do:**
+- Export templates for campaigns and flows
+- Sync lists and segments
+- Use Klaviyo Liquid variables: `{{ first_name }}`, `{{ person.company }}`
+
+**Export:** Create email → Export → Klaviyo Template → Use in campaigns or automated flows
+
+### HubSpot
+
+**What you can do:**
+- Export email templates
+- Sync contact lists
+- Use HubL tokens: `{{ contact.firstname }}`, `{{ contact.company }}`
+
+**Setup:** OAuth connection via Settings → Integrations → Marketing Platforms
+
+---
+
+## E-commerce Integrations
+
+<Note>
+**🔥 Featured Integration:** The Shopify integration allows you to **select products directly from your store** when creating emails. No more manual copying - Migma pulls live product images, prices, and descriptions automatically!
+</Note>
+
+### Shopify Integration ⭐ KEY FEATURE
+
+**🛍️ CHOOSE PRODUCTS DIRECTLY FROM YOUR SHOPIFY STORE**
+
+The Shopify integration is one of Migma's most powerful features - select products directly from your store when creating emails!
+
+**Connect Shopify to:**
+- ✨ **Browse and select products visually** from your Shopify catalog
+- 🖼️ **Pull live product data** - images, prices, descriptions automatically
+- 🛒 **Create product showcases** with real inventory
+- 👥 Sync customer information for personalization
+- 📧 Automate transactional emails (orders, abandoned cart)
+
+<Warning>
+**Why this matters:** Instead of manually copying product info, Migma pulls everything directly from Shopify - always up-to-date with current prices and inventory!
+</Warning>
+
+#### Setup Shopify Connection
+
+<Steps>
+  <Step title="Connect Shopify">
+    1. Migma Settings → Integrations → E-commerce
+    2. Click "Connect Shopify"
+    3. Enter your shop: `yourstore.myshopify.com`
+    4. Authorize access (read-only)
+  </Step>
+
+  <Step title="Configure Sync">
+    Choose what to sync:
+    - ☑ Product catalog
+    - ☑ Customer data
+    - ☑ Collections
+  </Step>
+</Steps>
+
+#### Using Shopify Data in Emails
+
+### 🎯 Method 1: Select Specific Products (RECOMMENDED)
+
+**When creating an email, tell Migma which products to feature:**
+
+<Steps>
+  <Step title="Connect Shopify">
+    Ensure your Shopify store is connected (see setup above)
+  </Step>
+
+  <Step title="Create Email with Product Selection">
+    **Use prompts like:**
+
+    ```text
+    Create a product showcase email.
+
+    Include these products from Shopify:
+    - "Wireless Headphones Pro"
+    - "Smart Watch Series 5"
+    - "Portable Charger Ultra"
+
+    Show product images, prices, and "Buy Now" buttons
+    ```
+
+    **Or select by collection:**
+    ```text
+    Create new arrivals email featuring ALL products
+    from my "Spring Collection" Shopify collection.
+
+    Display in 3-column grid with prices and CTAs
+    ```
+
+    **Or select by tags:**
+    ```text
+    Show products tagged "Best Seller" from Shopify.
+    Include top 6 items with images and current prices.
+    ```
+  </Step>
+
+  <Step title="Migma Pulls Live Data">
+    **Automatically fetches from Shopify:**
+    - ✅ Product images (high resolution)
+    - ✅ Current prices (always up-to-date)
+    - ✅ Product titles and descriptions
+    - ✅ Product URLs (links to your store)
+    - ✅ Inventory status (optional)
+    - ✅ Variant information (sizes, colors)
+  </Step>
+
+  <Step title="Review & Send">
+    Email is generated with your selected products, live data, and your branding applied!
+  </Step>
+</Steps>
+
+**Example prompts for product selection:**
+
+```text
+// Specific products by name
+"Include my 'Premium Leather Wallet' and 'Canvas Tote Bag' products from Shopify"
+
+// By collection
+"Show all items from my 'Holiday Sale' collection on Shopify"
+
+// By tag
+"Feature products tagged 'New Arrival' added in the last 7 days"
+
+// By price range
+"Show products between $50-$100 from my 'Electronics' collection"
+
+// Best sellers
+"Include my top 5 best-selling products from Shopify analytics"
+```
+
+### Method 2: Smart Product Recommendations
+
+**Let Migma intelligently select products:**
+
+```text
+Prompt: Create personalized product recommendation email.
+
+Use Shopify data to recommend 4 products based on:
+- Customer's previous purchases
+- Related/complementary items
+- Current promotions
+
+Include images, prices, and personalized messaging
+```
+
+**Migma automatically:**
+- ✅ Analyzes customer purchase history
+- ✅ Finds related products
+- ✅ Pulls current inventory and pricing
+- ✅ Creates personalized recommendations
+
+---
+
+## Email Service Provider (ESP) Integrations
+
+### Quick Comparison
+
+| ESP | Best For | Free Tier | Setup Time |
+|-----|----------|-----------|------------|
+| **Amazon SES** | High volume, low cost | 62k/mo | 15 min |
+| **SendGrid** | Analytics, deliverability | 100/day | 5 min |
+| **Resend** | Developers, React Email | 3k/mo | 3 min |
+
+### Amazon SES
+
+**Best for:** High-volume sending, transactional emails, cost-effective ($0.10 per 1,000 emails)
+
+**Quick setup:**
+1. Create AWS account
+2. Verify domain in SES Console (add DNS records)
+3. Request production access (24hr approval)
+4. Create IAM user with SES permissions
+5. In Migma: Settings → Integrations → Amazon SES → Add credentials
+
+<Card title="Detailed SES Setup" icon="aws" href="https://docs.aws.amazon.com/ses/">
+  Full AWS SES documentation
+</Card>
+
+### SendGrid
+
+**Best for:** Detailed analytics, marketing + transactional
+
+**Quick setup:**
+1. Sign up at sendgrid.com
+2. Verify sender domain (Settings → Sender Authentication)
+3. Create API Key (Settings → API Keys)
+4. In Migma: Settings → Integrations → SendGrid → Paste API key
+
+**Features:** Email validation, bounce tracking, click tracking, open tracking
+
+### Resend
+
+**Best for:** Developers, modern API, React Email support
+
+**Quick setup:**
+1. Sign up at resend.com
+2. Add and verify domain (add DNS records)
+3. Create API Key
+4. In Migma: Settings → Integrations → Resend → Paste API key
+
+**Perfect combo:** Migma generates React Email → Resend sends it natively
+
+---
+
+## Sending from Migma
+
+**Direct send workflow:**
+
+<Steps>
+  <Step title="Create Email">
+    Generate and finalize your email in Migma
+  </Step>
+
+  <Step title="Select Audience">
+    Choose recipients:
+    - Entire audience
+    - Specific tags
+    - CSV upload
+  </Step>
+
+  <Step title="Choose ESP">
+    Select connected provider (SES, SendGrid, or Resend)
+  </Step>
+
+  <Step title="Configure">
+    Set from name, subject, preview text
+  </Step>
+
+  <Step title="Send">
+    Send immediately or schedule
+  </Step>
+</Steps>
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Domain Authentication" icon="shield-check">
+    **Always authenticate your domain:**
+
+    Set up SPF, DKIM, and DMARC records for better deliverability.
+
+    All ESPs provide DNS records to add. This prevents spoofing and improves inbox placement.
+  </Accordion>
+
+  <Accordion title="Start Slow" icon="gauge">
+    **Warm up your sending domain:**
+
+    - Day 1: 50 emails
+    - Day 2: 100 emails
+    - Day 3: 200 emails
+    - Gradually increase
+
+    Establishes sender reputation and avoids spam filters.
+  </Accordion>
+
+  <Accordion title="Monitor Metrics" icon="chart-line">
+    **Track key indicators:**
+
+    - **Delivery rate:** Should be greater than 99%
+    - **Open rate:** Industry average 15-25%
+    - **Click rate:** Industry average 2-5%
+    - **Bounce rate:** Should be less than 2%
+    - **Complaint rate:** Should be less than 0.1%
+  </Accordion>
+
+  <Accordion title="List Hygiene" icon="broom">
+    **Keep lists clean:**
+
+    - Remove hard bounces immediately
+    - Remove soft bounces after 3 attempts
+    - Honor unsubscribes instantly
+    - Validate emails before adding
+
+    Better deliverability, lower costs, maintain sender reputation.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connection failed" icon="link-slash">
+    **Problem:** Can't connect ESP to Migma
+
+    **Solutions:**
+    - Verify API key is correct and active
+    - Check API key has proper permissions
+    - Ensure domain is verified in ESP
+    - Test credentials in ESP platform first
+  </Accordion>
+
+  <Accordion title="Emails not delivering" icon="envelope-circle-check">
+    **Problem:** Emails sent but not received
+
+    **Check:**
+    - Domain authentication (SPF, DKIM, DMARC)
+    - ESP bounce logs
+    - Recipient's spam folder
+    - Email content for spam triggers
+    - Sending rate limits
+  </Accordion>
+
+  <Accordion title="Variables not replacing" icon="bracket-curly">
+    **Problem:** Merge tags showing as `{{first_name}}` instead of actual names
+
+    **Solutions:**
+    - Check variable syntax matches ESP (Mailchimp: `*|FNAME|*`, Klaviyo: `{{ first_name }}`)
+    - Verify fields mapped correctly
+    - Ensure subscriber data has those fields
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="MCP Integrations" icon="plug" href="/integrations/mcp-servers">
+    Connect 26+ tools (Notion, Linear, Stripe, GitHub)
+  </Card>
+  <Card title="Audience Management" icon="users" href="/audience/overview">
+    Manage your subscriber lists
+  </Card>
+  <Card title="Sending Emails" icon="paper-plane" href="/audience/sending-emails">
+    Send to your audience
+  </Card>
+  <Card title="Export Options" icon="download" href="/email-editor/export-options">
+    All export formats
+  </Card>
+</CardGroup>

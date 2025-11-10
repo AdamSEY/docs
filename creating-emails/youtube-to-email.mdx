@@ -1,0 +1,354 @@
+---
+title: "YouTube to Email"
+description: "Paste any YouTube URL and generate email summaries automatically"
+---
+
+<iframe width="100%" height="400" src="https://youtube.com/updatelater" title="YouTube to Email Feature" frameborder="0" allowfullscreen></iframe>
+
+## Overview
+
+Migma can watch YouTube videos for you. Paste any YouTube URL and Migma will watch the video, extract key content, and generate a ready-to-send email summary or announcement.
+
+<Note>
+**Note:** This feature is available via API and chat prompts. Simply paste a YouTube URL in your prompt and describe what kind of email you want to create from the video content.
+</Note>
+
+<CardGroup cols={3}>
+  <Card title="Auto-Transcription" icon="closed-captioning">
+    Migma watches and transcribes video content
+  </Card>
+  <Card title="Key Points Extraction" icon="list-check">
+    Identifies main takeaways and highlights
+  </Card>
+  <Card title="Email-Ready" icon="envelope">
+    Generates formatted email in seconds
+  </Card>
+</CardGroup>
+
+---
+
+## Use Cases
+
+<AccordionGroup>
+  <Accordion title="Webinar Recaps" icon="presentation">
+    **Scenario:** You hosted a webinar and recorded it
+
+    **Workflow:**
+    1. Upload webinar recording to YouTube
+    2. Paste URL into Migma
+    3. Generate recap email with key takeaways
+    4. Send to attendees and no-shows
+
+    **Result:** Professional recap in 30 seconds vs hours of manual work
+  </Accordion>
+
+  <Accordion title="Product Demo Announcements" icon="video">
+    **Scenario:** Released new product demo video
+
+    **Workflow:**
+    1. Create product demo video
+    2. Post to YouTube
+    3. Generate announcement email with highlights
+    4. Include video embed and key features
+
+    **Result:** Engaging announcement that drives views
+  </Accordion>
+
+  <Accordion title="Tutorial Newsletters" icon="graduation-cap">
+    **Scenario:** Regular educational content on YouTube
+
+    **Workflow:**
+    1. Publish tutorial video
+    2. Generate email summary
+    3. Include in newsletter with video link
+    4. Drive subscribers to watch
+
+    **Result:** Increased video views from email
+  </Accordion>
+
+  <Accordion title="Event Promotions" icon="calendar">
+    **Scenario:** Promoting upcoming event with promo video
+
+    **Workflow:**
+    1. Create event promo video
+    2. Generate email from video content
+    3. Include registration CTA
+    4. Send to email list
+
+    **Result:** Higher conversion than video-only promotion
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## How to Use
+
+<Steps>
+  <Step title="Get YouTube URL">
+    Copy the URL of any public YouTube video
+  </Step>
+
+  <Step title="Paste in Create">
+    Go to Create page and use this prompt:
+    ```text
+    Watch this YouTube video and create an email summary:
+    https://youtube.com/watch?v=VIDEO_ID
+
+    Include:
+    - Main talking points
+    - Key takeaways
+    - Call to action to watch full video
+    ```
+  </Step>
+
+  <Step title="Migma Watches">
+    Migma transcribes and analyzes the video (30-90 seconds)
+  </Step>
+
+  <Step title="Review Email">
+    Generated email includes:
+    - Video summary
+    - Key points
+    - Quotes or highlights
+    - Video embed
+    - CTA to watch
+  </Step>
+
+  <Step title="Customize & Send">
+    Edit as needed and export/send
+  </Step>
+</Steps>
+
+<iframe width="100%" height="300" src="https://youtube.com/updatelater" title="YouTube to Email Demo" frameborder="0" allowfullscreen></iframe>
+
+---
+
+## What Migma Extracts
+
+From your YouTube video, Migma identifies:
+
+<Check>Main topics and themes</Check>
+<Check>Key talking points</Check>
+<Check>Important quotes</Check>
+<Check>Actionable takeaways</Check>
+<Check>Statistics or data mentioned</Check>
+<Check>Products/features discussed</Check>
+<Check>Timestamps for key moments</Check>
+
+---
+
+## Example Prompts
+
+<Tabs>
+  <Tab title="Webinar Recap">
+    ```text
+    Watch this webinar and create a recap email:
+    https://youtube.com/watch?v=ABC123
+
+    Format:
+    - Brief intro thanking attendees
+    - 5 key takeaways as bullet points
+    - Quotes from speakers
+    - Link to watch recording
+    - CTA to book follow-up call
+    Tone: Professional and informative
+    ```
+  </Tab>
+
+  <Tab title="Tutorial Announcement">
+    ```text
+    Create an email announcing this new tutorial:
+    https://youtube.com/watch?v=XYZ789
+
+    Include:
+    - What viewers will learn
+    - Why it's valuable
+    - Embedded video
+    - CTA to watch now
+    Tone: Helpful and encouraging
+    ```
+  </Tab>
+
+  <Tab title="Product Demo">
+    ```text
+    Generate product launch email from demo video:
+    https://youtube.com/watch?v=DEMO456
+
+    Highlight:
+    - New features shown
+    - Benefits for users
+    - How to get started
+    - Video preview/embed
+    Tone: Exciting but professional
+    ```
+  </Tab>
+
+  <Tab title="Interview Summary">
+    ```text
+    Summarize this expert interview for email:
+    https://youtube.com/watch?v=INT999
+
+    Extract:
+    - Expert's main insights
+    - 3 actionable tips mentioned
+    - Best quotes
+    - Link to full interview
+    Tone: Engaging and insightful
+    ```
+  </Tab>
+</Tabs>
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Good Quality Videos" icon="video">
+    - Clear audio for accurate transcription
+    - Well-structured content
+    - Defined talking points
+
+    Better transcription = better email content
+  </Accordion>
+
+  <Accordion title="Specify Email Structure" icon="sitemap">
+    Tell Migma how to organize the content:
+    ```text
+    Format as:
+    1. Brief intro
+    2. 3 main takeaways
+    3. Supporting details
+    4. CTA
+    ```
+  </Accordion>
+
+  <Accordion title="Include Context" icon="circle-info">
+    Help Migma understand your goal:
+    ```text
+    This is a webinar recap for attendees who want
+    to review key points and share with their teams
+    ```
+  </Accordion>
+
+  <Accordion title="Embed vs Link" icon="link">
+    Choose your preference:
+    ```text
+    Include embedded video player in email
+    ```
+    OR
+    ```text
+    Add thumbnail with play button linking to YouTube
+    ```
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Advanced Features
+
+### Timestamp Highlights
+
+Extract specific moments:
+```text
+Create email highlighting these moments from video:
+https://youtube.com/watch?v=VIDEO
+
+Focus on:
+- Product announcement (around 2:30)
+- Demo walkthrough (5:00-8:00)
+- Q&A insights (12:00+)
+```
+
+### Multi-Video Roundup
+
+Summarize multiple videos:
+```text
+Create newsletter roundup from these 3 videos:
+1. https://youtube.com/watch?v=VID1
+2. https://youtube.com/watch?v=VID2
+3. https://youtube.com/watch?v=VID3
+
+Brief summary of each with links
+```
+
+### Video Series Email
+
+Promote series:
+```text
+Create email promoting our video series:
+Latest episode: https://youtube.com/watch?v=EP5
+
+Include:
+- This episode's highlights
+- Why viewers should subscribe
+- Links to previous episodes
+- Tease next episode
+```
+
+---
+
+## Limitations
+
+<Warning>
+**Video Requirements:**
+- Must be public YouTube video
+- Under 2 hours recommended
+- Clear audio quality
+- English language (other languages coming soon)
+</Warning>
+
+<Info>
+**What Works Best:**
+- Structured presentations
+- Interviews and talks
+- Product demos
+- Educational content
+
+**May Need Editing:**
+- Highly technical jargon
+- Very long videos (90+ min)
+- Poor audio quality
+- Multiple speakers without clear identification
+</Info>
+
+---
+
+## Combine with Other Features
+
+### YouTube + AI Images
+
+1. Generate email from YouTube video
+2. Create custom thumbnail with AI image generation
+3. Result: Professional announcement with custom visuals
+
+### YouTube + Multi-Language
+
+1. Extract content from English video
+2. Generate email in multiple languages
+3. Result: International video promotion
+
+### YouTube + Brand Voice
+
+1. Video content extracted
+2. Rewritten in your brand voice
+3. Formatted with your brand design
+4. Result: On-brand video promotion
+
+---
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Watch Tutorial" icon="video" href="https://youtube.com/updatelater">
+    See YouTube-to-Email in action
+  </Card>
+  <Card title="Join Discord" icon="discord" href="https://discord.gg/ZB6c2meCUA">
+    Share your video email results
+  </Card>
+  <Card title="Contact Support" icon="life-ring" href="https://migma.ai/support">
+    Get help with video extraction
+  </Card>
+  <Card title="API Docs" icon="code" href="/api-reference/introduction">
+    Automate video email generation
+  </Card>
+</CardGroup>
